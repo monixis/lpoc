@@ -1,1 +1,1 @@
-# lpoc Library Space request system
+# Honors Thesis Repository
