@@ -82,25 +82,24 @@
                     <div id="loader">
                         <img id="loader-img" alt="" src="http://library.marist.edu/images/pacman.gif" width="130" height="130" />
                     </div> <!-- loader -->
-
+                    <h2 style="text-align: center; margin: 30px; font-size: 40px;">Library Room Reservation Request</h2>
+                            <div id="requestStatus" style="width: auto; height:40px; margin-bottom: 7px; margin-top: -15px; color:#000000; font-size: 12pt; text-align: center; padding-top: 10px; display: none;"></div>
                     <form class="form-horizontal" >
                         <fieldset>
                             <!--div class="form-horizontal" id="fieldset"-->
-                            <h2 style="text-align: center; margin: 30px; font-size: 40px;">Library Room Reservation Request</h2>
-                            
                             <h3>Event Information:</h3>
                             <div class="form-horizontal" style="border: 1px solid #e0e0e0; padding: 15px; margin-top: 20px; margin-bottom: 20px;"> 
                                 <div id='author' name="author" class="form-group">
                                     <label class="col-md-4 control-label" for="textinput">Event Name</label>
                                     <div class="col-md-4">
-                                        <input id="name" name="name" type="text" placeholder="" class="form-control input-md" required="">
+                                        <input id="eventName" name="eventName" type="text" placeholder="" class="form-control input-md" required>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="textarea">Event Description</label>
                                     <div class="col-md-4">
-                                        <textarea name="eventDesc" id="eventDesc" style="height: 150px; overflow: auto; width: 400px;" required=""></textarea>
+                                        <textarea name="eventDesc" id="eventDesc" style="height: 150px; overflow: auto; width: 400px;" required></textarea>
                                             Total word Count : <span id="display_count">0</span> words(Maximum words allowed: 250).
                                     </div>
                                 </div>
@@ -108,7 +107,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Event Start Date</label>
                                     <div class="col-md-4">
-                                        <input class="form-control" name="startDate" id="startDate" type="date" required=""/>
+                                        <input class="form-control" name="startDate" id="startDate" type="date" required/>
                                     </div>
                                 </div>
 
@@ -116,7 +115,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Event End Date</label>
                                     <div class="col-md-4">
-                                        <input class="form-control" name="endDate" id="endDate" type="date" required=""/>
+                                        <input class="form-control" name="endDate" id="endDate" type="date" required/>
                                     </div>
                                 </div>   
                                
@@ -149,23 +148,23 @@
                                  <div class="form-group">
                                     <label class="col-md-4 control-label"># of people</label>
                                     <div class="col-md-4">
-                                    <input class="form-control" name="noOfPeople" id="noOfPeople" required=""/>
+                                    <input class="form-control" type="number" name="noOfPeople" id="noOfPeople" required/>
                                     </div>
                                 </div>
                                 
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="textarea">Describe the event/how it relates to library</label>
                                     <div class="col-md-4">
-                                        <textarea name="desc" id="desc" style="height: 150px; overflow: auto; width: 400px;" required=""></textarea>
-                                        Total word Count : <span id="display_count">0</span> words(Maximum words allowed: 250).
+                                        <textarea name="describe" id="describe" style="height: 150px; overflow: auto; width: 400px;" required></textarea>
+                                        Total word Count : <span id="describe_display_count">0</span> words(Maximum words allowed: 250).
                                     </div>
                                 </div>
                                  
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="textarea">Special Meeting/Event Requirements</label>
                                     <div class="col-md-4">
-                                        <textarea name="specReq" id="specReq" style="height: 150px; overflow: auto; width: 400px;" required=""></textarea>
-                                        Total word Count : <span id="display_count">0</span> words(Maximum words allowed: 250).
+                                        <textarea name="specReq" id="specReq" style="height: 150px; overflow: auto; width: 400px;" required></textarea>
+                                        Total word Count : <span id="specReq_display_count">0</span> words(Maximum words allowed: 250).
                                     </div>
                                 </div>
 
@@ -177,7 +176,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Requester Name</label>
                                     <div class="col-md-4">
-                                        <input class="form-control" name="name" id="name" required=""/>
+                                        <input class="form-control" name="reqName" id="reqName" required/>
                                         
                                     </div>
                                 </div>
@@ -185,7 +184,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Requester Email</label>
                                     <div class="col-md-4">
-                                        <input class="form-control" name="email" id="email" type="email" data-fv-emailaddress-message="The value is not a valid email address"  required=""/>
+                                        <input class="form-control" aria-describedby="emailHelp" name="emailId" id="emailId" type="email" data-fv-emailaddress-message="The value is not a valid email address"  required/>
                                     </div>
                                 </div>    
 
@@ -193,7 +192,9 @@
                                     <label class="col-md-4 control-label"></label>                  
                                     <div class="col-md-8">
                                        <h5>I will be held responsible for all requested information as specified above.</h5>
-                                       <label class="checkbox-inline"><input type="checkbox" value="">I Agree</label>              
+                                       <label class="checkbox-inline"><input name="agree" type="checkbox" value="">I Agree</label>              
+                                       <input type="submit" id="submit_prog" value='Submit' />
+                                       <!--input type="button" id="check" value='check' /-->
                                     </div>
                                 </div>
                                              
@@ -220,258 +221,212 @@
 </div>
 <script type="text/javascript">
    
-    $("form").submit(function( e ) {
-
-        var fileTypes = ['pdf'];
-       /// if ($('input#fileToUpload')[0].files[0] || $('input#link').val()) {
-          if($('input#fileToUpload')[0].files[0]){
-            var extension = $('input#fileToUpload')[0].files[0].name.split('.').pop().toLowerCase();  //file extension from input file
-            isSuccess = fileTypes.indexOf(extension) > -1;
-              var name = $('input#name').val();
-            if(author_form_index  > 0){
-                for(var i = 1; i <= author_form_index; i++) {
-                    var str1 = "input#name";
-                    var str2 = str1.concat(i);
-                    name = name + ", " + $(str2).val();
-                }
-
-            }
-            if (isSuccess) {
-                if (tagList.length > 0) {
-                    var taglist = JSON.stringify(tagList);
-                    if ($('input#name').val() && $('input#title').val() && $('input#cwid').val() && $('input#email').val()) {
-                        var name = $('input#name').val();
-                        var cwid = $('input#cwid').val();
-
-                        if(author_form_index  > 0){
-                            var str1 = "input#name";
-                            var str3 = "input#cwid";
-
-                            for(var i = 1; i <= author_form_index; i++) {
-                                var str2 = str1.concat(i);
-                                name = name + ", " + $(str2).val();
-                                var str2 = str3.concat(i);
-                                cwid = cwid+", "+ $(str2).val();
-                            }
-                        }
-                        if ($('input#fileToUpload')[0].files[0]) {
-                            var filesize = $('input#fileToUpload')[0].files[0].size / 1024 / 1024;
-                            if (filesize <= 8.0) {
-                                var form_data = new FormData();
-                                form_data.append('name', name);
-                                form_data.append('title', $('input#title').val());
-                                form_data.append('cwid', cwid);
-                                form_data.append('email', $('input#email').val());
-                                form_data.append('abstract', $('textarea#word_count').val().replace(/'/g , "&#39"));
-                                form_data.append('tags', taglist);
-                                form_data.append('licenseId', $('#licenseSelection').val());
-                                form_data.append('deptId', $('#departmentSelection').val());
-                                form_data.append('collectionId', $('#collectionSelection').val());
-                                form_data.append('year', $('input#year').val());
-                                form_data.append('link', $('input#linkToUpload').val());
-
-                                // if ($('input#fileToUpload')[0].files[0]) {
-
-                                    form_data.append('file_attach', $('input#fileToUpload')[0].files[0]);
-                                //}
-                                var file_data = new FormData();
-                                if ($('input#fileToUpload')[0].files[0]) {
-                                    file_data.append('file_attach', $('input#fileToUpload')[0].files[0]);
-                                }
-                                 $('#loader').css('visibility','visible');
-                                 $('fieldset').css('opacity','0.1');
-                                $.ajax({
-                                    type: "POST",
-                                    url: "<?php echo base_url("?c=repository&m=insertDetails");?>",
-                                    data: form_data,
-                                    processData: false,
-                                    contentType: false,
-                                    // cache: false,
-                                    success: function (data) {
-
-                                        if (data > 0) {
-
-                                             file_data.append('pageid', data);
-                                             $.ajax({
-                                             type: "POST",
-                                             url: "http://148.100.181.189/uploadtorepo/accept-file.php",
-                                             data: file_data,
-                                             contentType:false,
-                                             processData: false,
-                                             //cache: false,
-                                             success: function (message) {
-
-                                             if(message) {
-                                             var email_data = new FormData();
-                                             email_data.append('name', $('input#name').val());
-                                             email_data.append('email', $('input#email').val());
-                                             email_data.append('paperid', data);
-                                             email_data.append('file_attach', $('input#fileToUpload')[0].files[0]);
-                                             $.ajax({
-                                             type: "POST",
-                                             url: "<?php echo base_url("?c=repository&m=email_user");?>",
-                                             data: email_data,
-                                             contentType:false,
-                                             processData: false,
-                                             //    cache: false,
-                                             success: function (paperid) {
-                                             if(paperid) {
-                                             setTimeout(function(){
-                                             $('#loader').css('visibility','hidden');
-                                             $('fieldset').css('opacity','1');
-                                             alert("PaperId #" + data + ": Paper has been uploaded successfully");
-                                             location.reload();
-                                             }, 6000);
-                                             e.preventDefault();
-                                             }else{
-
-                                             alert("Failure: 001 Something went wrong while uploading paper. Please contact administrator");
-                                             }
-
-                                             },
-                                             async: false
-
-                                             });
-
-                                             }else{
-
-                                             alert("Failure: 002  Something went wrong while uploading paper. Please contact administrator");
-                                             }
-
-                                             },
-
-                                             async: false
-
-                                             });
-
-
-                                             $('#requestStatus').show().css('background', '#66cc00').append("#" + data + ": File has been uploaded successfully");
-
-
-                                        } else {
-                                            alert("Failure: Something went wrong. Please contact administrator");
-                                            //   location.reload();
-                                            e.preventDefault();
-                                            // $('#requestStatus').show().css('background', '#b31b1b').append("Something went wrong.Please contact adminstrator");
-                                        }
-                                    }
-                                });
-                                return false;
-                            } else {
-                                e.preventDefault();
-                                alert("Uploaded file size should be less than or equal to 8MB.");
-                            }
-                        } else {
-                            e.preventDefault();
-                            alert("Please select the paper to upload into repository.");
-                        }
-                    } else {
-                        e.preventDefault();
-                        alert("Please fill the requied fields.");
-                    }
-                } else {
-                    e.preventDefault();
-                    alert("Please add atleast one subject heading.");
-                }
-            } else {
-                e.preventDefault();
-                alert("The file should be in the PDF format.");
-            }
-         }else if($('input#linkToUpload').val()){
-              if (tagList.length > 0) {
-                  var taglist = JSON.stringify(tagList);
-                  if ($('input#name').val() && $('input#title').val() && $('input#cwid').val() && $('input#email').val()) {
-                      var name = $('input#name').val();
-                      var cwid = $('input#cwid').val();
-
-                      if(author_form_index  > 0){
-                          var str1 = "input#name";
-                          var str3 = "input#cwid";
-
-                          for(var i = 1; i <= author_form_index; i++) {
-                              var str2 = str1.concat(i);
-                              name = name + "," + $(str2).val();
-                              var str2 = str3.concat(i);
-                              cwid = cwid+","+ $(str2).val();
-                          }
-                      }
-                      var form_data = new FormData();
-                      form_data.append('name', name);
-                      form_data.append('title', $('input#title').val());
-                      form_data.append('cwid', cwid);
-                      form_data.append('email', $('input#email').val());
-                      form_data.append('abstract', $('textarea#word_count').val().replace(/'/g , "&#39"));
-                      form_data.append('tags', taglist);
-                      form_data.append('licenseId', $('#licenseSelection').val());
-                      form_data.append('deptId', $('#departmentSelection').val());
-                      form_data.append('collectionId', $('#collectionSelection').val());
-                      form_data.append('link', $('input#linkToUpload').val());
-                      form_data.append('year', $('input#year').val());
-                      $('#loader').css('visibility','visible');
-                      $('fieldset').css('opacity','0.1');
-                      $.ajax({
-                          type: "POST",
-                          url: "<?php echo base_url("?c=repository&m=insertDetails");?>",
-                          data: form_data,
-                          processData: false,
-                          contentType: false,
-                          // cache: false,
-                          success: function (data) {
-
-                              if (data > 0) {
-                                  var email_data = new FormData();
-                                  email_data.append('name', $('input#name').val());
-                                  email_data.append('email', $('input#email').val());
-                                  email_data.append('paperid', data);
-                                  email_data.append('link', $('input#linkToUpload').val());
-                                  $.ajax({
-                                      type: "POST",
-                                      url: "<?php echo base_url("?c=repository&m=email_user");?>",
-                                      data: email_data,
-                                      contentType:false,
-                                      processData: false,
-                                      //    cache: false,
-                                      success: function (paperid) {
-                                          if(paperid) {
-                                              setTimeout(function(){
-                                                  $('#loader').css('visibility','hidden');
-                                                  $('fieldset').css('opacity','1');
-                                                  alert("PaperId #" + data + ": Paper has been uploaded successfully");
-                                                  location.reload();
-                                              }, 6000);
-                                              e.preventDefault();
-                                          }else{
-
-                                              alert("Failure: 001 Something went wrong while uploading paper. Please contact administrator");
-                                          }
-
-                                      },
-                                      async: false
-
-                                  });
-                              }
-
-
-                          },
-                          async: false
-                      });
-                  }else{
-                      e.preventDefault();
-                      alert("Please fill the requied fields.");
-                  }
-
-              }else{
-                  e.preventDefault();
-                  alert("Please add atleast one subject heading.");
-
-              }
-
-          } else{
-            e.preventDefault();
-            alert("Failed: Please select a paper to upload (or) add a link to your work.");
-        }
-
+   $("#eventDesc").on('keyup', function(e) {
+    var words = $.trim(this.value).length ? this.value.match(/\S+/g).length : 0;
+    if (words <= 250) {
+        $('#display_count').text(words);
+        //$('#word_left').text(200-words)
+    }else{
+        if (e.which !== 8) e.preventDefault();
+    }
     });
+
+    $("#describe").on('keyup', function(e) {
+    var words = $.trim(this.value).length ? this.value.match(/\S+/g).length : 0;
+    if (words <= 250) {
+        $('#describe_display_count').text(words);
+        //$('#word_left').text(200-words)
+    }else{
+        if (e.which !== 8) e.preventDefault();
+    }
+    });
+
+    $("#specReq").on('keyup', function(e) {
+    var words = $.trim(this.value).length ? this.value.match(/\S+/g).length : 0;
+    if (words <= 250) {
+        $('#specReq_display_count').text(words);
+        //$('#word_left').text(200-words)
+    }else{
+        if (e.which !== 8) e.preventDefault();
+    }
+    });
+
+    $("#endDate").change(function () {
+    var startDate = document.getElementById("startDate").value;
+    var endDate = document.getElementById("endDate").value;
+
+    if ((Date.parse(startDate) > Date.parse(endDate))) {
+        alert("The event should end on same or later day.");
+        document.getElementById("endDate").value = "";
+        }
+    });
+
+    $('input#reqName').keydown(function (e) {
+        if ((e.which == 9) && ($(this).val().length == 0)) {
+            $(this).css('border', '1px solid red');
+        } else {
+            $(this).css('border', '1px solid #ccc');
+        }
+    });
+    $('input#reqEmail').keydown(function (e) {
+        $(this).css('border', '1px solid #ccc');
+    });
+
+    $("#startDate").change(function () {
+        var today = new Date();
+        today.setHours(0,0,0,0);
+        var startDate = document.getElementById("startDate").value;
+        var endDate = document.getElementById("endDate").value;
+
+        if ((Date.parse(startDate) > Date.parse(endDate))) {
+            alert("The event should end on same or later day.");
+            document.getElementById("startDate").value = "";
+        } else if((Date.parse(startDate) < Date.parse(today))){
+            alert("Start date should be greater than today");
+            document.getElementById("startDate").value = "";
+        }
+    });
+
+    /*$("input#check").click(function(e){
+        var eventId = $('select#eventsSelection').attr('value');
+        var selectedRoom = $('select#availableRooms').attr('value');
+        var eventName = $('input#eventName').val();
+        var eventDesc = $('textarea#eventDesc').val();
+        var startDate= $('input#startDate').val();
+        var endDate= $('input#endDate').val();
+        var noOfPeople= $('input#noOfPeople').val();
+        var describe= $('textarea#describe').val();
+        var specReq= $('textarea#specReq').val();
+        var reqName= $('input#reqName').val();
+        var email= $('input#emailId').val();
+        console.log($('select#eventsSelection').attr('value'));
+        console.log($('select#availableRooms').attr('value'));
+        console.log($('input#eventName').val());
+        console.log($('textarea#eventDesc').val());
+        console.log($('input#startDate').val());
+        console.log($('input#endDate').val());
+        console.log($('input#noOfPeople').val());
+        console.log($('textarea#describe').val());
+        console.log($('textarea#specReq').val());
+        console.log($('input#reqName').val());
+        console.log($('input#emailId').val());
+        $.ajax({
+            type:'POST',
+            url:'<//?php echo base_url().'lpoc/showdata';?>',
+            data:{
+                'eventName':eventName,
+                'eventDesc':eventDesc,
+                'startDate':startDate,
+                'endDate':endDate,
+                'eventId' : eventId,
+                'selectedRoom': selectedRoom,
+                'noOfPeople':noOfPeople,
+                'describe':describe,
+                'specReq':specReq,
+                'reqName' :reqName,
+                'emailId' :emailId
+                }
+        });
+
+    });*/
+
+
+    $("input#submit_prog").click(function( e ) {
+        var eventId = $('select#eventsSelection').attr('value');
+        var selectedRoom = $('select#availableRooms').attr('value');
+        //alert(eventId);
+        //var form_data = new FormData();
+        var eventName = $('input#eventName').val();
+        //alert(eventName);
+        var eventDesc = $('textarea#eventDesc').val();
+        var startDate= $('input#startDate').val();
+        var endDate= $('input#endDate').val();
+        var noOfPeople= $('input#noOfPeople').val();
+        var describe= $('textarea#describe').val();
+        var specReq= $('textarea#specReq').val();
+        var reqName= $('input#reqName').val();
+        var emailId= $('input#emailId').val();
+
+        if(eventId == ""){
+            $('select#eventsSelection').css('border', '1px solid red');
+        } else if(selectedRoom == ""){
+            $('select#availableRooms').css('border', '1px solid red');
+        } else if(eventName == ""){
+            $('input#eventName').css('border', '1px solid red');
+        } else if(eventDesc == ""){
+            $('textarea#eventDesc').css('border', '1px solid red');
+        } else if(startDate == ""){
+            $('input#startDate').css('border', '1px solid red');
+        } else if(endDate == ""){
+            $('input#endDate').css('border', '1px solid red');
+        } else if(noOfPeople == ""){
+            $('input#noOfPeople').css('border', '1px solid red');
+        } else if(describe == ""){
+            $('textarea#describe').css('border', '1px solid red');
+        } else if(specReq == ""){
+            $('textarea#specReq').css('border', '1px solid red');
+        } else if(reqName == ""){
+            $('input#reqName').css('border', '1px solid red');
+        } else if(emailId == ""){
+            $('input#emailId').css('border', '1px solid red');
+        } else {
+            $('select#eventsSelection').css('border', '1px solid #ccc');
+            $('select#availableRooms').css('border', '1px solid #ccc');
+            $('input#eventName').css('border', '1px solid #ccc');
+            $('textarea#eventDesc').css('border', '1px solid #ccc');
+            $('input#startDate').css('border', '1px solid #ccc');
+            $('input#endDate').css('border', '1px solid #ccc');
+            $('input#noOfPeople').css('border', '1px solid #ccc');
+            $('textarea#describe').css('border', '1px solid #ccc');
+            $('textarea#specReq').css('border', '1px solid #ccc');
+            $('input#reqName').css('border', '1px solid #ccc');
+            $('input#emailId').css('border', '1px solid #ccc');
+            var atpos = emailId.indexOf("@");
+            var dotpos = emailId.lastIndexOf(".");
+            if (atpos<1 || dotpos<atpos+2 || dotpos+2>=emailId.length) {
+                alert("Not a valid e-mail address");
+                return false;
+            }
+       
+        
+        /*form_data.append('eventName', $('input#eventName').val());
+        form_data.append('eventDesc', $('textarea#eventDesc').val());
+        form_data.append('startDate', $('input#startDate').val());
+        form_data.append('endDate', $('input#endDate').val());
+        form_data.append('eventId', eventId);
+        form_data.append('selectedRoom', selectedRoom);
+        form_data.append('noOfPeople', $('input#noOfPeople').val());
+        form_data.append('describe', $('textarea#describe').val());
+        form_data.append('specReq', $('textarea#specReq').val());
+        form_data.append('reqName', $('input#reqName').val());
+        form_data.append('emailId', $('input#email').val());*/
+        
+        $('#loader').css('visibility','visible');
+        $('fieldset').css('opacity','0.1');
+        $.post('<?php echo base_url().'lpoc/insertNewRequest'?>',{
+                'eventName':eventName,
+                'eventDesc':eventDesc,
+                'startDate':startDate,
+                'endDate':endDate,
+                'eventId' : eventId,
+                'selectedRoom': selectedRoom,
+                'noOfPeople':noOfPeople,
+                'describe':describe,
+                'specReq':specReq,
+                'reqName' :reqName,
+                'emailId' :emailId
+                }).done(function(requestID){
+                    alert("this is request ID:" + requestID);
+                    if(requestID>0){
+                        $('#requestStatus').show().css('background', '#66cc00').append(" A User Agreement Form has been sent to " + reqName);
+                        } else {
+                            $('#requestStatus').show().css('background', 'red').append(" Some error occured. Kindly contact system administrator.");
+                        }
+                });                
+        }
+        $("html, body").animate({scrollTop: 0}, 600);
+        });
+  
    
     $("select#eventsSelection").change(function () {
         var eventId = $(this).attr('value');
@@ -491,10 +446,7 @@
             }else{
                 $('select[id="availableRooms"]').empty();
             }
-    }).change();
-
-     $("select#availableRooms").change(function () {
-        var roomId = $(this).attr('value');
+        var roomId = $("select#availableRooms").attr('value');
         var resultUrl = "<?php echo base_url("lpoc/getRoomInfo")?>" + "/" + roomId;
         if(roomId){
             $.ajax({
@@ -504,7 +456,46 @@
                     success:function(data) {
                         $('#roomInfo').empty();
                         $.each(data, function(key, value) {
-                            $('#roomInfo').append('<p><label>Location:</label> ' + value.Location + ' Floor </br> <label>Location Description: </label>' + value.LocDesc + '</br> <label>Capacity: </label>' + value.capacity + '</p></br>' );
+                            $('#roomInfo').append('<p><label>Location:</label> ' + value.Location + ' Floor </br> <label>Location Description: </label>' + value.LocDesc + '</br> <label>Capacity: </label>' + value.Capacity + '</p></br>' );
+                        });
+                        var roomId = $("select#availableRooms").attr('value');
+                        var selectedRoom = roomId;
+                        var resultUrll = "<?php echo base_url("lpoc/getRoomInfo")?>" + "/" + roomId;
+                        if(roomId){
+                            $.ajax({
+                                    url: resultUrll,
+                                    type: "GET",
+                                    dataType: "json",
+                                    success:function(data) {
+                                        $('#roomInfo').empty();
+                                        $.each(data, function(key, value) {
+                                            $('#roomInfo').append('<p><label>Location:</label> ' + value.Location + ' Floor </br> <label>Location Description: </label>' + value.LocDesc + '</br> <label>Capacity: </label>' + value.Capacity + '</p></br>' );
+                                        });
+                                    }
+                                });
+                            }else{
+                                $('select[name="availableRooms"]').empty();
+                            }    
+                    }
+                });
+            }else{
+                $('select[name="availableRooms"]').empty();
+            }
+    }).change();
+
+     $("select#availableRooms").change(function () {
+        var roomId = $(this).attr('value');
+        var selectedRoom = roomId;
+        var resultUrl = "<?php echo base_url("lpoc/getRoomInfo")?>" + "/" + roomId;
+        if(roomId){
+            $.ajax({
+                    url: resultUrl,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+                        $('#roomInfo').empty();
+                        $.each(data, function(key, value) {
+                            $('#roomInfo').append('<p><label>Location:</label> ' + value.Location + ' Floor </br> <label>Location Description: </label>' + value.LocDesc + '</br> <label>Capacity: </label>' + value.Capacity + '</p></br>' );
                         });
                     }
                 });
@@ -512,6 +503,34 @@
                 $('select[name="availableRooms"]').empty();
             }
     }).change();
+
+    $(window).load(function() { /* code here */
+        var roomId = $("select#availableRooms").attr('value');
+        var resultUrll = "<?php echo base_url("lpoc/getRoomInfo")?>" + "/" + roomId;
+        if(roomId){
+            $.ajax({
+                    url: resultUrll,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+                        $('#roomInfo').empty();
+                        $.each(data, function(key, value) {
+                            $('#roomInfo').append('<p><label>Location:</label> ' + value.Location + ' Floor </br> <label>Location Description: </label>' + value.LocDesc + '</br> <label>Capacity: </label>' + value.Capacity + '</p></br>' );
+                        });
+                    }
+                });
+            }else{
+                $('select[name="availableRooms"]').empty();
+            }
+        });
+
+    $(document).ready(function(){
+        var $submit = $("#submit_prog").hide(),
+        $cbs = $('input[name="agree"]').click(function() {
+            $submit.toggle( $cbs.is(":checked") );
+        });
+    });
+       
  </script>
 </body>
 </html>

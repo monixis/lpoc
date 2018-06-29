@@ -1,5 +1,5 @@
 <script>
 
-window.location = "http://library.marist.edu/repository?c=repository&m=admin";
+window.location = "http://dev.library.marist.edu/lpoc?c=lpoc&m=admin";
 
 </script>
