@@ -7,16 +7,16 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Library Room Reservation Request Forms</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="shortcut icon" href="http://library.marist.edu/archives/icon/box.png" />
+     <link rel="apple-touch-icon" href="http://library.marist.edu/images/jac-m.png"/>
+    <link rel="shortcut icon" href="http://library.marist.edu/images/jac.png" />
     <link rel="stylesheet" type="text/css" href="http://library.marist.edu/css/library.css" />
     <link rel="stylesheet" type="text/css" href="http://library.marist.edu/css/library_child.css" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <link rel="stylesheet" type="text/css" href="http://library.marist.edu/archives/mainpage/mainStyles/style.css" />
-    <link rel="stylesheet" type="text/css" href="http://library.marist.edu/archives/mainpage/mainStyles/main.css" />
     <link rel="stylesheet" type="text/css" href="./styles/useagreement.css" />
-    <script type="text/javascript" src="http://library.marist.edu/archives/mainpage/scripts/archivesChildMenu.js"></script>
+    <script type="text/javascript" src="http://library.marist.edu/js/libraryMenu.js"></script>
+    <link href="http://library.marist.edu/css/menuStyle.css" rel="stylesheet">
     <!-- Bootstrap -->
     <link href="./styles/bootstrap.min.css" rel="stylesheet">
 

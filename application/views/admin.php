@@ -23,8 +23,6 @@
             <div class="bs-wizard-info text-center">Approved</div>
         </div>
     </div>
-
-</div>
 </div>
 <div id="container" class="container">
 

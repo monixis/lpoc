@@ -2,6 +2,9 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 <head>
     <style>
+	body{
+		background: #ffffff;
+	}
         table, tr {
             border: 1px solid black;
             background-color: transparent;
@@ -24,21 +27,20 @@
     }
 
     </style>
-    <title>Library Room Reservation Request Admin Form</title>
+    <title>Library Room Reservation Request Admin View</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="shortcut icon" href="http://library.marist.edu/archives/icon/box.png" />
+    <link rel="apple-touch-icon" href="http://library.marist.edu/images/jac-m.png"/>
+    <link rel="shortcut icon" href="http://library.marist.edu/images/jac.png" />
     <link rel="stylesheet" type="text/css" href="http://library.marist.edu/css/library.css" />
     <link rel="stylesheet" type="text/css" href="http://library.marist.edu/css/library_child.css" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <link rel="stylesheet" type="text/css" href="http://library.marist.edu/archives/mainpage/mainStyles/style.css" />
-    <link rel="stylesheet" type="text/css" href="http://library.marist.edu/archives/mainpage/mainStyles/main.css" />
+    <script type="text/javascript" src="http://library.marist.edu/js/libraryMenu.js"></script>	
+    <link href="http://library.marist.edu/css/menuStyle.css" rel="stylesheet">    
     <link rel="stylesheet" type="text/css" href="styles/useagreement.css" />
     <script src="js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="styles/progress-wizard.min.css" />
-    <script type="text/javascript" src="http://library.marist.edu/archives/mainpage/scripts/archivesChildMenu.js"></script>
-    <script type="text/javascript" src="js/cloneRequests.js"></script>
     <?php
     $requestID= $_GET['requestID'];
     //researcher info
@@ -83,14 +85,12 @@
 
     if($status == 1){
         $formStatus = "Submitted";
-        //$formStatus = "Initiated";
     }elseif($status == 2){
 
         $formStatus = "Returned";
     }
     elseif($status == 3){
         $formStatus = "Approved";
-       // $formStatus = "Submitted";
     }
     ?>
     <script type="text/javascript">
@@ -353,24 +353,14 @@
     <div id="menuItems">
     </div><!-- /menuItems -->
 </div><!-- /menu -->
+<div id="miniMenu" style="width: 100%;border: 1px solid black; border-bottom: none;">
+
+</div>
 <div class= "content_container">
     <div class = "container_home_child" >
-        <div class = "ref_box">
-            <table>
-                <th class = "search_drop_header" colspan="4">Library Resources</th>
-                <tr>
-                    <td class = "search_drop"><a href="http://voyager.marist.edu/vwebv/searchBasic"><img src ="http://library.marist.edu/images/library_catalog_red.png" title="Library Catalog"></a></td>
-                    <td class = "search_drop"><a href="http://libguides.marist.edu/"><img src ="http://library.marist.edu/images/library_pathfinders_red.png" title="Pathfinders"></a></td>
-                    <td class = "search_drop"><a href="http://library.marist.edu/forms/ask.php"> <img src ="http://library.marist.edu/images/ask_a_librarian_red.png" title="Ask A Librarian"></a></td>
-                    <td class = "search_drop_last"><a href="http://site.ebrary.com.online.library.marist.edu/lib/marist/home.action"><img src ="http://library.marist.edu/images/ebrary_small.png" title ="ebrary"></a></td>
-                </tr>
-            </table>
-        </div>
+        
         <div class="content">
-            <p class="breadcrumb">
-                <a href="http://library.marist.edu" class="map_link"><img src="http://library.marist.edu/images/home.png" class="fox2"/></a>
-                > Forms > Reserve Forms
-            </p>
+           
             <div id="researcherInfo"><h1 class="page_head" align="center" style="float: none;">Library Room Reservation Request Admin Form</h1></br>
                 </br>
                 <div id="requestStatus" style="width: auto; height:40px; margin-bottom: 7px; margin-top: -15px; color:#000000; font-size: 12pt; text-align: center; padding-top: 10px; display: none;">

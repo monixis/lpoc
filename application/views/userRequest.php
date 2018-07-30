@@ -85,6 +85,7 @@
 	$attachemntLink = $researcher[14];
 	$requestID = $requestID;*/
 	$requestID= $_GET['requestID'];
+	$requestID = substr($requestID,6,-6);
     //researcher info
    //$sizeofRequests = sizeof($requests);
     $requesterName = $requestinfo[0];
@@ -112,7 +113,6 @@
         $formStatus = "Submitted";
         //$formStatus = "Initiated";
     }elseif($status == 2){
-
         $formStatus = "Returned";
     }
     elseif($status == 3){
@@ -122,247 +122,164 @@
 	$researcherUrl = base_url("index.php/lpoc/getResearcher?requestID=").$requestID;
 	?>
 
-	<script type="text/javascript">
-
-		function verifyEmail(email){
-   			var atpos = email.indexOf("@");
-    		var dotpos = email.lastIndexOf(".");
-    		if (atpos<1 || dotpos<atpos+2 || dotpos+2>=email.length) {
-        		return false;
-    			}
-			}
+	<script type="text/javascript">		
 
 		$(document).ready(function(){
+			$('#startdatepicker').datepicker();
+            $('#enddatepicker').datepicker();
 			$('#num_error').hide();
-
-			 if("<?php echo $status ?>" ==1){
-                document.getElementById('step1').className='warning';
-                //document.getElementById("approve").style.display = "none";
-               // document.getElementById("disapprove").style.display = "none";
-                
-               // document.getElementById("4").style.display="none";
-               
-            }else if("<?php echo $status ?>" ==2){ //status 2 - returned
-                 //document.getElementById('step1').className='danger';
-                document.getElementById('step1').className='danger';
-                document.getElementById('step2').className='danger';
-                document.getElementById('step3').className='';
-                
-               // document.getElementById("4").style.display="none";            
-            }else if("<?php echo $status ?>" ==3){//status 3 - approved
-                 //document.getElementById('step1').className='completed';
-                 document.getElementById('step1').className='completed';
-                document.getElementById('step2').className='completed';
-                document.getElementById('step3').className='completed';
-                //document.getElementById('step5').className='completed';
-                
-            }
-			var inputemail = 1;
-			var inputaccept = 0;
+			if("<?php echo $status ?>" ==1){
+				//SUBMITTED STATE
+				document.getElementById('step1').className='warning';
+			}else if("<?php echo $status ?>" ==2){//RETURNED STATE
+				document.getElementById('step1').className='danger';
+				document.getElementById('step2').className='danger';
+				document.getElementById('step3').className='danger';
+			}else if("<?php echo $status ?>" ==3){//APPROVED STATE
+				document.getElementById('step1').className='completed';
+				document.getElementById('step2').className='completed';
+				document.getElementById('step3').className='completed';
+			}
+			
 			$('#formcontents').hide();
-			var text_max = 140;
-			$('#textarea_feedback').html(text_max + ' characters remaining');
+			var text_max = 250;
 
 			$('#message').keyup(function() {
 				var text_length = $('#message').val().length;
 				var text_remaining = text_max - text_length;
-
 				$('#textarea_feedback').html(text_remaining + ' characters remaining');
 			});
 
-			<?php  if($status == 2 || $status ==3 ) {?>
-			document.getElementById("save").style.display = "none";
+			<?php  if($status == 1 || $status ==3 ) {?>
 			document.getElementById("submit").style.display = "none";
 			<?php } ?>
 
-			<?php if ($status == 3) {?>
-		/*	document.getElementById("save").style.display = "none";
-			document.getElementById("submit").style.display = "none";
-			document.getElementById("uploaded_file").style.display = "none";
+			<?php if ($status == 2) {?>
+			document.getElementById("submit").style.display = "block";
+			/*document.getElementById("uploaded_file").style.display = "none";
 			document.getElementById("messages").style.display = "none";
             document.getElementById("att").style.display="none";
 			document.getElementById("buttonAdd-request").style.display="none";
 			document.getElementById("buttonRemove-request").style.display="none";
 			document.getElementById("addOrRem").style.display="none";*/
 
-	        
+	   
 			//requestsReadOnly
 			//document.getElementById("submitInfo").style.display = "none";
 
 			<?php } ?>
 
 			/* Validation */
-			$('input#name').keydown(function(e){
-				if((e.which == 9) && ($(this).val().length == 0)){
-					$(this).css('border','1px solid red');
-				}else{
-					$(this).css('border','1px solid #ccc');
-				}
-			});
+			$("#eventDesc").on('keyup', function(e) {
+    var words = $.trim(this.value).length ? this.value.match(/\S+/g).length : 0;
+    if (words <= 250) {
+        $('#display_count').text(words);
+        //$('#word_left').text(200-words)
+    }else{
+        if (e.which !== 8) e.preventDefault();
+    }
+    });
 
-			$('input#initials').keydown(function(e){
-				if((e.which == 9) && ($(this).val().length == 0)){
-					$(this).css('border','1px solid red');
-				}else{
-					$(this).css('border','1px solid #ccc');
-				}
-			});
+    $("#describe").on('keyup', function(e) {
+    var words = $.trim(this.value).length ? this.value.match(/\S+/g).length : 0;
+    if (words <= 250) {
+        $('#describe_display_count').text(words);
+        //$('#word_left').text(200-words)
+    }else{
+        if (e.which !== 8) e.preventDefault();
+    }
+    });
 
-			$('input#email').keydown(function(e){
-					$(this).css('border','1px solid #ccc');
-			});
+    $("#specReq").on('keyup', function(e) {
+    var words = $.trim(this.value).length ? this.value.match(/\S+/g).length : 0;
+    if (words <= 250) {
+        $('#specReq_display_count').text(words);
+        //$('#word_left').text(200-words)
+    }else{
+        if (e.which !== 8) e.preventDefault();
+    }
+    });
 
-			$('input#accept[type="checkbox"]').click(function(){
-				if($(this).prop("checked") == true){
-					$('#accept-cond').css({'color':'green', 'font-weight':'bold'});
-					inputaccept = 1
-				}
-				else if($(this).prop("checked") == false){
-					$('#accept-cond').css({'color':'#b31b1b', 'font-weight':'bold'});
-					inputaccept = 0;
-				}
-			});
-			$('input#condofuse[type="checkbox"]').click(function() {
-				if($(this).prop("checked") == true) {
-					$('#cond_of_use').css({'color':'green', 'font-weight':'bold'});
-					inputaccept = 1
+    $("#enddatepicker").change(function () {
+    var startDate = document.getElementById("startdatepicker").value;
+    var endDate = document.getElementById("enddatepicker").value;
 
-				}else if($(this).prop("checked") == false){
-					$('#cond_of_use').css({'color':'#b31b1b', 'font-weight':'bold'});
-					inputaccept = 0;
-				}
-			});
+    if ((Date.parse(startDate) > Date.parse(endDate))) {
+        alert("The event should end on same or later day.");
+        document.getElementById("enddatepicker").value = "";
+        }
+    });
 
-/*			$('#NumConditions').on('change', function() {
-				if($(this).val()!=10) {
-					$("#NumConditions").css('backgroundColor', this.style.backgroundColor);
-					$('#num_error').show();
-				}else{
+    $('input#reqName').keydown(function (e) {
+        if ((e.which == 9) && ($(this).val().length == 0)) {
+            $(this).css('border', '1px solid red');
+        } else {
+            $(this).css('border', '1px solid #ccc');
+        }
+    });
+    $('input#reqEmail').keydown(function (e) {
+        $(this).css('border', '1px solid #ccc');
+    });
 
-					$('#num_error').hide();
+    $("#startdatepicker").change(function () {
+        var today = new Date();
+        today.setHours(0,0,0,0);
+        var startDate = document.getElementById("startdatepicker").value;
+        var endDate = document.getElementById("enddatepicker").value;
 
-				}
-				});*/
-				/* validation ends */
-			$('#startdatepicker').datepicker();
-            $('#enddatepicker').datepicker();
-			//alert(requestsCnt);
-			$('button#save').click(function(){
-				var startdate = $('input#startdatepicker').val();
-                var enddate = $('input#endpicker').val();
-                var requesterName = $('input#requesterName').val();
-                var requesterEmail = $('input#requesterEmail').val();
-				var eventName = $('input#eventName').val();
-				var eventDesc = $('textarea#eventDesc').val();
-				var eventType = $('input#eventType').val();
-				//var citystate = $('input#citystate').val();
-				var numOfPeople = $('input#numOfPeople').val();
-				var eventDescLib = $('textarea#eventDescLib').val();
-				var eventReq = $('textarea#eventReq').val();
-				var instructions = $('textarea#instructions').val();
-				var message = $('textarea#message').val();
-				if($('#accept').prop('checked')){
-					termsAndConditions = "true";
-				}
-				$.post("<?php echo base_url("?c=lpoc&m=saveRequest&requestID=".$requestID);?>", {
-					eventStartDate: startdate,
-					eventEndDate: enddate,
-					requesterName:requesterName,
-					requesterEmail:requesterEmail,
-					eventName:eventName,
-					eventDesc: eventDesc,
-					eventDescLib: eventDescLib,
-					eventType: eventType,
-					roomId: roomId,
-					numOfPeople: numOfPeople,
-					eventReq : eventReq,
-					message:message
-				}).done(function ($requestID) {
-					if ($requestID != null) {
-						$('#requestStatus').show().css('background','#66cc00').append("Form saved successfully. Please submit for approval");
-						//	alert("Form saved successfully for requestID:"  + requestID);
-					}else
-					{
-						$('#requestStatus').show().css('background','#b31b1b').append("Something wrong with the form. Contact Administrator");
-						// alert("Falied to save use agreement form"+requestID);
-					}
-					$("html, body").animate({ scrollTop: 0}, 600);
-				});
-			});
+        if ((Date.parse(startDate) > Date.parse(endDate))) {
+            alert("The event should end on same or later day.");
+            document.getElementById("startdatepicker").value = "";
+        } else if((Date.parse(startDate) < Date.parse(today))){
+            alert("Start date should be greater than today");
+            document.getElementById("startdatepicker").value = "";
+        }
+    });
+	/* validation ends */
+	
+	//alert(requestsCnt);	
+	$('button#submit').click(function() {
+        var eventName = $('input#eventName').val();
+        var eventDesc = $('textarea#eventDesc').val();
+        var startDate= $('input#startdatepicker').val();
+        var endDate= $('input#enddatepicker').val();
+        var numOfPeople= $('input#numOfPeople').val();
+        var describe= $('textarea#eventDescLib').val();
+        var specReq= $('textarea#eventReq').val();
+        var reqName= $('input#requesterName').val();
+        var emailId= $('input#requesterEmail').val();
+		var requestID=$('input#requestID').val();
+        $('fieldset').css('opacity','0.1');
 
-			$('button#submit').click(function() {
-					//validations
-					if ($('input#name').val() == "") {
-						$('input#name').css('border', '1px solid red');
-						$('div#2-contents').show();
+	/* $.post('<//?php echo base_url().'lpoc/email_user'?>',{
+				'emailId':emailId
+			}).done(function(data){
+                           alert(data);
+			   window.open('<//?php echo base_url(); ?>',"_self");
+                        });      */
+
+       $.post('<?php echo base_url().'lpoc/submitRequest'?>',{
+                'eventName':eventName,
+                'eventDesc':eventDesc,
+                'eventStartDate':startDate,
+                'eventEndDate':endDate,
+                'numOfPeople':numOfPeople,
+                'eventDescLib':describe,
+                'eventReq':specReq,
+                'requesterName' :reqName,
+                'requesterEmail' :emailId,
+				'requestID':requestID
+                }).done(function(requestID){
+                    if(requestID > 0){
+						$('#requestStatus').show().css('background', '#66cc00').append("#" + requestID + ":Your request has been received and is awaiting approval by the Library Programming and Outreach Committee.");
+                        document.getElementById('step1').className = 'warning';
 						$("html, body").animate({scrollTop: 0}, 600);
-					} else if (verifyEmail($('input#email').val()) == false) {
-						$('input#email').css('border', '1px solid red');
+                    } else {
+                        $('#requestStatus').show().css('background', 'red').append(" Some error occured. Kindly contact system administrator.");
 						$("html, body").animate({scrollTop: 0}, 600);
-					} else if ($('input#initials').val() == "") {
-						$('input#initials').css('border', '1px solid red');
-						$('div#3-contents').show();
-						$("html, body").animate({scrollTop: 1000}, 600);
-					} else if ($(this).prop("checked") == false) {
-						$('#accept-cond').css({'color': '#b31b1b', 'font-weight': 'bold'});
-						$('#cond_of_use').css({'color': '#b31b1b', 'font-weight': 'bold'});
-						$('div#3-contents').show();
-					}
-					else {
-
-						<?php  if($status == 1 || $status == 2) {?>
-						var startdate = $('input#startdatepicker').val();
-                        var enddate = $('input#endpicker').val();
-                        var requesterName = $('input#requesterName').val();
-                        var requesterEmail = $('input#requesterEmail').val();
-                        var eventName = $('input#eventName').val();
-                		var eventDesc = $('textarea#eventDesc').val();
-                		var eventType = $('input#eventType').val();
-                        var roomId = $('input#roomId').val();
-                        //var citystate = $('input#citystate').val();
-                        var numOfPeople = $('input#numOfPeople').val();
-                        var eventDescLib = $('textarea#eventDescLib').val();
-                        var eventReq = $('textarea#eventReq').val();
-						
-						$.post("<?php echo base_url("?c=lpoc&m=submitRequest&requestID=" . $requestID);?>", {
-							eventStartDate: startdate,
-							eventEndDate: enddate,
-							requesterName:requesterName,
-							requesterEmail:requesterEmail,
-							eventName:eventName,
-							eventDesc: eventDesc,
-							eventDescLib: eventDescLib,
-							eventType: eventType,
-							roomId: roomId,
-							numOfPeople: numOfPeople,
-							eventReq : eventReq,
-						}).done(function (requestID) {
-							if (requestID != null) {
-								$('#requestStatus').show().css('background', '#66cc00').append("Form submitted successfully. We'll get back to you shortly");
-								$("html, body").animate({scrollTop: 0}, 600);
-								document.getElementById('step1').className = 'warning';
-								document.getElementById('step2').className = 'warning';
-								document.getElementById('step3').className = '';
-							else {
-								$('#requestStatus').show().css('background', '#b31b1b').append("Something wrong with the form. Contact Administrator.");
-								$("html, body").animate({scrollTop: 0}, 600);
-							}
-						});
-						document.getElementById("submit").disabled = true;
-						document.getElementById("save").disabled = true;
-						<?php }else{ ?>
-						alert("This form has already been submitted. Unfortunately cannot be edited now!");
-						<?php } ?>
-					}
-				}
-			}else{
-					$('#requestStatus').show().css('background', '#b31b1b').append("<div id='message'>Uploaded file size should be less than 2 MB</div>");
-					setTimeout(function () {
-						$('#requestStatus').hide();
-					}, 3000);
-
-				}
-				//$("html, body").animate({scrollTop: 0}, 600);
+                    }
+                });               
+        
 			}); //end of submit function
 			$('div#request_input').clone();
 		}); // end of document function
@@ -464,6 +381,8 @@
 				<?php } ?>
 				<div class="accordion" id="2"><h4 id="2">Section 1: Researcher's Information:</h4><span class="click">Click to Open/Close</span></div>
 				<div class="formcontents" id="2-contents" aria-readonly="true">
+				<label class="label">RequestID:</label><br/><input type="text" id="requestID" class="textinput"  value = "<?php echo $requestID; ?>" style="width: 100px;"readonly/>
+				<?php if ($status ==1 || $status ==3) { ?>
                     <label class="label">Start Date:</label><br/><input type="text" id="startdatepicker" class="textinput"  value = "<?php echo $eventStartDate; ?>" style="width: 100px;"readonly/>
                     <label class="label">End Date:</label><br/><input type="text" id="enddatepicker" class="textinput"  value = "<?php echo $eventEndDate; ?>" style="width: 100px;"readonly/>
                     <label class="label">Requester&#39;s Name:</label><br/><input type="text" id="requesterName" class="textinput" value = "<?php echo $requesterName; ?>"readonly/>
@@ -480,10 +399,28 @@
           			<label class="label">How the event relates to library:</label><br/><textarea id="eventDescLib" class="readonlytext" readonly><?php echo $eventDescLib; ?></textarea>
           			<label class="label">Special Event Requirements:</label><br/><textarea id="eventReq" class="readonlytext" readonly><?php echo $eventReq; ?></textarea>
                     </br></br>
+				<?php } else { ?>
+					<label class="label">Start Date:</label><br/><input type="text" id="startdatepicker" class="textinput"  value = "<?php echo $eventStartDate; ?>" style="width: 100px;"/>
+                    <label class="label">End Date:</label><br/><input type="text" id="enddatepicker" class="textinput"  value = "<?php echo $eventEndDate; ?>" style="width: 100px;"/>
+                    <label class="label">Requester&#39;s Name:</label><br/><input type="text" id="requesterName" class="textinput" value = "<?php echo $requesterName; ?>"/>
+                    <label class="label">Requester&#39;s Email:</label><br/><input type="text" id="requesterEmail" class="textinput"  value = "<?php echo $requesterEmail; ?>" />
+                    <label class="label">Event Name:</label><br/><input type="text" id="eventName" class="textinput" value = "<?php echo $eventName; ?>"  />
+          			<label class="label">Event Description:</label><br/><textarea id="eventDesc" class="textinput" style="height: 150px; overflow: auto; width: 400px;" ><?php echo $eventDesc; ?></textarea>
+					  <label class="label">Event Type:</label><br/><input type="text" id="eventType" class="textinput" value = "<?php echo $eventType; ?>" readonly/>
+                    <label class="label">Room Id:</label><br/><input type="text" id="roomId" class="textinput" value = "<?php echo $roomId; ?>" readonly/>
+                    <label class="label">Room Name:</label><br/><input type="text" id="roomName" class="textinput" value = "<?php echo $roomName; ?>" readonly/>
+                    <label class="label">Location:</label><br /><input type="text" id="roomLocation" class="textinput" value = "<?php echo $roomLocation; ?> Floor" readonly/>
+                    <label class="label">Location Description: </label></br><input type="text" id="locDesc" class="textinput" value = "<?php echo $locDesc; ?>" readonly/>
+                    <label class="label">Capacity: </label><input type="text" id="roomCapacity" class="textinput" value = "<?php echo $roomCapacity; ?>" readonly/>
+                    <label class="label">Number of people:</label><br/><input type="number" id="numOfPeople" class="textinput" value = "<?php echo $numOfPeople; ?>" />
+          			<label class="label">How the event relates to library:</label><br/><textarea class="textinput" id="eventDescLib" style="height: 150px; overflow: auto; width: 400px;" ><?php echo $eventDescLib; ?></textarea>
+          			<label class="label">Special Event Requirements:</label><br/><textarea class="textinput" id="eventReq" style="height: 150px; overflow: auto; width: 400px;" ><?php echo $eventReq; ?></textarea>
+                    </br></br>
+				<? } ?>
                 </div>
 
 						<button class="btn" type="submit" id="submit">Submit</button>
-						<button class="btn" type="button" id="save">Save</button>
+						
 
 			</div>
 			</div> <!-- researcherInfo -->

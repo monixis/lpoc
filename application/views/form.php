@@ -99,7 +99,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="textarea">Event Description</label>
                                     <div class="col-md-4">
-                                        <textarea name="eventDesc" id="eventDesc" style="height: 150px; overflow: auto; width: 400px;" required></textarea>
+                                        <textarea class="form-control" name="eventDesc" id="eventDesc" style="height: 150px; overflow: auto; width: 400px;" required></textarea>
                                             Total word Count : <span id="display_count">0</span> words(Maximum words allowed: 250).
                                     </div>
                                 </div>
@@ -155,7 +155,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="textarea">Describe the event/how it relates to library</label>
                                     <div class="col-md-4">
-                                        <textarea name="describe" id="describe" style="height: 150px; overflow: auto; width: 400px;" required></textarea>
+                                        <textarea class="form-control" name="describe" id="describe" style="height: 150px; overflow: auto; width: 400px;" required></textarea>
                                         Total word Count : <span id="describe_display_count">0</span> words(Maximum words allowed: 250).
                                     </div>
                                 </div>
@@ -163,7 +163,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="textarea">Special Meeting/Event Requirements</label>
                                     <div class="col-md-4">
-                                        <textarea name="specReq" id="specReq" style="height: 150px; overflow: auto; width: 400px;" required></textarea>
+                                        <textarea class="form-control" name="specReq" id="specReq" style="height: 150px; overflow: auto; width: 400px;" required></textarea>
                                         Total word Count : <span id="specReq_display_count">0</span> words(Maximum words allowed: 250).
                                     </div>
                                 </div>
@@ -192,7 +192,7 @@
                                     <label class="col-md-4 control-label"></label>                  
                                     <div class="col-md-8">
                                        <h5>I will be held responsible for all requested information as specified above.</h5>
-                                       <label class="checkbox-inline"><input name="agree" type="checkbox" value="">I Agree</label>              
+                                       <label class="checkbox-inline"><input name="agree" type="checkbox" value="">I Agree</label><br/><br/>              
                                        <input type="submit" id="submit_prog" value='Submit' />
                                        <!--input type="button" id="check" value='check' /-->
                                     </div>
@@ -287,57 +287,10 @@
         }
     });
 
-    /*$("input#check").click(function(e){
+   $("form").submit(function(e) {  
         var eventId = $('select#eventsSelection').attr('value');
         var selectedRoom = $('select#availableRooms').attr('value');
         var eventName = $('input#eventName').val();
-        var eventDesc = $('textarea#eventDesc').val();
-        var startDate= $('input#startDate').val();
-        var endDate= $('input#endDate').val();
-        var noOfPeople= $('input#noOfPeople').val();
-        var describe= $('textarea#describe').val();
-        var specReq= $('textarea#specReq').val();
-        var reqName= $('input#reqName').val();
-        var email= $('input#emailId').val();
-        console.log($('select#eventsSelection').attr('value'));
-        console.log($('select#availableRooms').attr('value'));
-        console.log($('input#eventName').val());
-        console.log($('textarea#eventDesc').val());
-        console.log($('input#startDate').val());
-        console.log($('input#endDate').val());
-        console.log($('input#noOfPeople').val());
-        console.log($('textarea#describe').val());
-        console.log($('textarea#specReq').val());
-        console.log($('input#reqName').val());
-        console.log($('input#emailId').val());
-        $.ajax({
-            type:'POST',
-            url:'<//?php echo base_url().'lpoc/showdata';?>',
-            data:{
-                'eventName':eventName,
-                'eventDesc':eventDesc,
-                'startDate':startDate,
-                'endDate':endDate,
-                'eventId' : eventId,
-                'selectedRoom': selectedRoom,
-                'noOfPeople':noOfPeople,
-                'describe':describe,
-                'specReq':specReq,
-                'reqName' :reqName,
-                'emailId' :emailId
-                }
-        });
-
-    });*/
-
-
-    $("input#submit_prog").click(function( e ) {
-        var eventId = $('select#eventsSelection').attr('value');
-        var selectedRoom = $('select#availableRooms').attr('value');
-        //alert(eventId);
-        //var form_data = new FormData();
-        var eventName = $('input#eventName').val();
-        //alert(eventName);
         var eventDesc = $('textarea#eventDesc').val();
         var startDate= $('input#startDate').val();
         var endDate= $('input#endDate').val();
@@ -346,64 +299,16 @@
         var specReq= $('textarea#specReq').val();
         var reqName= $('input#reqName').val();
         var emailId= $('input#emailId').val();
-
-        if(eventId == ""){
-            $('select#eventsSelection').css('border', '1px solid red');
-        } else if(selectedRoom == ""){
-            $('select#availableRooms').css('border', '1px solid red');
-        } else if(eventName == ""){
-            $('input#eventName').css('border', '1px solid red');
-        } else if(eventDesc == ""){
-            $('textarea#eventDesc').css('border', '1px solid red');
-        } else if(startDate == ""){
-            $('input#startDate').css('border', '1px solid red');
-        } else if(endDate == ""){
-            $('input#endDate').css('border', '1px solid red');
-        } else if(noOfPeople == ""){
-            $('input#noOfPeople').css('border', '1px solid red');
-        } else if(describe == ""){
-            $('textarea#describe').css('border', '1px solid red');
-        } else if(specReq == ""){
-            $('textarea#specReq').css('border', '1px solid red');
-        } else if(reqName == ""){
-            $('input#reqName').css('border', '1px solid red');
-        } else if(emailId == ""){
-            $('input#emailId').css('border', '1px solid red');
-        } else {
-            $('select#eventsSelection').css('border', '1px solid #ccc');
-            $('select#availableRooms').css('border', '1px solid #ccc');
-            $('input#eventName').css('border', '1px solid #ccc');
-            $('textarea#eventDesc').css('border', '1px solid #ccc');
-            $('input#startDate').css('border', '1px solid #ccc');
-            $('input#endDate').css('border', '1px solid #ccc');
-            $('input#noOfPeople').css('border', '1px solid #ccc');
-            $('textarea#describe').css('border', '1px solid #ccc');
-            $('textarea#specReq').css('border', '1px solid #ccc');
-            $('input#reqName').css('border', '1px solid #ccc');
-            $('input#emailId').css('border', '1px solid #ccc');
-            var atpos = emailId.indexOf("@");
-            var dotpos = emailId.lastIndexOf(".");
-            if (atpos<1 || dotpos<atpos+2 || dotpos+2>=emailId.length) {
-                alert("Not a valid e-mail address");
-                return false;
-            }
-       
-        
-        /*form_data.append('eventName', $('input#eventName').val());
-        form_data.append('eventDesc', $('textarea#eventDesc').val());
-        form_data.append('startDate', $('input#startDate').val());
-        form_data.append('endDate', $('input#endDate').val());
-        form_data.append('eventId', eventId);
-        form_data.append('selectedRoom', selectedRoom);
-        form_data.append('noOfPeople', $('input#noOfPeople').val());
-        form_data.append('describe', $('textarea#describe').val());
-        form_data.append('specReq', $('textarea#specReq').val());
-        form_data.append('reqName', $('input#reqName').val());
-        form_data.append('emailId', $('input#email').val());*/
-        
-        $('#loader').css('visibility','visible');
         $('fieldset').css('opacity','0.1');
-        $.post('<?php echo base_url().'lpoc/insertNewRequest'?>',{
+
+	/* $.post('<//?php echo base_url().'lpoc/email_user'?>',{
+				'emailId':emailId
+			}).done(function(data){
+                           alert(data);
+			   window.open('<//?php echo base_url(); ?>',"_self");
+                        });      */
+
+       $.post('<?php echo base_url().'lpoc/insertNewRequest'?>',{
                 'eventName':eventName,
                 'eventDesc':eventDesc,
                 'startDate':startDate,
@@ -416,17 +321,15 @@
                 'reqName' :reqName,
                 'emailId' :emailId
                 }).done(function(requestID){
-                    alert("this is request ID:" + requestID);
-                    if(requestID>0){
-                        $('#requestStatus').show().css('background', '#66cc00').append(" A User Agreement Form has been sent to " + reqName);
-                        } else {
-                            $('#requestStatus').show().css('background', 'red').append(" Some error occured. Kindly contact system administrator.");
-                        }
-                });                
-        }
-        $("html, body").animate({scrollTop: 0}, 600);
-        });
-  
+                    if(requestID > 0){
+                      	//alert("this is request ID: " + requestID);
+                        alert('Your Request id is # '+ requestID +' and awaiting approval. You will be notified once it has been approved')
+			            window.open('<?php echo base_url(); ?>',"_self");                                               
+                    } else {
+                        $('#requestStatus').show().css('background', 'red').append(" Some error occured. Kindly contact system administrator.");
+                    }
+                });               
+        });  
    
     $("select#eventsSelection").change(function () {
         var eventId = $(this).attr('value');
