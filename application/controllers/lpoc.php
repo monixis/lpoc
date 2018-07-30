@@ -56,8 +56,7 @@ class lpoc extends CI_Controller
      *Function to create new request.
      *
      */
-
-    public function insertNewRequest()
+ public function insertNewRequest()
     {
         date_default_timezone_set('US/Eastern');
         $date = date("m/d/Y");
@@ -76,23 +75,134 @@ class lpoc extends CI_Controller
             'emailId' => $this->input->post('emailId'),
             'status' => 1
         );
+        
+        $requesterEmail = $data['emailId'];
+        $requesterName = $data['reqName'];
         $this->load->model('lpoc_model');
         $result = $this->lpoc_model->insertRequests($data);
-        if($this->input->post('specReq')>0 ||$this->input->post('specReq')!= null) {
+        if($this->input->post('specReq')>0 ||$this->input->post('specReq')!= null)
+        {
             $data = array(
                 'comment' => $this->input->post('specReq'),
                 'commentType' => "SPL REQ",
                 'requestID' => $result
             );
-        $chat_result = $this->lpoc_model->saveChat($data, 'chat');
-        if($result >0){
-            $requestID = $result;
+            $chat_result = $this->lpoc_model->saveChat($data, 'chat');
+            if($result >0)
+            {
+                $requestID = $result;
+                $reVal = $this->email_user($requesterName, $requesterEmail, $requestID);
+                if($reVal < 0){
+                    echo $requestID;      
+                }        
+            } else {
+                echo 0;
+            }
+        }
+    }
+
+    public function email_user($requesterName, $requesterEmail, $requestID)
+    {
+        $this->load->library('email');
+        $this->load->model('lpoc_model');
+        $config['protocol'] = "sendmail";
+        $config['smtp_host'] = "tls://smtp.googlemail.com";
+        $config['smtp_port'] = "465";
+        $config['smtp_user'] = "cannavinolibrary@gmail.com";
+        $config['smtp_pass'] = "redfoxesLibrary";
+        $config['charset'] = "utf-8";
+        $config['mailtype'] = "html";
+        $config['newline'] = "\r\n";
+        $this->email->initialize($config);
+        $this->email->from('cannavinolibrary@gmail.com', 'James A. Cannavino Library');
+        $this->email->to($requesterEmail);
+      
+            $this->email->subject("Library Room Reservation. Request Id: " . $requestID);
+
+            $emailBody = '<html><body>';
+
+            $emailBody .= '<table width="100%"; rules="all" style="border:1px solid #3A5896;" cellpadding="10">';
+
+            $emailBody .= "<h4>Dear $requesterName,<br/><br/> Your request has been received and is awaiting approval by the Library Programming and Outreach Committee. </h4></br></tr>";
+
+            $emailBody .= "<tr><td colspan=2 font='colr:#3A5896;'><I>*Please contact a library staff if you have any further questions 845-575-3106.</I></td></tr>";
+
+            $emailBody .= "</table>";
+
+            $emailBody .= "</body></html>";
+            $this->email->message($emailBody);
+
+            if ($this->email->send()) {
+                echo $requestID;
+            } else {
+                echo 0;
+            }
+     }
+
+	 public function email_user_apprRej($requesterName, $requesterEmail, $requestID, $inst,$flag)
+    {
+        $this->load->library('email');
+        $config['protocol'] = 'sendmail';
+        $config['smtp_host'] = 'tls://smtp.gmail.com';
+        $config['smtp_port'] = '465';
+        $config['smtp_user'] = 'cannavinolibrary@gmail.com';
+        $config['smtp_pass'] = 'redfoxesLibrary';
+        $config['charset'] = 'utf-8';
+        $config['mailtype'] = 'html';
+        $config['newline'] = '\r\n';
+        $this->email->initialize($config);
+        $this->load->library('email');
+        $this->email->from('cannavinolibrary@gmail.com', 'James A. Cannavino Library');
+        $this->email->to($requesterEmail);
+        
+             
+      	$six_digit_random_string =  $this -> generateRandomString();
+        $UUID=$six_digit_random_string.$requestID;
+        $six_digit_random_string =  $this -> generateRandomString();
+        $UUID = $UUID.$six_digit_random_string;
+
+	$url = base_url()."?c=lpoc&m=userRequest&requestID=".$UUID;
+
+        $message = '<html><body>';
+
+        $message .= '<table width="100%"; rules="all" style="border:1px solid #3A5896;" cellpadding="10">';
+        if($flag){
+            //approved request
+            $this->email->subject('Request Approved');
+            $message .= "<br/><br/> <h4>Dear $requesterName,<br/><br/> Your Library Room Reservation Request has been appproved. Please check the link for additional instructions.</h4><br/> <I>Link:</I><br/><a href='$url'> $url </a>  </td></tr>";
+        } else {
+            //rejected request
+            $this->email->subject('Request Returned');
+            $message .= "<br/><br/> <h4>Dear $requesterName,<br/><br/> Your Library Room Reservation Request has been returned. Kindly check the  instructions and update the request information as requested.</h4><br/> <I>Link:</I><br/><a href='$url'> $url </a>  </td></tr>";
+        }
+        
+        $message .= "<tr><td colspan=2 font='colr:#3A5896;'><I>Instructions:<br></I><h4>".$inst."</h4></td></tr>";
+        $message .= "</table>";
+
+        $message .= "</body></html>";
+
+        $this->email->message($message);
+
+       
+        if ($this->email->send()) {
             echo $requestID;
         } else {
             echo 0;
         }
-    }
-}
+     }
+
+    public function generateRandomString() {
+	$length = 6;
+        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHI0123456789JKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+     }
+	 		
+
 
     public function success(){
         $this->view->load('success_view');
@@ -259,46 +369,8 @@ class lpoc extends CI_Controller
             }
         }
         if($result>0){
-            $this->load->library('email');
-            $config['protocol'] = 'sendmail';
-            $config['smtp_host'] = 'tls://smtp.gmail.com';
-            $config['smtp_port'] = '465';
-            $config['smtp_user'] = 'maristarchives@gmail.com';
-            $config['smtp_pass'] = 'redfoxesArchives';
-            $config['charset'] = 'utf-8';
-            $config['mailtype'] = 'html';
-            $config['newline'] = '\r\n';
-            $this->email->initialize($config);
-            $this->load->library('email');
-            $this->email->from('maristarchives@gmail.com', 'Marist Archives');
-            $this->email->to($_POST['requesterEmail']);
-            $this->email->cc('deep.dand1992@gmail.com');
-            $this->email->subject('Approved');
-            
-            $six_digit_random_string =  $this -> generateRandomString();
-            $UUID=$six_digit_random_string.$requestID;
-            $six_digit_random_string =  $this -> generateRandomString();
-            $UUID = $UUID.$six_digit_random_string;
-            $url = base_url()."?c=lpoc&m=userRequest&requestID=".$UUID ;
-
-            $message = '<html><body>';
-
-            $message .= '<table width="100%"; rules="all" style="border:1px solid #3A5896;" cellpadding="10">';
-
-            $message .= "<tr ><td align='center'><img src='https://s.graphiq.com/sites/default/files/10/media/images/Marist_College_2_220374.jpg'  /><h3> Marist Archives and Special Collection </h3> <br/><h3>COPY/USE AGREEMENT REQUEST</h3> ";
-
-            $message .= "<br/><br/> <h4>Dear ,<br/><br/> Your Library Room Reservation Request has been appproved, we will send you the requested copies shortly</h4><br/> <I>Link:</I><br/><a href='$url'> $url </a>  </td></tr>";
-            $message .= "<tr><td colspan=2 font='colr:#3A5896;'><I>Instructions:<br></I><h4>".$_POST['instructions']."</h4></td></tr>";
-            $message .= "</table>";
-
-            $message .= "</body></html>";
-
-            $this->email->message($message);
-
-            $this->email->send();
-
-            
-            echo $requestID;
+            $flag=TRUE;
+            $this->email_user_apprRej($requesterName, $requesterEmail, $requestID, $instruc,$flag);
         }
     }
 
@@ -310,18 +382,29 @@ class lpoc extends CI_Controller
     public function disapproveRequest()
     {
         $requestID = $this->input->get('requestID');
-        //$instr = $_POST['instructions'];
-       // $reqName = $_POST['requesterName'];
-        //$reqEmail = $_POST['requesterEmail'];
-        // $id= $this->input->post($researcherId);
+        if(isset($_POST['instructions'])){
+            $instruc = $_POST['instructions'];
+        } else {
+            $instruc = "This is an instruction";
+        }
+        if(isset($_POST['requesterName'])){
+            $requesterName = $_POST['requesterName'];
+        } else {
+            $requesterName = "Deep";
+        }
+        if(isset($_POST['requesterEmail'])){
+            $requesterEmail = $_POST['requesterEmail'];
+        } else {
+            $requesterEmail = "deep.dand1992@gmail.com";
+        }
         date_default_timezone_set('US/Eastern');
         $date = date("Y-m-d");
         $this->load->model('lpoc_model');
         //updating researcher information
         $result = $this->lpoc_model->approveOrDisapprove_request($date,2,$requestID);
-        if($_POST['instructions'] != null){
+        if($instruc != null){
             $data = array(
-                'comment' => $_POST['instructions'],
+                'comment' => $instruc,
                 'commentType' => "INSTRUCTIONS",
                 'requestID' => $requestID
             );
@@ -332,53 +415,8 @@ class lpoc extends CI_Controller
             }
         }
         if($result>0){
-           $this->load->library('email');
-            $config['protocol'] = "sendmail";
-            $config['smtp_host'] = "tls://smtp.gmail.com";
-            $config['smtp_port'] = "465";
-            $config['smtp_user'] = "maristarchives@gmail.com";
-            $config['smtp_pass'] = "redfoxesArchives";
-            $config['charset'] = "utf-8";
-            $config['mailtype'] = "html";
-            $config['newline'] = "\r\n";
-            $this->email->initialize($config);
-            $this->email->from('maristarchives@gmail.com', 'Marist Archives');
-            $this->email->to($_POST['requesterEmail']);
-          //  $this->email->cc('dheeraj.karnati1@marist.edu');
-            //  $this->email->cc('another@another-example.com');
-            //$this->email->bcc('them@their-example.com');
-            $this->email->subject('Returned for review');
-            $greeting        = "Dear ".$_POST['requesterName'];
-            $messageOne     = "As we found some errors in the form, we have returned it for review. Please click on the below link to resubmit the form (Please follow the instructions provided in the bottom of the form) ";
-            $six_digit_random_string =  $this -> generateRandomString();
-            $UUID=$six_digit_random_string.$requestID;
-            $six_digit_random_string =  $this -> generateRandomString();
-            $UUID = $UUID.$six_digit_random_string;
-            $url = base_url()."?c=lpoc&m=userRequest&requestID=".$UUID ;
-            $instructions = $_POST['instructions'];
-            $message = '<html><body>';
-
-            $message .= '<table width="100%"; rules="all" style="border:1px solid #3A5896;" cellpadding="10">';
-
-            $message .= "<tr ><td align='center'><img src='https://s.graphiq.com/sites/default/files/10/media/images/Marist_College_2_220374.jpg'  /><h3> Marist Archives and Special Collection </h3><h3>COPY/USE AGREEMENT REQUEST</h3> ";
-
-            $message .= "<br/><br/> <h4>$greeting ,<br /><br />As we found some errors in the form, we have returned it for review.  Please click on the below link to resubmit the form (Please follow the instructions provided in the bottom of the form)</h4><br/> <I>Link:</I><br/><a href='$url'>$url</a>  </></tr>";
-
-            //$message .= "<tr><td colspan=2 font='colr:#3A5896;'><I>Link:<br></I> $url </td></tr>";
-            $message .= "<tr><td colspan=2 font='colr:#3A5896;'><I>Instructions:<br></I><h4>$instructions</h4></td></tr>";
-            $message .= "</table>";
-
-            $message .= "</body></html>";
-
-
-            $this->email->message($message);
-            //echo $requestID;
-            if($this->email->send()){
-                echo $requestID;
-            }else{
-                echo "failed to send email";
-            }
-
+            $flag=FALSE;
+            $this->email_user_apprRej($requesterName, $requesterEmail, $requestID, $instruc,$flag);
         }
     }
 
@@ -470,43 +508,60 @@ class lpoc extends CI_Controller
     }
 
     /*
-     * Function to submit/update request.
+     * Function to update request.
      * Function updates request details.
      * Updates the status of the transaction to 1.That indicates that user submitted the form for approval.
      * Trigger email to librarian with URL to review the request.
      */
     public function submitRequest()
     {
-        $requestID = $this->input->get('requestID');
-        $requestID=substr($requestID,6,-6);
+        $requestID = $_POST['requestID'];
+        //$requestID=substr($requestID,6,-6);
         //  $id= $this->input->post($researcherId);
         date_default_timezone_set('US/Eastern');
-        $date = date("Y-m-d");
+        $date = date("m/d/Y");
+
         $this->load->model('lpoc_model');
-
-        if($_POST['eventReq']>0 ||$_POST['eventReq']!= null) {
-                $data = array(
-                    'comment' => $_POST['eventReq'],
-                    'commentType' => "SPL REQ",
-                    'requestID' => $requestID
-                );
-                $this->load->model('lpoc_model');
-                $chat_result = $this->lpoc_model->saveChat($data, 'chat');
-                if ($chat_result > 0) {
-                }
-        }
-
         //updating researcher information
-            $result = $this->lpoc_model->update_request($_POST['requesterName'], $_POST['requesterEmail'], $_POST['eventStartDate'], $_POST['eventEndDate'],
-                $_POST['eventName'], $_POST['eventDesc'], $_POST['eventDescLib'], $_POST['eventType'], $_POST['roomId'], $_POST['numOfPeople'], $_POST['eventReq'], $requestID);
+        $data = array(
+            'requesterName' =>$_POST['requesterName'], 
+            'requesterEmail'=>$_POST['requesterEmail'], 
+            'eventStartDate'=>$_POST['eventStartDate'], 
+            'eventEndDate'=>$_POST['eventEndDate'],
+            'eventName'=>$_POST['eventName'], 
+            'eventDesc'=>$_POST['eventDesc'], 
+            'eventDescLib'=>$_POST['eventDescLib'], 
+            'numOfPeople'=>$_POST['numOfPeople'], 
+            'eventReq'=>$_POST['eventReq'], 
+            'requestID'=>$_POST['requestID']
+        );
+         $result = $this->lpoc_model->update_request($data);
         //echo $result;
-        if ($result > 0) { 
+        if($this->input->post('eventReq')>0 ||$this->input->post('eventReq')!= null)
+        {
+            $data1 = array(
+                'comment' => $this->input->post('eventReq'),
+                'commentType' => "SPL REQ",
+                'requestID' => $_POST['requestID']
+            );
+            $chat_result = $this->lpoc_model->saveChat($data1, 'chat');
+            if($result>0)
+            {
+                $reVal = $this->email_user($data['requesterName'], $data['requesterEmail'], $data['requestID']);
+                if($reVal > 0){
+                    echo $requestID;      
+                }        
+            } else {
+                echo 0;
+            }
+        }
+        /*if ($result > 0) { 
                 $six_digit_random_string =  $this -> generateRandomString();
                 $UUID=$six_digit_random_string.$requestID;
                 $six_digit_random_string =  $this -> generateRandomString();
                 $UUID = $UUID.$six_digit_random_string;
                 echo $UUID;
-            }
+            }*/
         }
 }
 ?>
