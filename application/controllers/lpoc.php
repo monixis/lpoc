@@ -4,6 +4,7 @@ class lpoc extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->helper(array('form', 'url'));
         session_start();
     }
 
@@ -15,6 +16,7 @@ class lpoc extends CI_Controller
         $this->load->model('lpoc_model');
         $data['events'] = $this->lpoc_model->getEvents();
         $this->load->view('form', $data);
+        $this->load->library('upload');
     }
 
     public function getRooms($q)
@@ -22,6 +24,27 @@ class lpoc extends CI_Controller
         $this->load->model('lpoc_model');
         $rooms = $this->lpoc_model->getRooms($q);
         echo json_encode($rooms);
+    }
+
+    public function do_upload(){
+        $config['upload_path'] = base_url().'eventImages/';
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['max_size'] = 100;
+        $config['max_width'] = 1024;
+        $config['max_height'] = 768;
+
+        $this->load->library('upload', $config);
+
+        if ( ! $this->upload->do_upload('userfile'))
+        {
+                $error = array('error' => $this->upload->display_errors());
+                $this->load->view('reviewRequest', $error);
+        }
+        else
+        {
+                $data = array('upload_data' => $this->upload->data());
+                $this->load->view('reviewRequest', $data);
+        }
     }
 
     public function getRoomInfo($q)
@@ -59,7 +82,7 @@ class lpoc extends CI_Controller
  public function insertNewRequest()
     {
         date_default_timezone_set('US/Eastern');
-        $date = date("m/d/Y");
+        $date = date("Y-m-d");
 
         $data = array(
             'eventName' =>  $this->input->post('eventName'),
@@ -141,8 +164,10 @@ class lpoc extends CI_Controller
             }
      }
 
-	 public function email_user_apprRej($requesterName, $requesterEmail, $requestID, $inst,$flag)
-    {
+    /*
+    this function sends email for approve reject and complete status - 
+    */
+	public function email_user_apprRej($requesterName, $requesterEmail, $requestID, $inst,$flag){
         $this->load->library('email');
         $config['protocol'] = 'sendmail';
         $config['smtp_host'] = 'tls://smtp.gmail.com';
@@ -168,11 +193,15 @@ class lpoc extends CI_Controller
         $message = '<html><body>';
 
         $message .= '<table width="100%"; rules="all" style="border:1px solid #3A5896;" cellpadding="10">';
-        if($flag){
+        if($flag == "TRUE"){
             //approved request
             $this->email->subject('Request Approved');
             $message .= "<br/><br/> <h4>Dear $requesterName,<br/><br/> Your Library Room Reservation Request has been appproved. Please check the link for additional instructions.</h4><br/> <I>Link:</I><br/><a href='$url'> $url </a>  </td></tr>";
-        } else {
+        } 
+        else if($flag=="complete"){
+            $this->email->subject('Request Completed');
+            $message .= "<br/><br/> <h4>Dear $requesterName,<br/><br/> Your Library Room Reservation Request has been completed. Please check the link for additional report/event photographs.</h4><br/> <I>Link:</I><br/><a href='$url'> $url </a>  </td></tr>";
+        }else {
             //rejected request
             $this->email->subject('Request Returned');
             $message .= "<br/><br/> <h4>Dear $requesterName,<br/><br/> Your Library Room Reservation Request has been returned. Kindly check the  instructions and update the request information as requested.</h4><br/> <I>Link:</I><br/><a href='$url'> $url </a>  </td></tr>";
@@ -320,6 +349,22 @@ class lpoc extends CI_Controller
         $this->load->view('page_view', compact('query', 'pagination_links','total_rows'));
     }
 
+    public function approvedToBeCompleted(){
+        $status = $this->input->get('status');
+        if($status != null) {
+            $url = base_url("?c=lpoc&m=eventRequests&status=$status");
+        }
+        else{
+            $url = null;
+        }
+        $this->load->model('lpoc_model');
+        $query = $this->lpoc_model->ViewRequestsWithStatus($this->limit,$status);
+        $total_rows = $this->lpoc_model->ViewcountWithStatus($status);
+        $this->load->helper('status');
+        $pagination_links = pagination($total_rows, $this->limit,$url);
+        $this->load->view('page_view', compact('query', 'pagination_links','total_rows'));
+    }
+
     public function pages(){
         $this->load->model('lpoc_model');
         $query = $this->lpoc_model->allRequests($this->limit);
@@ -371,7 +416,7 @@ class lpoc extends CI_Controller
             }
         }
         if($result>0){
-            $flag=TRUE;
+            $flag="TRUE";
             $this->email_user_apprRej($requesterName, $requesterEmail, $requestID, $instruc,$flag);
         }
     }
@@ -417,7 +462,7 @@ class lpoc extends CI_Controller
             }
         }
         if($result>0){
-            $flag=FALSE;
+            $flag="FALSE";
             $this->email_user_apprRej($requesterName, $requesterEmail, $requestID, $instruc,$flag);
         }
     }
@@ -521,7 +566,7 @@ class lpoc extends CI_Controller
         //$requestID=substr($requestID,6,-6);
         //  $id= $this->input->post($researcherId);
         date_default_timezone_set('US/Eastern');
-        $date = date("m/d/Y");
+        $date = date("Y-m-d");
 
         $this->load->model('lpoc_model');
         //updating researcher information
@@ -566,6 +611,28 @@ class lpoc extends CI_Controller
                 $UUID = $UUID.$six_digit_random_string;
                 echo $UUID;
             }*/
+    }
+
+    public function completetransaction()
+    {
+        $comment = $_POST["message"];
+        $requesterName = $_POST["requesterName"];
+        $requesterEmail = $_POST["requesterEmail"];
+        $requestID = $this->input->get('requestID');
+        $status = 4;
+        $this->load->model('lpoc_model');
+        $response = $this->lpoc_model->updateStatus($status, $requestID);
+        if($comment != null){
+            $data = array(
+                'comment' => $comment,
+                'commentType' => "MESSAGE",
+                'requestID' => $requestID
+            );
+            $this->load->model('lpoc_model');
+            $chat_result = $this->lpoc_model->saveChat($data, 'chat');
         }
+        $flag="complete";
+        return $this->email_user_apprRej($requesterName, $requesterEmail, $requestID,$comment,$flag);
+    }
 }
 ?>

@@ -22,6 +22,13 @@
             <div class="bs-wizard-dot"></div>
             <div class="bs-wizard-info text-center">Approved</div>
         </div>
+
+        <div id="step4" class="col-xs-3 bs-wizard-step disabled"><!-- approved -->
+            <div class="text-center bs-wizard-stepnum">Step 4</div>
+            <div class="progress"><div class="progress-bar"></div></div>
+            <div class="bs-wizard-dot"></div>
+            <div class="bs-wizard-info text-center">Completed</div>
+        </div>
     </div>
 </div>
 <div id="container" class="container">
@@ -30,13 +37,15 @@
         <h3 align="center">Library Room Reservation Requests</h3>
     </div>
 
+
     <label class="label" for="collection">Filter By Status:</label><br/>
     <select id ="status" style="width: 100px;" >
         <option value="All" class="selectinput">All</option>
         <option value="Submitted" class="selectinput">Submitted</option>
         <option value="Returned" class="selectinput">Returned</option>
         <option value="Approved" class="selectinput">Approved</option>
-
+        <option value="Completed" class="selectinput">Completed</option>
+        <option value="approvedtobecompleted" class="selectinput">Create Event Completiotn report</option>
     </select></br></br>
 
 
@@ -95,29 +104,46 @@
             document.getElementById('step1').className= "col-xs-3 bs-wizard-step complete";
             document.getElementById('step2').className= "col-xs-3 bs-wizard-step disabled";
             document.getElementById('step3').className= "col-xs-3 bs-wizard-step disabled";
-
+            document.getElementById('step4').className= "col-xs-3 bs-wizard-step disabled";
             $("#the-content").load(url);
         }else if($(this).val() == "Approved"){
             document.getElementById('step1').className= "col-xs-3 bs-wizard-stepp complete";
             document.getElementById('step2').className= "col-xs-3 bs-wizard-stepp complete";
             document.getElementById('step3').className= "col-xs-3 bs-wizard-stepp complete";
-
+            document.getElementById('step4').className= "col-xs-3 bs-wizard-step disabled";
             var url = "<?php echo base_url("?c=lpoc&m=eventRequests&status=3")?>";
             $("#the-content").load(url);
 
         }else if($(this).val() == "Returned"){
             document.getElementById('step1').className= "col-xs-3 bs-wizard-stp complete";
             document.getElementById('step2').className= "col-xs-3 bs-wizard-stp complete";
-            document.getElementById('step3').className= "col-xs-3 bs-wizard-stp disabled";
-
+            document.getElementById('step3').className= "col-xs-3 bs-wizard-step disabled";
+            document.getElementById('step4').className= "col-xs-3 bs-wizard-step disabled";
             var url = "<?php echo base_url("?c=lpoc&m=eventRequests&status=2")?>";
             $("#the-content").load(url);
+        }
+        else if($(this).val() == "Completed"){
+            document.getElementById('step1').className= "col-xs-3 bs-wizard-stepp complete";
+            document.getElementById('step2').className= "col-xs-3 bs-wizard-stepp complete";
+            document.getElementById('step3').className= "col-xs-3 bs-wizard-stepp complete";
+            document.getElementById('step4').className= "col-xs-3 bs-wizard-stepp complete"
+            var url = "<?php echo base_url("?c=lpoc&m=eventRequests&status=4")?>";
+            $("#the-content").load(url);
+        }
+        else if($(this).val() == "approvedtobecompleted"){
+            document.getElementById('step1').className= "col-xs-3 bs-wizard-stepp complete";
+            document.getElementById('step2').className= "col-xs-3 bs-wizard-stepp complete";
+            document.getElementById('step3').className= "col-xs-3 bs-wizard-stepp complete";
+            document.getElementById('step4').className= "col-xs-3 bs-wizard-step disabled";
+            var url = "<?php echo base_url("?c=lpoc&m=approvedToBeCompleted&status=3")?>";
+            $("#the-content").load(url);
+
         }
         else if($(this).val() == "All"){
             document.getElementById('step1').className= "col-xs-3 bs-wizard-step disabled";
             document.getElementById('step2').className= "col-xs-3 bs-wizard-step disabled";
             document.getElementById('step3').className= "col-xs-3 bs-wizard-step disabled";
-
+            document.getElementById('step4').className= "col-xs-3 bs-wizard-step disabled";
             var url = "<?php echo base_url("?c=lpoc&m=pages")?>";
             $("#the-content").load(url);
         }

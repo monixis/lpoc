@@ -65,29 +65,8 @@
 	<script type="text/javascript" src="http://library.marist.edu/archives/mainpage/scripts/archivesChildMenu.js"></script>
 
 	<?php
-	/*$requestID= $_GET['requestID'];
-	//researcher info
-	$sizeofRequests = sizeof($requests);
-	$userName = $researcher[0];
-	$country = $researcher[1];
-	$countryy = $researcher[1];
-	$state = $researcher[2];
-	$city = $researcher[3];
-	$address =$researcher[4];
-	$emailId = $researcher[5];
-	$zipCode = $researcher[6];
-	$date = $researcher[7];
-	$phoneNumber = $researcher[8];
-	$status = $researcher[9];
-	$attachment = $researcher[10];
-	$userInitials = $researcher[11];
-	$termsAndCond = $researcher[12];
-	$attachemntLink = $researcher[14];
-	$requestID = $requestID;*/
 	$requestID= $_GET['requestID'];
 	$requestID = substr($requestID,6,-6);
-    //researcher info
-   //$sizeofRequests = sizeof($requests);
     $requesterName = $requestinfo[0];
     $requesterEmail = $requestinfo[1];
     $eventName = $requestinfo[2];
@@ -119,6 +98,10 @@
     }
     elseif($status == 3){
         $formStatus = "Approved";
+       // $formStatus = "Submitted";
+	}
+	elseif($status == 4){
+        $formStatus = "Completed";
        // $formStatus = "Submitted";
     }
 	$researcherUrl = base_url("index.php/lpoc/getResearcher?requestID=").$requestID;
@@ -175,6 +158,10 @@
 					<span class="bubble"></span>
 					Approved
 				</li>
+				<li id="step4" class="">
+					<span class="bubble"></span>
+					Completed
+				</li>
 				</ul></br>
 				<div align="right">
 					<div  style="width:170px;height:30px; background: #b31b1b;" class="box" id="requestInf">
@@ -221,7 +208,7 @@
 				<div class="accordion" id="2"><h4 id="2">Section 1: Researcher's Information:</h4><span class="click">Click to Open/Close</span></div>
 				<div class="formcontents" id="2-contents" aria-readonly="true">
 				<label class="label">RequestID:</label><br/><input type="text" id="requestID" class="textinput"  value = "<?php echo $requestID; ?>" style="width: 100px;"readonly/>
-				<?php if ($status ==1 || $status ==3) { ?>
+				<?php if ($status ==1 || $status ==3 || $status ==4) { ?>
                     <label class="label">Requester&#39;s Name:</label><br/><input type="text" id="requesterName" class="textinput" value = "<?php echo $requesterName; ?>"readonly/>
                     <label class="label">Requester&#39;s Email:</label><br/><input type="text" id="requesterEmail" class="textinput"  value = "<?php echo $requesterEmail; ?>" readonly/>
                     <label class="label">Event Name:</label><br/><input type="text" id="eventName" class="textinput" value = "<?php echo $eventName; ?>" readonly />
@@ -286,21 +273,32 @@
 			$('#startdatepicker').datepicker();
             $('#enddatepicker').datepicker();
 			$('#num_error').hide();
-			if("<?php echo $status ?>" ==1){
+			if(<?php echo $status ?> ==1){
 				//SUBMITTED STATE
 				document.getElementById('step1').className='warning';
 				document.getElementById('step2').className='';
 				document.getElementById('step3').className='';
-			}else if("<?php echo $status ?>" ==2){//RETURNED STATE
+				document.getElementById('step4').className='';
+				document.getElementById("submit").style.display = "none";
+			}else if(<?php echo $status ?> ==2){//RETURNED STATE
 				document.getElementById('step1').className='danger';
 				document.getElementById('step2').className='danger';
 				document.getElementById('step3').className='danger';
-			}else if("<?php echo $status ?>" ==3){//APPROVED STATE
+				document.getElementById('step4').className='danger';
+			}else if(<?php echo $status ?> ==3){//APPROVED STATE
 				document.getElementById('step1').className='completed';
 				document.getElementById('step2').className='completed';
 				document.getElementById('step3').className='completed';
+				document.getElementById('step4').className='';
+				document.getElementById("submit").style.display = "none";
 			}
-			
+			else if(<?php echo $status ?> ==4){//COMPLETED STATE
+				document.getElementById('step1').className='completed';
+				document.getElementById('step2').className='completed';
+				document.getElementById('step3').className='completed';
+				document.getElementById('step4').className='completed';
+				document.getElementById("submit").style.display = "none";
+			}
 			$('#formcontents').hide();
 			var text_max = 250;
 
@@ -309,25 +307,6 @@
 				var text_remaining = text_max - text_length;
 				$('#textarea_feedback').html(text_remaining + ' characters remaining');
 			});
-
-			<?php  if($status == 1 || $status ==3 ) {?>
-			document.getElementById("submit").style.display = "none";
-			<?php } ?>
-
-			<?php if ($status == 2) {?>
-			document.getElementById("submit").style.display = "block";
-			/*document.getElementById("uploaded_file").style.display = "none";
-			document.getElementById("messages").style.display = "none";
-            document.getElementById("att").style.display="none";
-			document.getElementById("buttonAdd-request").style.display="none";
-			document.getElementById("buttonRemove-request").style.display="none";
-			document.getElementById("addOrRem").style.display="none";*/
-
-	   
-			//requestsReadOnly
-			//document.getElementById("submitInfo").style.display = "none";
-
-			<?php } ?>
 
 	/* Validation */
 	$("#eventDesc").on('keyup', function(e) {
@@ -442,6 +421,7 @@
                         document.getElementById('step1').className = 'warning';
 						document.getElementById('step2').className='';
 						document.getElementById('step3').className='';
+						document.getElementById('step4').className='';
 						$("html, body").animate({scrollTop: 0}, 600);
                     } else {
                         $('#requestStatus').show().css('background', 'red').append(" Some error occured. Kindly contact system administrator.");

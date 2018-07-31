@@ -286,6 +286,21 @@ class lpoc_model extends CI_Model
         return $this->db->count_all_results();
     }
 
+    public function ViewRequestsWithStatus($limit = 0){
+        $this->db->limit($limit);
+        $this->db->offset($this->input->get('per_page'));
+        //$this->db->where('status',$status);
+        $this->db->order_by('requestID','desc');
+        return $this->db->get('approvedtobecompleted');
+    }
+
+    public function ViewcountWithStatus(){
+        $this->db->select('requestID');
+        $this->db->from('approvedtobecompleted');
+        //$this->db->where('status',$status);
+        return $this->db->count_all_results();
+    }
+
       /*
      * Function to update requests table
      */
@@ -331,7 +346,20 @@ class lpoc_model extends CI_Model
             // return 0;
             return $this->db->_error_message() . print_r("");
         }
-    }   
+    }
+    
+    public function updateStatus($status,$requestID){
+        $this ->db ->trans_start();
+        $sql = "UPDATE requests SET status ='$status' where requestID='$requestID'";
+        $this->db->query($sql);
+        if ($this->db->affected_rows() > 0) {
+            return 1;
+        } else {
+            // return 0;
+            return $this->db->_error_message() . print_r("");
+        }
+    }
+
 }
 
 ?>
