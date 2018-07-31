@@ -66,6 +66,8 @@ class lpoc extends CI_Controller
             'eventDesc' => $this->input->post('eventDesc'),
             'startDate' => $this->input->post('startDate'),
             'endDate' => $this->input->post('endDate'),
+            'startTime' => date('H:i',strtotime($this->input->post('startTime'))),
+            'endTime' => date('H:i',strtotime($this->input->post('endTime'))),
             'eventId' => $this->input->post('eventId'),
             'selectedRoom' => $this->input->post('selectedRoom'),
             'noOfPeople' => $this->input->post('noOfPeople'),
@@ -274,7 +276,7 @@ class lpoc extends CI_Controller
                 $request = array();
                 if (sizeof($requestinfo) == 0) {
                     array_push($requestinfo, $row['requesterName'], $row['requesterEmail'], $row['eventName'], $row['eventDesc'],
-                        $row['eventStartDate'], $row['eventEndDate'], $row['eventType'],
+                        $row['eventStartDate'], $row['eventEndDate'], $row['startTime'], $row['endTime'], $row['eventType'],
                         $row['roomId'], $row['numOfPeople'], $row['eventDescLib'], $row['eventReq'], $row['status']);
                     $data['requestinfo'] = $requestinfo;
                     $roomId = $row['roomId'];
@@ -447,7 +449,7 @@ class lpoc extends CI_Controller
                 $request = array();
                 if (sizeof($requestinfo) == 0) {
                     array_push($requestinfo, $row['requesterName'], $row['requesterEmail'], $row['eventName'], $row['eventDesc'],
-                        $row['eventStartDate'], $row['eventEndDate'], $row['eventType'],
+                        $row['eventStartDate'], $row['eventEndDate'], $row['startTime'], $row['endTime'], $row['eventType'],
                         $row['roomId'], $row['numOfPeople'], $row['eventDescLib'], $row['eventReq'], $row['status']);
                     $data['requestinfo'] = $requestinfo;
                     $roomId = $row['roomId'];
@@ -528,6 +530,8 @@ class lpoc extends CI_Controller
             'requesterEmail'=>$_POST['requesterEmail'], 
             'eventStartDate'=>$_POST['eventStartDate'], 
             'eventEndDate'=>$_POST['eventEndDate'],
+            'startTime' => $_POST['startTime'],
+            'endTime' => $_POST['endTime'],
             'eventName'=>$_POST['eventName'], 
             'eventDesc'=>$_POST['eventDesc'], 
             'eventDescLib'=>$_POST['eventDescLib'], 

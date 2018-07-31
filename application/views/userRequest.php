@@ -93,13 +93,15 @@
     $eventName = $requestinfo[2];
     $eventDesc = $requestinfo[3];
     $eventStartDate =$requestinfo[4];
-    $eventEndDate = $requestinfo[5];
-    $eventType = $requestinfo[6];
-    $roomId = $requestinfo[7];
-    $numOfPeople = $requestinfo[8];
-    $eventDescLib = $requestinfo[9];
-    $eventReq = $requestinfo[10];
-    $status = $requestinfo[11];
+	$eventEndDate = $requestinfo[5];
+	$startTime =$requestinfo[6];
+    $endTime = $requestinfo[7];
+    $eventType = $requestinfo[8];
+    $roomId = $requestinfo[9];
+    $numOfPeople = $requestinfo[10];
+    $eventDescLib = $requestinfo[11];
+    $eventReq = $requestinfo[12];
+    $status = $requestinfo[13];
 
     //room info
     $roomName = $roominfo[1];
@@ -121,169 +123,6 @@
     }
 	$researcherUrl = base_url("index.php/lpoc/getResearcher?requestID=").$requestID;
 	?>
-
-	<script type="text/javascript">		
-
-		$(document).ready(function(){
-			$('#startdatepicker').datepicker();
-            $('#enddatepicker').datepicker();
-			$('#num_error').hide();
-			if("<?php echo $status ?>" ==1){
-				//SUBMITTED STATE
-				document.getElementById('step1').className='warning';
-			}else if("<?php echo $status ?>" ==2){//RETURNED STATE
-				document.getElementById('step1').className='danger';
-				document.getElementById('step2').className='danger';
-				document.getElementById('step3').className='danger';
-			}else if("<?php echo $status ?>" ==3){//APPROVED STATE
-				document.getElementById('step1').className='completed';
-				document.getElementById('step2').className='completed';
-				document.getElementById('step3').className='completed';
-			}
-			
-			$('#formcontents').hide();
-			var text_max = 250;
-
-			$('#message').keyup(function() {
-				var text_length = $('#message').val().length;
-				var text_remaining = text_max - text_length;
-				$('#textarea_feedback').html(text_remaining + ' characters remaining');
-			});
-
-			<?php  if($status == 1 || $status ==3 ) {?>
-			document.getElementById("submit").style.display = "none";
-			<?php } ?>
-
-			<?php if ($status == 2) {?>
-			document.getElementById("submit").style.display = "block";
-			/*document.getElementById("uploaded_file").style.display = "none";
-			document.getElementById("messages").style.display = "none";
-            document.getElementById("att").style.display="none";
-			document.getElementById("buttonAdd-request").style.display="none";
-			document.getElementById("buttonRemove-request").style.display="none";
-			document.getElementById("addOrRem").style.display="none";*/
-
-	   
-			//requestsReadOnly
-			//document.getElementById("submitInfo").style.display = "none";
-
-			<?php } ?>
-
-			/* Validation */
-			$("#eventDesc").on('keyup', function(e) {
-    var words = $.trim(this.value).length ? this.value.match(/\S+/g).length : 0;
-    if (words <= 250) {
-        $('#display_count').text(words);
-        //$('#word_left').text(200-words)
-    }else{
-        if (e.which !== 8) e.preventDefault();
-    }
-    });
-
-    $("#describe").on('keyup', function(e) {
-    var words = $.trim(this.value).length ? this.value.match(/\S+/g).length : 0;
-    if (words <= 250) {
-        $('#describe_display_count').text(words);
-        //$('#word_left').text(200-words)
-    }else{
-        if (e.which !== 8) e.preventDefault();
-    }
-    });
-
-    $("#specReq").on('keyup', function(e) {
-    var words = $.trim(this.value).length ? this.value.match(/\S+/g).length : 0;
-    if (words <= 250) {
-        $('#specReq_display_count').text(words);
-        //$('#word_left').text(200-words)
-    }else{
-        if (e.which !== 8) e.preventDefault();
-    }
-    });
-
-    $("#enddatepicker").change(function () {
-    var startDate = document.getElementById("startdatepicker").value;
-    var endDate = document.getElementById("enddatepicker").value;
-
-    if ((Date.parse(startDate) > Date.parse(endDate))) {
-        alert("The event should end on same or later day.");
-        document.getElementById("enddatepicker").value = "";
-        }
-    });
-
-    $('input#reqName').keydown(function (e) {
-        if ((e.which == 9) && ($(this).val().length == 0)) {
-            $(this).css('border', '1px solid red');
-        } else {
-            $(this).css('border', '1px solid #ccc');
-        }
-    });
-    $('input#reqEmail').keydown(function (e) {
-        $(this).css('border', '1px solid #ccc');
-    });
-
-    $("#startdatepicker").change(function () {
-        var today = new Date();
-        today.setHours(0,0,0,0);
-        var startDate = document.getElementById("startdatepicker").value;
-        var endDate = document.getElementById("enddatepicker").value;
-
-        if ((Date.parse(startDate) > Date.parse(endDate))) {
-            alert("The event should end on same or later day.");
-            document.getElementById("startdatepicker").value = "";
-        } else if((Date.parse(startDate) < Date.parse(today))){
-            alert("Start date should be greater than today");
-            document.getElementById("startdatepicker").value = "";
-        }
-    });
-	/* validation ends */
-	
-	//alert(requestsCnt);	
-	$('button#submit').click(function() {
-        var eventName = $('input#eventName').val();
-        var eventDesc = $('textarea#eventDesc').val();
-        var startDate= $('input#startdatepicker').val();
-        var endDate= $('input#enddatepicker').val();
-        var numOfPeople= $('input#numOfPeople').val();
-        var describe= $('textarea#eventDescLib').val();
-        var specReq= $('textarea#eventReq').val();
-        var reqName= $('input#requesterName').val();
-        var emailId= $('input#requesterEmail').val();
-		var requestID=$('input#requestID').val();
-        $('fieldset').css('opacity','0.1');
-
-	/* $.post('<//?php echo base_url().'lpoc/email_user'?>',{
-				'emailId':emailId
-			}).done(function(data){
-                           alert(data);
-			   window.open('<//?php echo base_url(); ?>',"_self");
-                        });      */
-
-       $.post('<?php echo base_url().'lpoc/submitRequest'?>',{
-                'eventName':eventName,
-                'eventDesc':eventDesc,
-                'eventStartDate':startDate,
-                'eventEndDate':endDate,
-                'numOfPeople':numOfPeople,
-                'eventDescLib':describe,
-                'eventReq':specReq,
-                'requesterName' :reqName,
-                'requesterEmail' :emailId,
-				'requestID':requestID
-                }).done(function(requestID){
-                    if(requestID > 0){
-						$('#requestStatus').show().css('background', '#66cc00').append("#" + requestID + ":Your request has been received and is awaiting approval by the Library Programming and Outreach Committee.");
-                        document.getElementById('step1').className = 'warning';
-						$("html, body").animate({scrollTop: 0}, 600);
-                    } else {
-                        $('#requestStatus').show().css('background', 'red').append(" Some error occured. Kindly contact system administrator.");
-						$("html, body").animate({scrollTop: 0}, 600);
-                    }
-                });               
-        
-			}); //end of submit function
-			$('div#request_input').clone();
-		}); // end of document function
-	</script>
 </head>
 <body>
 <div id="headerContainer">
@@ -383,12 +222,14 @@
 				<div class="formcontents" id="2-contents" aria-readonly="true">
 				<label class="label">RequestID:</label><br/><input type="text" id="requestID" class="textinput"  value = "<?php echo $requestID; ?>" style="width: 100px;"readonly/>
 				<?php if ($status ==1 || $status ==3) { ?>
-                    <label class="label">Start Date:</label><br/><input type="text" id="startdatepicker" class="textinput"  value = "<?php echo $eventStartDate; ?>" style="width: 100px;"readonly/>
-                    <label class="label">End Date:</label><br/><input type="text" id="enddatepicker" class="textinput"  value = "<?php echo $eventEndDate; ?>" style="width: 100px;"readonly/>
                     <label class="label">Requester&#39;s Name:</label><br/><input type="text" id="requesterName" class="textinput" value = "<?php echo $requesterName; ?>"readonly/>
                     <label class="label">Requester&#39;s Email:</label><br/><input type="text" id="requesterEmail" class="textinput"  value = "<?php echo $requesterEmail; ?>" readonly/>
                     <label class="label">Event Name:</label><br/><input type="text" id="eventName" class="textinput" value = "<?php echo $eventName; ?>" readonly />
-          			<label class="label">Event Description:</label><br/><textarea id="eventDesc" class="readonlytext" readonly><?php echo $eventDesc; ?></textarea>
+					  <label class="label">Event Description:</label><br/><textarea id="eventDesc" class="readonlytext" readonly><?php echo $eventDesc; ?></textarea>
+					  <label class="label">Start Date:</label><br/><input type="text" id="startdatepicker" class="textinput"  value = "<?php echo $eventStartDate; ?>" style="width: 100px;"readonly/>
+					<label class="label">End Date:</label><br/><input type="text" id="enddatepicker" class="textinput"  value = "<?php echo $eventEndDate; ?>" style="width: 100px;"readonly/>
+					<label class="label">Start Time:</label><br/><input type="time" id="startTime" class="textinput"  value = "<?php echo $startTime; ?>" style="width: 100px;"readonly/>
+                    <label class="label">End Time:</label><br/><input type="time" id="endTime" class="textinput"  value = "<?php echo $endTime; ?>" style="width: 100px;"readonly/>
                     <label class="label">Event Type:</label><br/><input type="text" id="eventType" class="textinput" value = "<?php echo $eventType; ?>" readonly/>
                     <label class="label">Room Id:</label><br/><input type="text" id="roomId" class="textinput" value = "<?php echo $roomId; ?>" readonly/>
                     <label class="label">Room Name:</label><br/><input type="text" id="roomName" class="textinput" value = "<?php echo $roomName; ?>" readonly/>
@@ -400,19 +241,22 @@
           			<label class="label">Special Event Requirements:</label><br/><textarea id="eventReq" class="readonlytext" readonly><?php echo $eventReq; ?></textarea>
                     </br></br>
 				<?php } else { ?>
-					<label class="label">Start Date:</label><br/><input type="text" id="startdatepicker" class="textinput"  value = "<?php echo $eventStartDate; ?>" style="width: 100px;"/>
-                    <label class="label">End Date:</label><br/><input type="text" id="enddatepicker" class="textinput"  value = "<?php echo $eventEndDate; ?>" style="width: 100px;"/>
-                    <label class="label">Requester&#39;s Name:</label><br/><input type="text" id="requesterName" class="textinput" value = "<?php echo $requesterName; ?>"/>
-                    <label class="label">Requester&#39;s Email:</label><br/><input type="text" id="requesterEmail" class="textinput"  value = "<?php echo $requesterEmail; ?>" />
+					
+                    <label class="label">Requester&#39;s Name:</label><br/><input type="text" id="requesterName" class="textinput" value = "<?php echo $requesterName; ?>"required/>
+                    <label class="label">Requester&#39;s Email:</label><br/><input type="text" id="requesterEmail" class="textinput"  value = "<?php echo $requesterEmail; ?>" required/>
                     <label class="label">Event Name:</label><br/><input type="text" id="eventName" class="textinput" value = "<?php echo $eventName; ?>"  />
-          			<label class="label">Event Description:</label><br/><textarea id="eventDesc" class="textinput" style="height: 150px; overflow: auto; width: 400px;" ><?php echo $eventDesc; ?></textarea>
+					  <label class="label">Event Description:</label><br/><textarea id="eventDesc" class="textinput" style="height: 150px; overflow: auto; width: 400px;" ><?php echo $eventDesc; ?></textarea>
+					  <label class="label">Start Date:</label><br/><input type="text" id="startdatepicker" class="textinput"  value = "<?php echo $eventStartDate; ?>" style="width: 100px;"required/>
+					<label class="label">End Date:</label><br/><input type="text" id="enddatepicker" class="textinput"  value = "<?php echo $eventEndDate; ?>" style="width: 100px;"required/>
+					<label class="label">Start Time:</label><br/><input type="time" id="startTime" class="textinput"  value = "<?php echo $startTime; ?>" style="width: 100px;"required/>
+                    <label class="label">End Time:</label><br/><input type="time" id="endTime" class="textinput"  value = "<?php echo $endTime; ?>" style="width: 100px;"required/>
 					  <label class="label">Event Type:</label><br/><input type="text" id="eventType" class="textinput" value = "<?php echo $eventType; ?>" readonly/>
                     <label class="label">Room Id:</label><br/><input type="text" id="roomId" class="textinput" value = "<?php echo $roomId; ?>" readonly/>
                     <label class="label">Room Name:</label><br/><input type="text" id="roomName" class="textinput" value = "<?php echo $roomName; ?>" readonly/>
                     <label class="label">Location:</label><br /><input type="text" id="roomLocation" class="textinput" value = "<?php echo $roomLocation; ?> Floor" readonly/>
                     <label class="label">Location Description: </label></br><input type="text" id="locDesc" class="textinput" value = "<?php echo $locDesc; ?>" readonly/>
                     <label class="label">Capacity: </label><input type="text" id="roomCapacity" class="textinput" value = "<?php echo $roomCapacity; ?>" readonly/>
-                    <label class="label">Number of people:</label><br/><input type="number" id="numOfPeople" class="textinput" value = "<?php echo $numOfPeople; ?>" />
+                    <label class="label">Number of people:</label><br/><input type="number" id="numOfPeople" class="textinput" value = "<?php echo $numOfPeople; ?>" required/>
           			<label class="label">How the event relates to library:</label><br/><textarea class="textinput" id="eventDescLib" style="height: 150px; overflow: auto; width: 400px;" ><?php echo $eventDescLib; ?></textarea>
           			<label class="label">Special Event Requirements:</label><br/><textarea class="textinput" id="eventReq" style="height: 150px; overflow: auto; width: 400px;" ><?php echo $eventReq; ?></textarea>
                     </br></br>
@@ -438,7 +282,176 @@
 		</p>
 	</div>
 	<script>
-		$('div.accordion').click(function(){
+		//$(document).ready(function(){
+			$('#startdatepicker').datepicker();
+            $('#enddatepicker').datepicker();
+			$('#num_error').hide();
+			if("<?php echo $status ?>" ==1){
+				//SUBMITTED STATE
+				document.getElementById('step1').className='warning';
+				document.getElementById('step2').className='';
+				document.getElementById('step3').className='';
+			}else if("<?php echo $status ?>" ==2){//RETURNED STATE
+				document.getElementById('step1').className='danger';
+				document.getElementById('step2').className='danger';
+				document.getElementById('step3').className='danger';
+			}else if("<?php echo $status ?>" ==3){//APPROVED STATE
+				document.getElementById('step1').className='completed';
+				document.getElementById('step2').className='completed';
+				document.getElementById('step3').className='completed';
+			}
+			
+			$('#formcontents').hide();
+			var text_max = 250;
+
+			$('#message').keyup(function() {
+				var text_length = $('#message').val().length;
+				var text_remaining = text_max - text_length;
+				$('#textarea_feedback').html(text_remaining + ' characters remaining');
+			});
+
+			<?php  if($status == 1 || $status ==3 ) {?>
+			document.getElementById("submit").style.display = "none";
+			<?php } ?>
+
+			<?php if ($status == 2) {?>
+			document.getElementById("submit").style.display = "block";
+			/*document.getElementById("uploaded_file").style.display = "none";
+			document.getElementById("messages").style.display = "none";
+            document.getElementById("att").style.display="none";
+			document.getElementById("buttonAdd-request").style.display="none";
+			document.getElementById("buttonRemove-request").style.display="none";
+			document.getElementById("addOrRem").style.display="none";*/
+
+	   
+			//requestsReadOnly
+			//document.getElementById("submitInfo").style.display = "none";
+
+			<?php } ?>
+
+	/* Validation */
+	$("#eventDesc").on('keyup', function(e) {
+		var words = $.trim(this.value).length ? this.value.match(/\S+/g).length : 0;
+		if (words <= 250) {
+			$('#display_count').text(words);
+			//$('#word_left').text(200-words)
+		}else{
+			if (e.which !== 8) e.preventDefault();
+		}
+	});
+
+    $("#describe").on('keyup', function(e) {
+		var words = $.trim(this.value).length ? this.value.match(/\S+/g).length : 0;
+		if (words <= 250) {
+			$('#describe_display_count').text(words);
+			//$('#word_left').text(200-words)
+		}else{
+			if (e.which !== 8) e.preventDefault();
+		}
+    });
+
+    $("#specReq").on('keyup', function(e) {
+		var words = $.trim(this.value).length ? this.value.match(/\S+/g).length : 0;
+		if (words <= 250) {
+			$('#specReq_display_count').text(words);
+			//$('#word_left').text(200-words)
+		}else{
+			if (e.which !== 8) e.preventDefault();
+		}
+    });
+
+     $("#startdatepicker").change(function () {
+        var today = new Date();
+        today.setHours(0,0,0,0);
+        var startDate = document.getElementById("startdatepicker").value;
+        var endDate = document.getElementById("enddatepicker").value;
+
+        if ((Date.parse(startDate) > Date.parse(endDate))) {
+            alert("The event should end on same or later day.");
+            document.getElementById("startdatepicker").value = "";
+        } else if((Date.parse(startDate) < Date.parse(today))){
+            alert("Start date should be greater than today");
+            document.getElementById("startDate").value = "";
+        }
+    });
+
+    $("#enddatepicker").change(function () {
+        var startDate = document.getElementById("startdatepicker").value;
+        var endDate = document.getElementById("enddatepicker").value;
+        if ((Date.parse(startDate) > Date.parse(endDate))) {
+            alert("The event should end on same or later day.");
+            document.getElementById("enddatepicker").value = "";
+        }
+    });
+
+    $('input#reqName').keydown(function (e) {
+        if ((e.which == 9) && ($(this).val().length == 0)) {
+            $(this).css('border', '1px solid red');
+        } else {
+            $(this).css('border', '1px solid #ccc');
+        }
+    });
+    $('input#reqEmail').keydown(function (e) {
+        $(this).css('border', '1px solid #ccc');
+    });
+
+    
+	/* validation ends */
+	
+	//alert(requestsCnt);	
+	$('button#submit').click(function() {
+		var text_max = 250;
+		//add validation here for the whole form
+        var eventName = $('input#eventName').val();
+        var eventDesc = $('textarea#eventDesc').val();
+        var startDate= $('input#startdatepicker').val();
+        var endDate= $('input#enddatepicker').val();
+		var startTime = document.getElementById("startTime").value;//time attribute only works with this format
+        var endTime = document.getElementById("endTime").value;//time attribute only works with this format
+        var numOfPeople= $('input#numOfPeople').val();
+        var describe= $('textarea#eventDescLib').val();
+        var specReq= $('textarea#eventReq').val();
+        var reqName= $('input#requesterName').val();
+        var emailId= $('input#requesterEmail').val();
+		var requestID=$('input#requestID').val();
+        $('fieldset').css('opacity','0.1');
+
+	/* $.post('<//?php echo base_url().'lpoc/email_user'?>',{
+				'emailId':emailId
+			}).done(function(data){
+                           alert(data);
+			   window.open('<//?php echo base_url(); ?>',"_self");
+                        });      */
+
+       $.post('<?php echo base_url().'lpoc/submitRequest'?>',{
+                'eventName':eventName,
+                'eventDesc':eventDesc,
+                'eventStartDate':startDate,
+                'eventEndDate':endDate,
+				'startTime' : startTime,
+                'endTime':endTime,
+                'numOfPeople':numOfPeople,
+                'eventDescLib':describe,
+                'eventReq':specReq,
+                'requesterName' :reqName,
+                'requesterEmail' :emailId,
+				'requestID':requestID
+                }).done(function(requestID){
+                    if(requestID > 0){
+						$('#requestStatus').show().css('background', '#66cc00').append("#" + requestID + ":Your request has been received and is awaiting approval by the Library Programming and Outreach Committee.");
+                        document.getElementById('step1').className = 'warning';
+						document.getElementById('step2').className='';
+						document.getElementById('step3').className='';
+						$("html, body").animate({scrollTop: 0}, 600);
+                    } else {
+                        $('#requestStatus').show().css('background', 'red').append(" Some error occured. Kindly contact system administrator.");
+						$("html, body").animate({scrollTop: 0}, 600);
+                    }
+                });               
+        
+			}); //end of submit function
+			$('div#request_input').clone();
+			$('div.accordion').click(function(){
 			var div =$(this).attr('id');
 			if(div == '1'){
 				$('div#1-contents').toggle();
@@ -451,6 +464,7 @@
 			}
 
 		});
+	//	}); // end of document function
 	</script>
 </body>
 </html>

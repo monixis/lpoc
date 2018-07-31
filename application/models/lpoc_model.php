@@ -46,6 +46,8 @@ class lpoc_model extends CI_Model
             'eventDesc'=> $data['eventDesc'],
             'eventStartDate'=> $data['startDate'],
             'eventEndDate'=> $data['endDate'],
+            'startTime'=>$data['startTime'],
+            'endTime'=>$data['endTime'],
             'eventType' => $data['eventId'],
             'roomId'=>$data['selectedRoom'],
             'numOfPeople'=>$data['noOfPeople'],
@@ -318,7 +320,7 @@ class lpoc_model extends CI_Model
         //     'requesterName'=> $data['requesterName'],
         //     'requesterEmail'=> $data['requesterEmail'],
         //     'requestID'=>$data['requestID']);
-        $sql = "UPDATE requests SET requesterName='".$data['requesterName']."', requesterEmail= '".$data['requesterEmail']."', eventStartDate = '".$data['eventStartDate']."',eventEndDate ='".$data['eventEndDate']."',eventName='".$data['eventName']."', eventDesc='".$data['eventDesc']."', eventDescLib ='".$data['eventDescLib']."' , numOfPeople ='".$data['numOfPeople']."' ,eventReq ='".$data['eventReq']."', status = 1 WHERE requestID='".$data['requestID']."' ;";
+        $sql = "UPDATE requests SET requesterName='".$data['requesterName']."', requesterEmail= '".$data['requesterEmail']."', eventStartDate = '".$data['eventStartDate']."',eventEndDate ='".$data['eventEndDate']."', startTime = '".$data['startTime']."',endTime ='".$data['endTime']."',eventName='".$data['eventName']."', eventDesc='".$data['eventDesc']."', eventDescLib ='".$data['eventDescLib']."' , numOfPeople ='".$data['numOfPeople']."' ,eventReq ='".$data['eventReq']."', status = 1 WHERE requestID='".$data['requestID']."' ;";
         $this->db->query($sql);
 
         // $this->db->where('userId', "15");

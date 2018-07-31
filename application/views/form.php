@@ -50,6 +50,18 @@
             top:60%;
         }
 
+        input:invalid+span:after {
+            position: absolute;
+            content: '✖';
+            padding-left: 5px;
+        }
+
+        input:valid+span:after {
+            position: absolute;
+            content: '✓';
+            padding-left: 5px;
+        }
+
     </style>
 </head>
 
@@ -68,22 +80,16 @@
 
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div id="main-container" class="container">
-
     <div class="jumbotron">
-
         <div class="container" style="margin-top: -36px;">
-
             <!-- Example row of columns -->
-
             <div class="row">
-
                 <div class="col-md-12">
-
                     <div id="loader">
                         <img id="loader-img" alt="" src="http://library.marist.edu/images/pacman.gif" width="130" height="130" />
                     </div> <!-- loader -->
                     <h2 style="text-align: center; margin: 30px; font-size: 40px;">Library Room Reservation Request</h2>
-                            <div id="requestStatus" style="width: auto; height:40px; margin-bottom: 7px; margin-top: -15px; color:#000000; font-size: 12pt; text-align: center; padding-top: 10px; display: none;"></div>
+                    <div id="requestStatus" style="width: auto; height:40px; margin-bottom: 7px; margin-top: -15px; color:#000000; font-size: 12pt; text-align: center; padding-top: 10px; display: none;"></div>
                     <form class="form-horizontal" >
                         <fieldset>
                             <!--div class="form-horizontal" id="fieldset"-->
@@ -111,14 +117,30 @@
                                     </div>
                                 </div>
 
-                                 
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Event End Date</label>
                                     <div class="col-md-4">
                                         <input class="form-control" name="endDate" id="endDate" type="date" required/>
                                     </div>
                                 </div>   
-                               
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="start-time">Start Time:</label>
+                                    <div class="col-md-4">
+                                        <input class="form-control" type="time" id="startTime" name="startTime" min="09:00" max="18:00" required />
+                                    </div><span class="validity"></span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="end-time">End Time:</label>
+                                    <div class="col-md-4">
+                                        <input class="form-control" type="time" id="endTime" name="endTime"
+                                        min="09:00" max="18:00" required />
+                                    </div>
+                                    <span class="validity"></span>
+                                    <span class="col-md-4 hours">Library hours: 9AM to 6PM</span>
+                                </div>
+
                                 <div class="form-group">
                                 <label class="col-md-4 control-label">Type of Event</label>
                                     <div class="col-md-4">
@@ -167,10 +189,8 @@
                                         Total word Count : <span id="specReq_display_count">0</span> words(Maximum words allowed: 250).
                                     </div>
                                 </div>
-
                             </div>
 
-                            
                             <h3>Requester Contact Information:</h3>
                             <div class="form-horizontal" style="border: 1px solid #e0e0e0; padding: 15px; margin-top: 20px;"> 
                                 <div class="form-group">
@@ -222,56 +242,35 @@
 <script type="text/javascript">
    
    $("#eventDesc").on('keyup', function(e) {
-    var words = $.trim(this.value).length ? this.value.match(/\S+/g).length : 0;
-    if (words <= 250) {
-        $('#display_count').text(words);
-        //$('#word_left').text(200-words)
-    }else{
-        if (e.which !== 8) e.preventDefault();
-    }
+        var words = $.trim(this.value).length ? this.value.match(/\S+/g).length : 0;
+        if (words <= 250) {
+            $('#display_count').text(words);
+            //$('#word_left').text(200-words)
+        }else{
+            if (e.which !== 8) e.preventDefault();
+        }
     });
 
     $("#describe").on('keyup', function(e) {
-    var words = $.trim(this.value).length ? this.value.match(/\S+/g).length : 0;
-    if (words <= 250) {
-        $('#describe_display_count').text(words);
-        //$('#word_left').text(200-words)
-    }else{
-        if (e.which !== 8) e.preventDefault();
-    }
+        var words = $.trim(this.value).length ? this.value.match(/\S+/g).length : 0;
+        if (words <= 250) {
+            $('#describe_display_count').text(words);
+            //$('#word_left').text(200-words)
+        }else{
+            if (e.which !== 8) e.preventDefault();
+        }
     });
 
     $("#specReq").on('keyup', function(e) {
-    var words = $.trim(this.value).length ? this.value.match(/\S+/g).length : 0;
-    if (words <= 250) {
-        $('#specReq_display_count').text(words);
-        //$('#word_left').text(200-words)
-    }else{
-        if (e.which !== 8) e.preventDefault();
-    }
-    });
-
-    $("#endDate").change(function () {
-    var startDate = document.getElementById("startDate").value;
-    var endDate = document.getElementById("endDate").value;
-
-    if ((Date.parse(startDate) > Date.parse(endDate))) {
-        alert("The event should end on same or later day.");
-        document.getElementById("endDate").value = "";
+        var words = $.trim(this.value).length ? this.value.match(/\S+/g).length : 0;
+        if (words <= 250) {
+            $('#specReq_display_count').text(words);
+            //$('#word_left').text(200-words)
+        }else{
+            if (e.which !== 8) e.preventDefault();
         }
     });
-
-    $('input#reqName').keydown(function (e) {
-        if ((e.which == 9) && ($(this).val().length == 0)) {
-            $(this).css('border', '1px solid red');
-        } else {
-            $(this).css('border', '1px solid #ccc');
-        }
-    });
-    $('input#reqEmail').keydown(function (e) {
-        $(this).css('border', '1px solid #ccc');
-    });
-
+    
     $("#startDate").change(function () {
         var today = new Date();
         today.setHours(0,0,0,0);
@@ -287,19 +286,54 @@
         }
     });
 
+    $("#endDate").change(function () {
+        var startDate = document.getElementById("startDate").value;
+        var endDate = document.getElementById("endDate").value;
+        if ((Date.parse(startDate) > Date.parse(endDate))) {
+            alert("The event should end on same or later day.");
+            document.getElementById("endDate").value = "";
+        }
+    });
+
+    $('input#reqName').keydown(function (e) {
+        if ((e.which == 9) && ($(this).val().length == 0)) {
+            $(this).css('border', '1px solid red');
+        } else {
+            $(this).css('border', '1px solid #ccc');
+        }
+        if ((Date.parse(startDate) <= Date.parse(endDate))) {
+            if(startTime >= endTime){
+                alert("The end time is invalid.");
+                document.getElementById("endTime").value = "";
+              
+            }
+        }
+    });
+
+    $('input#reqEmail').keydown(function (e) {
+        $(this).css('border', '1px solid #ccc');
+    });
+
+    
+
    $("form").submit(function(e) {  
+
         var eventId = $('select#eventsSelection').attr('value');
         var selectedRoom = $('select#availableRooms').attr('value');
         var eventName = $('input#eventName').val();
         var eventDesc = $('textarea#eventDesc').val();
         var startDate= $('input#startDate').val();
         var endDate= $('input#endDate').val();
+        var startTime = document.getElementById("startTime").value;//time attribute only works with this format
+        var endTime = document.getElementById("endTime").value;//time attribute only works with this format
         var noOfPeople= $('input#noOfPeople').val();
         var describe= $('textarea#describe').val();
         var specReq= $('textarea#specReq').val();
         var reqName= $('input#reqName').val();
         var emailId= $('input#emailId').val();
         $('fieldset').css('opacity','0.1');
+
+        
 
 	/* $.post('<//?php echo base_url().'lpoc/email_user'?>',{
 				'emailId':emailId
@@ -313,6 +347,8 @@
                 'eventDesc':eventDesc,
                 'startDate':startDate,
                 'endDate':endDate,
+                'startTime' : startTime,
+                'endTime':endTime,
                 'eventId' : eventId,
                 'selectedRoom': selectedRoom,
                 'noOfPeople':noOfPeople,

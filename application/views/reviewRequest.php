@@ -51,12 +51,14 @@
     $eventDesc = $requestinfo[3];
     $eventStartDate =$requestinfo[4];
     $eventEndDate = $requestinfo[5];
-    $eventType = $requestinfo[6];
-    $roomId = $requestinfo[7];
-    $numOfPeople = $requestinfo[8];
-    $eventDescLib = $requestinfo[9];
-    $eventReq = $requestinfo[10];
-    $status = $requestinfo[11];
+    $startTime =$requestinfo[6];
+    $endTime = $requestinfo[7];
+    $eventType = $requestinfo[8];
+    $roomId = $requestinfo[9];
+    $numOfPeople = $requestinfo[10];
+    $eventDescLib = $requestinfo[11];
+    $eventReq = $requestinfo[12];
+    $status = $requestinfo[13];
 
     //room info
     $roomName = $roominfo[1];
@@ -179,12 +181,15 @@
                     if ($('textarea#instructions').val()== 0){
                         $('textarea#instructions').css('border','1px solid red');
                     }else {
-                        var startdate = $('input#startdatepicker').val();
-                        var enddate = $('input#endpicker').val();
+                        
                         var requesterName = $('input#requesterName').val();
                         var requesterEmail = $('input#requesterEmail').val();
                         var eventName = $('input#eventName').val();
                 		var eventDesc = $('textarea#eventDesc').val();
+                        var startdate = $('input#startdatepicker').val();
+                        var enddate = $('input#endpicker').val();
+                        var startTime = document.getElementById("startTime").value;//time attribute only works with this format
+                        var endTime = document.getElementById("endTime").value;//time attribute only works with this format
                 		var eventType = $('input#eventType').val();
                         var roomId = $('input#roomId').val();
                         var numOfPeople = $('input#numOfPeople').val();
@@ -193,12 +198,14 @@
                         var instructions = $('textarea#instructions').val();
                         console.log(instructions);
                         $.post("<?php echo base_url("?c=lpoc&m=disapproveRequest&requestID=" . $requestID);?>", {
-                          eventStartDate: startdate,
-                          eventEndDate: enddate,
                           requesterName:requesterName,
                           requesterEmail:requesterEmail,
                           eventName:eventName,
                           eventDesc: eventDesc,
+                          eventStartDate: startdate,
+                          eventEndDate: enddate,
+                          startTime:startTime,
+                          endTime:endTime,
                 		  eventDescLib: eventDescLib,
                   		  eventType: eventType,
                           roomId: roomId,
@@ -237,12 +244,14 @@
                   } else if ($('input#requesterEmail').val() == "") {
                       $('input#requesterEmail').css('border', '1px solid red');
                   } else {
-                      var startdate = $('input#startdatepicker').val();
-                        var enddate = $('input#endpicker').val();
                         var requesterName = $('input#requesterName').val();
                         var requesterEmail = selectEmail;
                         var eventName = $('input#eventName').val();
                 		var eventDesc = $('textarea#eventDesc').val();
+                        var startdate = $('input#startdatepicker').val();
+                        var enddate = $('input#endpicker').val();
+                        var startTime = document.getElementById("startTime").value;//time attribute only works with this format
+                        var endTime = document.getElementById("endTime").value;//time attribute only works with this format
                 		var eventType = $('input#eventType').val();
                         var roomId = $('input#roomId').val();
                         //var citystate = $('input#citystate').val();
@@ -251,12 +260,14 @@
                         var eventReq = $('textarea#eventReq').val();
                         var instructions = $('textarea#instructions').val();                    
                       $.post("<?php echo base_url("?c=lpoc&m=approveRequest&requestID=" . $requestID);?>", {
-                          eventStartDate: startdate,
-                          eventEndDate: enddate,
                           requesterName:requesterName,
                           requesterEmail:requesterEmail,
                           eventName:eventName,
                           eventDesc: eventDesc,
+                          eventStartDate: startdate,
+                          eventEndDate: enddate,
+                          startTime:startTime,
+                          endTime:endTime,
                 		  eventDescLib: eventDescLib,
                   		  eventType: eventType,
                           roomId: roomId,
@@ -395,12 +406,14 @@
                 </div></br>
                 <div class="accordion" id="2"><h4 id="2">Section 1: Event Information:</h4><span class="click">Click to Open/Close</span></div>
                 <div class="formcontents" id="2-contents" aria-readonly="true">
-                    <label class="label">Start Date:</label><br/><input type="text" id="startdatepicker" class="textinput"  value = "<?php echo $eventStartDate; ?>" style="width: 100px;"readonly/>
-                    <label class="label">End Date:</label><br/><input type="text" id="enddatepicker" class="textinput"  value = "<?php echo $eventEndDate; ?>" style="width: 100px;"readonly/>
                     <label class="label">Requester&#39;s Name:</label><br/><input type="text" id="requesterName" name="requesterName" class="textinput" value = "<?php echo $requesterName; ?>"readonly/>
                     <label class="label">Requester&#39;s Email:</label><br/><input type="text" id="requesterEmail" name="requesterEmail" class="textinput"  value = "<?php echo $requesterEmail; ?>" readonly/>
                     <label class="label">Event Name:</label><br/><input type="text" id="eventName" class="textinput" value = "<?php echo $eventName; ?>" readonly />
           			<label class="label">Event Description:</label><br/><textarea id="eventDesc" class="readonlytext" readonly><?php echo $eventDesc; ?></textarea>
+                    <label class="label">Start Date:</label><br/><input type="text" id="startdatepicker" class="textinput"  value = "<?php echo $eventStartDate; ?>" style="width: 100px;"readonly/>
+                    <label class="label">End Date:</label><br/><input type="text" id="enddatepicker" class="textinput"  value = "<?php echo $eventEndDate; ?>" style="width: 100px;"readonly/>
+                    <label class="label">Start Time:</label><br/><input type="time" id="startTime" class="textinput"  value = "<?php echo $startTime; ?>" style="width: 100px;"readonly/>
+                    <label class="label">End Time:</label><br/><input type="time" id="endTime" class="textinput"  value = "<?php echo $endTime; ?>" style="width: 100px;"readonly/>
                     <label class="label">Event Type:</label><br/><input type="text" id="eventType" class="textinput" value = "<?php echo $eventType; ?>" readonly/>
                     <label class="label">Room Id:</label><br/><input type="text" id="roomId" class="textinput" value = "<?php echo $roomId; ?>" readonly/>
                     <label class="label">Room Name:</label><br/><input type="text" id="roomName" class="textinput" value = "<?php echo $roomName; ?>" readonly/>
@@ -481,9 +494,7 @@
             }else if (div == 'requests'){
                 $('div#formcontents').toggle();
             }else if(div=='4'){
-
                 $('div#copies_sent').toggle();
-
             }
 
         });
