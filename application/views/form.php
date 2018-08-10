@@ -118,23 +118,23 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <label class="col-md-4 control-label" for="start-time">Start Time:</label>
+                                    <div class="col-md-4">
+                                        <input class="form-control" type="time" id="startTime" name="startTime" min="09:00" max="18:00" onchange="validateHhMm(this);" required />
+                                    </div><span class="validity"></span>
+                                </div>
+
+                                <div class="form-group">
                                     <label class="col-md-4 control-label">Event End Date</label>
                                     <div class="col-md-4">
                                         <input class="form-control" name="endDate" id="endDate" type="date" required/>
                                     </div>
                                 </div>   
-
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label" for="start-time">Start Time:</label>
-                                    <div class="col-md-4">
-                                        <input class="form-control" type="time" id="startTime" name="startTime" min="09:00" max="18:00" required />
-                                    </div><span class="validity"></span>
-                                </div>
                                 
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="end-time">End Time:</label>
                                     <div class="col-md-4">
-                                        <input class="form-control" type="time" id="endTime" name="endTime"
+                                        <input class="form-control" type="time" id="endTime" onchange="validateHhMm(this);" name="endTime"
                                         min="09:00" max="18:00" required />
                                     </div>
                                     <span class="validity"></span>
@@ -240,6 +240,17 @@
 
 </div>
 <script type="text/javascript">
+    function validateHhMm(inputField) {
+        var isValid = /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/.test(inputField.value);
+
+        if (isValid) {
+            inputField.style.backgroundColor = '#bfa';
+        } else {
+            inputField.style.backgroundColor = '#fba';
+        }
+
+        return isValid;
+    }
    
    $("#eventDesc").on('keyup', function(e) {
         var words = $.trim(this.value).length ? this.value.match(/\S+/g).length : 0;
