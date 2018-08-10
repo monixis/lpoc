@@ -45,7 +45,7 @@
         <option value="Returned" class="selectinput">Returned</option>
         <option value="Approved" class="selectinput">Approved</option>
         <option value="Completed" class="selectinput">Completed</option>
-        <option value="approvedtobecompleted" class="selectinput">Create Event Completiotn report</option>
+        <!--option value="approvedtobecompleted" class="selectinput">Create Event Completiotn report</option-->
     </select></br></br>
 
 
@@ -130,7 +130,7 @@
             var url = "<?php echo base_url("?c=lpoc&m=eventRequests&status=4")?>";
             $("#the-content").load(url);
         }
-        else if($(this).val() == "approvedtobecompleted"){
+        /*else if($(this).val() == "approvedtobecompleted"){
             document.getElementById('step1').className= "col-xs-3 bs-wizard-stepp complete";
             document.getElementById('step2').className= "col-xs-3 bs-wizard-stepp complete";
             document.getElementById('step3').className= "col-xs-3 bs-wizard-stepp complete";
@@ -138,7 +138,7 @@
             var url = "<?php echo base_url("?c=lpoc&m=approvedToBeCompleted&status=3")?>";
             $("#the-content").load(url);
 
-        }
+        }*/
         else if($(this).val() == "All"){
             document.getElementById('step1').className= "col-xs-3 bs-wizard-step disabled";
             document.getElementById('step2').className= "col-xs-3 bs-wizard-step disabled";
