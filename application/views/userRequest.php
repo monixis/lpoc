@@ -212,20 +212,20 @@
                     <label class="label">Requester&#39;s Name:</label><br/><input type="text" id="requesterName" class="textinput" value = "<?php echo $requesterName; ?>"readonly/>
                     <label class="label">Requester&#39;s Email:</label><br/><input type="text" id="requesterEmail" class="textinput"  value = "<?php echo $requesterEmail; ?>" readonly/>
                     <label class="label">Event Name:</label><br/><input type="text" id="eventName" class="textinput" value = "<?php echo $eventName; ?>" readonly />
-					  <label class="label">Event Description:</label><br/><textarea id="eventDesc" class="readonlytext" readonly><?php echo $eventDesc; ?></textarea>
+					  <label class="label">Event Description:</label><br/><textarea id="eventDesc" class="readonlytext" style="height: 150px; overflow: auto; width: 400px;" readonly><?php echo $eventDesc; ?></textarea>
 					  <label class="label">Start Date:</label><br/><input type="text" id="startdatepicker" class="textinput"  value = "<?php echo $eventStartDate; ?>" style="width: 100px;"readonly/>
 					<label class="label">End Date:</label><br/><input type="text" id="enddatepicker" class="textinput"  value = "<?php echo $eventEndDate; ?>" style="width: 100px;"readonly/>
 					<label class="label">Start Time:</label><br/><input type="time" id="startTime" class="textinput"  value = "<?php echo $startTime; ?>" style="width: 100px;"readonly/>
                     <label class="label">End Time:</label><br/><input type="time" id="endTime" class="textinput"  value = "<?php echo $endTime; ?>" style="width: 100px;"readonly/>
-                    <label class="label">Event Type:</label><br/><input type="text" id="eventType" class="textinput" value = "<?php echo $eventType; ?>" readonly/>
-                    <label class="label">Room Id:</label><br/><input type="text" id="roomId" class="textinput" value = "<?php echo $roomId; ?>" readonly/>
+                    <!--label class="label">Event Type:</label><br/--><input type="hidden" id="eventType" class="textinput" value = "<?php echo $eventType; ?>" readonly/>
+                    <!--label class="label">Room Id:</label><br/--><input type="hidden" id="roomId" class="textinput" value = "<?php echo $roomId; ?>" readonly/>
                     <label class="label">Room Name:</label><br/><input type="text" id="roomName" class="textinput" value = "<?php echo $roomName; ?>" readonly/>
                     <label class="label">Location:</label><br /><input type="text" id="roomLocation" class="textinput" value = "<?php echo $roomLocation; ?> Floor" readonly/>
                     <label class="label">Location Description: </label></br><input type="text" id="locDesc" class="textinput" value = "<?php echo $locDesc; ?>" readonly/>
                     <label class="label">Capacity: </label><input type="text" id="roomCapacity" class="textinput" value = "<?php echo $roomCapacity; ?>" readonly/>
                     <label class="label">Number of people:</label><br/><input type="text" id="numOfPeople" class="textinput" value = "<?php echo $numOfPeople; ?>" />
-          			<label class="label">How the event relates to library:</label><br/><textarea id="eventDescLib" class="readonlytext" readonly><?php echo $eventDescLib; ?></textarea>
-          			<label class="label">Special Event Requirements:</label><br/><textarea id="eventReq" class="readonlytext" readonly><?php echo $eventReq; ?></textarea>
+          			<label class="label">How the event relates to library:</label><br/><textarea id="eventDescLib" class="readonlytext" style="height: 150px; overflow: auto; width: 400px;" readonly><?php echo $eventDescLib; ?></textarea>
+          			<label class="label">Special Event Requirements:</label><br/><textarea id="eventReq" class="readonlytext" style="height: 150px; overflow: auto; width: 400px;" readonly><?php echo $eventReq; ?></textarea>
                     </br></br>
 				<?php } else { ?>
 					
@@ -237,8 +237,8 @@
 					<label class="label">End Date:</label><br/><input type="text" id="enddatepicker" class="textinput"  value = "<?php echo $eventEndDate; ?>" style="width: 100px;"required/>
 					<label class="label">Start Time:</label><br/><input type="time" id="startTime" class="textinput"  value = "<?php echo $startTime; ?>" style="width: 100px;"required/>
                     <label class="label">End Time:</label><br/><input type="time" id="endTime" class="textinput"  value = "<?php echo $endTime; ?>" style="width: 100px;"required/>
-					  <label class="label">Event Type:</label><br/><input type="text" id="eventType" class="textinput" value = "<?php echo $eventType; ?>" readonly/>
-                    <label class="label">Room Id:</label><br/><input type="text" id="roomId" class="textinput" value = "<?php echo $roomId; ?>" readonly/>
+					  <!--label class="label">Event Type:</label><br/--><input type="hidden" id="eventType" class="textinput" value = "<?php echo $eventType; ?>" readonly/>
+                    <!--label class="label">Room Id:</label><br/--><input type="hidden" id="roomId" class="textinput" value = "<?php echo $roomId; ?>" readonly/>
                     <label class="label">Room Name:</label><br/><input type="text" id="roomName" class="textinput" value = "<?php echo $roomName; ?>" readonly/>
                     <label class="label">Location:</label><br /><input type="text" id="roomLocation" class="textinput" value = "<?php echo $roomLocation; ?> Floor" readonly/>
                     <label class="label">Location Description: </label></br><input type="text" id="locDesc" class="textinput" value = "<?php echo $locDesc; ?>" readonly/>
