@@ -80,13 +80,15 @@
     ?>
     <script type="text/javascript">
         $(document).ready(function(){
+            $('#startdatepicker').datepicker();
+            $('#enddatepicker').datepicker();
             //status 1- submitted
             if(<?php echo $status ?> ==1){
                 document.getElementById('step1').className='warning';
                 document.getElementById('step2').className='';
                 document.getElementById('step3').className='';
                 document.getElementById('step4').className='';
-                if($eventEndDate < date('Y-m-d')){
+                if(<?php echo $eventEndDate ?> < Date('Y-m-d')){
                     document.getElementById("instructions").style.display="none";
                     document.getElementById("approve").style.display = "none";
                     document.getElementById("disapprove").style.display = "none";
@@ -124,8 +126,7 @@
             /* validation ends */
             $('#formcontents').hide();
             var inst = 0;
-            $('#startdatepicker').datepicker();
-            $('#enddatepicker').datepicker();
+            
             $('button#disapprove').click(function(){
                 if ($('input#requesterName').val() == ""){
                     $('input#requesterName').css('border','1px solid red');
@@ -140,7 +141,7 @@
                         var eventName = $('input#eventName').val();
                 		var eventDesc = $('textarea#eventDesc').val();
                         var startdate = $('input#startdatepicker').val();
-                        var enddate = $('input#endpicker').val();
+                        var enddate = $('input#enddatepicker').val();
                         var startTime = document.getElementById("startTime").value;//time attribute only works with this format
                         var endTime = document.getElementById("endTime").value;//time attribute only works with this format
                 		var eventType = $('input#eventType').val();
@@ -182,9 +183,10 @@
             });
 
             $('button#approve').click(function(){
+            //$("form").submit(function(e) 
                 var email = $('input#requesterEmail').val();
                 var selectEmail = prompt("Please select recipient emailId",email);
-              if(selectEmail != null) {
+                if(selectEmail != null) {
                   if ($('input#requesterName').val() == "") {
                       $('input#requesterName').css('border', '1px solid red');
                   } else if ($('input#requesterEmail').val() == "") {
@@ -195,7 +197,7 @@
                         var eventName = $('input#eventName').val();
                 		var eventDesc = $('textarea#eventDesc').val();
                         var startdate = $('input#startdatepicker').val();
-                        var enddate = $('input#endpicker').val();
+                        var enddate = $('input#enddatepicker').val();
                         var startTime = document.getElementById("startTime").value;//time attribute only works with this format
                         var endTime = document.getElementById("endTime").value;//time attribute only works with this format
                 		var eventType = $('input#eventType').val();
@@ -311,22 +313,22 @@
                 <div class="accordion" id="2"><h4 id="2">Section 1: Event Information:</h4><span class="click">Click to Open/Close</span></div>
                 <div class="formcontents" id="2-contents" aria-readonly="true">
                     <label class="label">Requester&#39;s Name:</label><br/><input type="text" id="requesterName" name="requesterName" class="textinput" value = "<?php echo $requesterName; ?>"readonly/>
-                    <label class="label">Requester&#39;s Email:</label><br/><input type="text" id="requesterEmail" name="requesterEmail" class="textinput"  value = "<?php echo $requesterEmail; ?>" readonly/>
+                    <label class="label">Requester&#39;s Email:</label><br/><input type="email" id="requesterEmail" name="requesterEmail" class="textinput"  value = "<?php echo $requesterEmail; ?>" readonly/>
                     <label class="label">Event Name:</label><br/><input type="text" id="eventName" class="textinput" value = "<?php echo $eventName; ?>" readonly />
-          			<label class="label">Event Description:</label><br/><textarea id="eventDesc" class="readonlytext" readonly><?php echo $eventDesc; ?></textarea>
+          			<label class="label">Event Description:</label><br/><textarea id="eventDesc" class="readonlytext" style="height: 150px; overflow: auto; width: 400px;" readonly><?php echo $eventDesc; ?></textarea>
                     <label class="label">Start Date:</label><br/><input type="text" id="startdatepicker" class="textinput"  value = "<?php echo $eventStartDate; ?>" style="width: 100px;"readonly/>
                     <label class="label">End Date:</label><br/><input type="text" id="enddatepicker" class="textinput"  value = "<?php echo $eventEndDate; ?>" style="width: 100px;"readonly/>
                     <label class="label">Start Time:</label><br/><input type="time" id="startTime" class="textinput"  value = "<?php echo $startTime; ?>" style="width: 100px;"readonly/>
                     <label class="label">End Time:</label><br/><input type="time" id="endTime" class="textinput"  value = "<?php echo $endTime; ?>" style="width: 100px;"readonly/>
-                    <label class="label">Event Type:</label><br/><input type="text" id="eventType" class="textinput" value = "<?php echo $eventType; ?>" readonly/>
-                    <label class="label">Room Id:</label><br/><input type="text" id="roomId" class="textinput" value = "<?php echo $roomId; ?>" readonly/>
+                    <!--label class="label">Event Type:</label><br/--><input type="hidden" id="eventType" class="textinput" value = "<?php echo $eventType; ?>" readonly/>
+                    <!--label class="label">Room Id:</label><br/--><input type="hidden" id="roomId" class="textinput" value = "<?php echo $roomId; ?>" readonly/>
                     <label class="label">Room Name:</label><br/><input type="text" id="roomName" class="textinput" value = "<?php echo $roomName; ?>" readonly/>
                     <label class="label">Location:</label><br /><input type="text" id="roomLocation" class="textinput" value = "<?php echo $roomLocation; ?> Floor" readonly/>
                     <label class="label">Location Description: </label></br><input type="text" id="locDesc" class="textinput" value = "<?php echo $locDesc; ?>" readonly/>
                     <label class="label">Capacity: </label><input type="text" id="roomCapacity" class="textinput" value = "<?php echo $roomCapacity; ?>" readonly/>
                     <label class="label">Number of people:</label><br/><input type="text" id="numOfPeople" class="textinput" value = "<?php echo $numOfPeople; ?>" />
-          			<label class="label">How the event relates to library:</label><br/><textarea id="eventDescLib" class="readonlytext" readonly><?php echo $eventDescLib; ?></textarea>
-          			<label class="label">Special Event Requirements:</label><br/><textarea id="eventReq" class="readonlytext" readonly><?php echo $eventReq; ?></textarea>
+          			<label class="label">How the event relates to library:</label><br/><textarea id="eventDescLib" class="readonlytext" style="height: 150px; overflow: auto; width: 400px;" readonly><?php echo $eventDescLib; ?></textarea>
+          			<label class="label">Special Event Requirements:</label><br/><textarea id="eventReq" class="readonlytext" style="height: 150px; overflow: auto; width: 400px;" readonly><?php echo $eventReq; ?></textarea>
                     </br></br>
                 </div>  
                 <?php
@@ -368,9 +370,6 @@
                 if(($status == 3) && ($eventEndDate < date('Y-m-d'))){ ?>
                 <div id="completeTransaction" name="completeTransaction" style="display:block">
                 <?php echo form_open_multipart('lpoc/do_upload');?>
-                    <input type="file" name="userfile" size="20" />
-                    <br /><br />
-                    <button class="btn" type="submit" id="upload">Upload Images</button>
                 </form><br /><br />
                     <label class="label">Message:</label><br/>
                     <textarea id="message" name='message' rows="8" cols="75" style="display: block; margin-bottom: 10px;" ></textarea>
