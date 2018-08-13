@@ -379,7 +379,7 @@
                 <?php echo form_open_multipart('lpoc/do_upload');?>
                 </form><br /><br />
                     <label class="label">Click the link below to add event completion report</label><br/><br />
-                    <a href="https://docs.google.com/forms/d/1a4IxafZpq7mXk-kgvw0P1Vj0YASswBNwbb_vioKdRDI/edit?usp=sharing" target="_blank" role="button"><button class="btn" type="button" id="complete">Event Completion report</button></a>
+                    <a href="https://goo.gl/forms/ockpp3uGjfzZC5O33" target="_blank" role="button"><button class="btn" type="button" id="complete">Event Completion report</button></a>
                     <br /><br />
                     <label class="label">Message:</label><br/>
                     <textarea id="message" name='message' rows="8" cols="75" style="display: block; margin-bottom: 10px;" ></textarea>
@@ -387,6 +387,10 @@
                     
                 </div>
 
+            <? } else if($status == 4) { ?>
+                <label class="label">Click the link below see event completion report</label><br/><br />
+                <a href="https://docs.google.com/forms/d/1a4IxafZpq7mXk-kgvw0P1Vj0YASswBNwbb_vioKdRDI/edit#responses" target="_blank" role="button"><button class="btn" type="button" id="complete">Event Completion report</button></a>
+                <br /><br />
             <? } ?>
             </div>
         </div> <!-- content -->
