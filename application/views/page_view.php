@@ -22,6 +22,8 @@
                     Returned
                 <?php } else if($row->status == 3){ ?>
                     Approved
+                <?php } else if($row->status == 4){ ?>
+                    Completed
                 <?php } ?>
             </td>
             <td><?php echo $row->updatedate; ?></td>
