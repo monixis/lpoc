@@ -98,14 +98,14 @@
                                 <div id='author' name="author" class="form-group">
                                     <label class="col-md-4 control-label" for="textinput">Event Name</label>
                                     <div class="col-md-4">
-                                        <input id="eventName" name="eventName" type="text" placeholder="" class="form-control input-md" required>
+                                        <input id="eventName" name="eventName" type="text" placeholder="" class="form-control input-md" required pattern=".*\S+.*">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="textarea">Event Description</label>
                                     <div class="col-md-4">
-                                        <textarea class="form-control" name="eventDesc" id="eventDesc" style="height: 150px; overflow: auto; width: 400px;" required></textarea>
+                                        <textarea class="form-control" name="eventDesc" id="eventDesc" style="height: 150px; overflow: auto; width: 400px;" required pattern=".*\S+.*"></textarea>
                                             Total word Count : <span id="display_count">0</span> words(Maximum words allowed: 250).
                                     </div>
                                 </div>
@@ -120,7 +120,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="start-time">Start Time:</label>
                                     <div class="col-md-4">
-                                        <input class="form-control" type="time" id="startTime" name="startTime" min="09:00" max="18:00" onchange="validateHhMm(this);" required />
+                                        <input class="form-control" type="time" id="startTime" name="startTime" min="09:00" max="18:00" onchange="startvalidateHhMm(this);" required />
                                     </div><span class="validity"></span>
                                 </div>
 
@@ -134,7 +134,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="end-time">End Time:</label>
                                     <div class="col-md-4">
-                                        <input class="form-control" type="time" id="endTime" onchange="validateHhMm(this);" name="endTime"
+                                        <input class="form-control" type="time" id="endTime" onchange="endvalidateHhMm(this);" name="endTime"
                                         min="09:00" max="18:00" required />
                                     </div>
                                     <span class="validity"></span>
@@ -170,14 +170,14 @@
                                  <div class="form-group">
                                     <label class="col-md-4 control-label"># of people</label>
                                     <div class="col-md-4">
-                                    <input class="form-control" type="number" name="noOfPeople" id="noOfPeople" required/>
+                                    <input class="form-control" type="number" name="noOfPeople" id="noOfPeople" required min="2"/>
                                     </div>
                                 </div>
                                 
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="textarea">Describe the event/how it relates to library</label>
                                     <div class="col-md-4">
-                                        <textarea class="form-control" name="describe" id="describe" style="height: 150px; overflow: auto; width: 400px;" required></textarea>
+                                        <textarea class="form-control" name="describe" id="describe" style="height: 150px; overflow: auto; width: 400px;" required pattern=".*\S+.*"></textarea>
                                         Total word Count : <span id="describe_display_count">0</span> words(Maximum words allowed: 250).
                                     </div>
                                 </div>
@@ -185,7 +185,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="textarea">Special Meeting/Event Requirements</label>
                                     <div class="col-md-4">
-                                        <textarea class="form-control" name="specReq" id="specReq" style="height: 150px; overflow: auto; width: 400px;" required></textarea>
+                                        <textarea class="form-control" name="specReq" id="specReq" style="height: 150px; overflow: auto; width: 400px;" required pattern=".*\S+.*"></textarea>
                                         Total word Count : <span id="specReq_display_count">0</span> words(Maximum words allowed: 250).
                                     </div>
                                 </div>
@@ -196,7 +196,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Requester Name</label>
                                     <div class="col-md-4">
-                                        <input class="form-control" name="reqName" id="reqName" required/>
+                                        <input class="form-control" name="reqName" id="reqName" required pattern=".*\S+.*"/>
                                         
                                     </div>
                                 </div>
@@ -204,7 +204,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Requester Email</label>
                                     <div class="col-md-4">
-                                        <input class="form-control" aria-describedby="emailHelp" name="emailId" id="emailId" type="email" data-fv-emailaddress-message="The value is not a valid email address"  required/>
+                                        <input class="form-control" aria-describedby="emailHelp" name="emailId" id="emailId" type="email" data-fv-emailaddress-message="The value is not a valid email address"  required pattern=".*\S+.*"/>
                                     </div>
                                 </div>    
 
@@ -240,10 +240,25 @@
 
 </div>
 <script type="text/javascript">
-    function validateHhMm(inputField) {
+    function startvalidateHhMm(inputField) {
         var isValid = /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/.test(inputField.value);
 
         if (isValid) {
+            inputField.style.backgroundColor = '#bfa';
+        } else {
+            inputField.style.backgroundColor = '#fba';
+        }
+
+        return isValid;
+    }
+
+    function endvalidateHhMm(inputField) {
+        var isValid = /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/.test(inputField.value);
+        //if(inputField.value > "09:00")
+        var startTime = document.getElementById("startTime").value;//time attribute only works with this format
+        var endTime = document.getElementById("endTime").value;//time attribute only works with this format
+        
+        if ((isValid) && (inputField.value > "09:00") && (inputField.value < "18:00") && (startTime > endTime)) {
             inputField.style.backgroundColor = '#bfa';
         } else {
             inputField.style.backgroundColor = '#fba';
@@ -312,23 +327,26 @@
         } else {
             $(this).css('border', '1px solid #ccc');
         }
-        if ((Date.parse(startDate) <= Date.parse(endDate))) {
-            if(startTime >= endTime){
-                alert("The end time is invalid.");
-                document.getElementById("endTime").value = "";
-              
-            }
-        }
     });
 
     $('input#reqEmail').keydown(function (e) {
         $(this).css('border', '1px solid #ccc');
     });
 
-    
-
    $("form").submit(function(e) {  
-
+        var startDate= $('input#startDate').val();
+        var endDate= $('input#endDate').val();
+        var startTime = document.getElementById("startTime").value;//time attribute only works with this format
+        var endTime = document.getElementById("endTime").value;//time attribute only works with this format
+        if ((Date.parse(startDate) > Date.parse(endDate))) {
+            alert("The event should end on same or later day.");
+            document.getElementById("endDate").value = "";
+        } else if((startTime > endTime) && (Date.parse(startDate) === Date.parse(endDate))) {
+            alert("The Event end time should be later than start time. Please fill the form again.");
+            document.getElementById("startTime").value = "";
+            document.getElementById("endTime").value = "";
+            $("html, body").animate({scrollTop: 0}, 600);
+        } else {
         var eventId = $('select#eventsSelection').attr('value');
         var selectedRoom = $('select#availableRooms').attr('value');
         var eventName = $('input#eventName').val();
@@ -344,16 +362,13 @@
         var emailId= $('input#emailId').val();
         $('fieldset').css('opacity','0.1');
 
-        
-
 	/* $.post('<//?php echo base_url().'lpoc/email_user'?>',{
 				'emailId':emailId
 			}).done(function(data){
                            alert(data);
 			   window.open('<//?php echo base_url(); ?>',"_self");
                         });      */
-
-       $.post('<?php echo base_url().'lpoc/insertNewRequest'?>',{
+            $.post('<?php echo base_url().'lpoc/insertNewRequest'?>',{
                 'eventName':eventName,
                 'eventDesc':eventDesc,
                 'startDate':startDate,
@@ -369,13 +384,14 @@
                 'emailId' :emailId
                 }).done(function(requestID){
                     if(requestID > 0){
-                      	//alert("this is request ID: " + requestID);
+                        //alert("this is request ID: " + requestID);
                         alert('Your Request id is # '+ requestID +' and awaiting approval. You will be notified once it has been approved')
-			            window.open('<?php echo base_url(); ?>',"_self");                                               
+                        window.open('<?php echo base_url(); ?>',"_self");                                               
                     } else {
                         $('#requestStatus').show().css('background', 'red').append(" Some error occured. Kindly contact system administrator.");
                     }
-                });               
+                });       
+            }       
         });  
    
     $("select#eventsSelection").change(function () {
@@ -432,6 +448,14 @@
                 $('select[name="availableRooms"]').empty();
             }
     }).change();
+
+    /*$("#endTime").change(function () {
+        var startTime = document.getElementById("startTime").value;//time attribute only works with this format
+        var endTime = document.getElementById("endTime").value;//time attribute only works with this format
+        if(startTime > endTime) {
+            alert("End Time should be later than start time");
+        }
+     });*/
 
      $("select#availableRooms").change(function () {
         var roomId = $(this).attr('value');
