@@ -173,6 +173,12 @@
                               document.getElementById('step2').className = 'danger';
                               document.getElementById('step3').className = 'danger';
                               document.getElementById('step4').className = 'danger';
+                              $('#instructions').empty();
+                              $('#instructions').attr('disabled', 'disabled'); 
+                              document.getElementById('disapprove').className = 'btn btn-default';
+                              document.getElementById('approve').className = 'btn btn-default';
+                              $('#disapprove').attr('disabled', 'disabled'); 
+                              $('#approve').attr('disabled', 'disabled'); 
                           } else {
                               $('#requestStatus').show().css('background', '#b31b1b').append("Something wrong with the form. Contact Administrator");
                           }
@@ -311,7 +317,7 @@
                     </div>
                 </div></br>
                 <div class="accordion" id="2"><h4 id="2">Section 1: Event Information:</h4><span class="click">Click to Open/Close</span></div>
-                <div class="formcontents" id="2-contents" aria-readonly="true">
+                <div class="formcontents container" id="2-contents" aria-readonly="true">
                     <label class="label">Requester&#39;s Name:</label><br/><input type="text" id="requesterName" name="requesterName" class="textinput" value = "<?php echo $requesterName; ?>"readonly/>
                     <label class="label">Requester&#39;s Email:</label><br/><input type="email" id="requesterEmail" name="requesterEmail" class="textinput"  value = "<?php echo $requesterEmail; ?>" readonly/>
                     <label class="label">Event Name:</label><br/><input type="text" id="eventName" class="textinput" value = "<?php echo $eventName; ?>" readonly />
@@ -335,9 +341,9 @@
                 <?php
                 if(sizeof($chatList)>0){
                     ?>
-                <div class="accordion" id="1"><h4 align="left" id="1">Conversations</h4><span class="click">Click to Open/Close</span></div>
+                <div class="accordion container" id="1"><h4 align="left" id="1">Conversations</h4><span class="click">Click to Open/Close</span></div>
                 <?php  }?>
-                <div id="1-contents">
+                <div id="1-contents" class="container">
                     <!--table style="border: none; margin-top: -10px; margin-bottom: 10px; padding-left: 15px;"-->
                     <?php foreach ($chatList as $chat){ ?>
                         <!--tr>
@@ -358,7 +364,7 @@
 
                     <?php } ?>
                 </div>
-                <div id ="instructions">
+                <div id ="instructions" class="container">
                     </br><label class="label">Optional Message (This will be part of the email sent to the researcher):</label><br/><textarea id="instructions" name="instructions" rows="8" cols="75" style="display: block; margin-bottom: 10px;" ></textarea>
                 </div>
                 <button class="btn" type="submit" id="approve">Approve</button>
@@ -369,12 +375,16 @@
                 // $endDate = date('Y/m/d',$eventEndDate);
                 
                 if(($status == 3) && ($eventEndDate < date('Y-m-d'))){ ?>
-                <div id="completeTransaction" name="completeTransaction" style="display:block">
+                <div id="completeTransaction" class="container" name="completeTransaction" style="display:block">
                 <?php echo form_open_multipart('lpoc/do_upload');?>
                 </form><br /><br />
+                    <label class="label">Click the link below to add event completion report</label><br/><br />
+                    <a href="https://docs.google.com/forms/d/1a4IxafZpq7mXk-kgvw0P1Vj0YASswBNwbb_vioKdRDI/edit?usp=sharing" target="_blank" role="button"><button class="btn" type="button" id="complete">Event Completion report</button></a>
+                    <br /><br />
                     <label class="label">Message:</label><br/>
                     <textarea id="message" name='message' rows="8" cols="75" style="display: block; margin-bottom: 10px;" ></textarea>
                     <button class="btn" type="button" id="complete">Complete Transaction</button>
+                    
                 </div>
 
             <? } ?>
