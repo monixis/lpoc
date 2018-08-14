@@ -316,10 +316,9 @@
 <div class= "content_container">
     <div class = "container_home_child" >
         <div class="content">
-            <div id="researcherInfo"><h1 class="page_head" align="center" style="float: none;">Library Room Reservation Request Admin Form</h1></br>
-                </br>
+            <div id="researcherInfo"><h1 class="page_head" align="center" style="float: none;">Library Room Reservation Request Admin Form</h1>
                 <div id="requestStatus" style="width: auto; height:40px; margin-bottom: 7px; margin-top: -15px; color:#000000; font-size: 12pt; text-align: center; padding-top: 10px; display: none;">
-                </div></br>
+                </div>
                 <ul class="progress-indicator">
                     <li id="step1" class="">
                         <span class="bubble"></span>

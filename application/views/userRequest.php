@@ -142,14 +142,12 @@
 				> Forms > Reserve Forms
 			</p>
 
-			<div id="researcherInfo"><h1 class="page_head" style="float: none;">Library Room Reservation Request Form</h1>
-
-				<div id="requestStatus" style="width: auto; height:40px; margin-bottom: 7px; margin-top: -15px; color:#000000; font-size: 12pt; text-align: center; padding-top: 10px; display: none;">
-				</div></br>
-				<div id ="progressstatus"></div></br></br>
+			<div id="researcherInfo"><h1 class="page_head" align="center" style="float: none;">Library Room Reservation Request Form</h1>
+				<div id="requestStatus" style="width: auto; margin-bottom: 7px; margin-top: -15px; color:#000000; font-size: 12pt; text-align: center; padding-top: 10px; display: none;">
+				</div>
+				<div id ="progressstatus"></div>
 				<div class="progress"></div>
 				<div class="progress"></div>
-				</br></br>
 				<ul class="progress-indicator">
 				<li id="step1" class="">
 					<span class="bubble"></span>
