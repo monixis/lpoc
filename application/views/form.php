@@ -16,8 +16,13 @@
         src="https://code.jquery.com/jquery-3.2.1.js"
         integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
         crossorigin="anonymous"></script>-->
+    
     <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    
+    <script type="text/javascript" src="http://library.marist.edu/js/libraryMenu.js"></script>
+    <script type="text/javascript" src="http://library.marist.edu/js/jquery-ui.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
     <!-- Bootstrap core CSS -->
     <link href="http://library.marist.edu/css/bootstrap.css" rel="stylesheet">
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
@@ -30,8 +35,7 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <script type="text/javascript" src="http://library.marist.edu/js/libraryMenu.js"></script>
-    <script type="text/javascript" src="http://library.marist.edu/js/jquery-ui.js"></script>
+    
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <style>
         #loader-img{
@@ -120,7 +124,8 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="start-time">Start Time:</label>
                                     <div class="col-md-4">
-                                        <input class="form-control" type="time" id="startTime" name="startTime" min="09:00" max="18:00" onchange="startvalidateHhMm(this);" required />
+                                        <input class="form-control" type="time" id="startTime" name="startTime" min="09:00" max="18:00"  required /> 
+                                        <!--onchange="startvalidateHhMm(this);" -->
                                     </div><span class="validity"></span>
                                 </div>
 
@@ -134,8 +139,9 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="end-time">End Time:</label>
                                     <div class="col-md-4">
-                                        <input class="form-control" type="time" id="endTime" onchange="endvalidateHhMm(this);" name="endTime"
+                                        <input class="form-control" type="time" id="endTime" name="endTime"
                                         min="09:00" max="18:00" required />
+                                        <!--onchange="endvalidateHhMm(this);" -->
                                     </div>
                                     <span class="validity"></span>
                                     <span class="col-md-4 hours">Library hours: 9AM to 6PM</span>
@@ -185,7 +191,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="textarea">Special Meeting/Event Requirements</label>
                                     <div class="col-md-4">
-                                        <textarea class="form-control" name="specReq" id="specReq" style="height: 150px; overflow: auto; width: 400px;" required pattern=".*\S+.*"></textarea>
+                                        <textarea class="form-control" name="specReq" id="specReq" style="height: 150px; overflow: auto; width: 400px;"></textarea>
                                         Total word Count : <span id="specReq_display_count">0</span> words(Maximum words allowed: 250).
                                     </div>
                                 </div>
@@ -213,7 +219,7 @@
                                     <div class="col-md-8">
                                        <h5>I will be held responsible for all requested information as specified above.</h5>
                                        <label class="checkbox-inline"><input name="agree" type="checkbox" value="">I Agree</label><br/><br/>              
-                                       <input type="submit" id="submit_prog" value='Submit' />
+                                       <button type="submit" id="submit_prog" value='Submit'>Submit</button>
                                        <!--input type="button" id="check" value='check' /-->
                                     </div>
                                 </div>
@@ -240,32 +246,32 @@
 
 </div>
 <script type="text/javascript">
-    function startvalidateHhMm(inputField) {
-        var isValid = /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/.test(inputField.value);
+    // function startvalidateHhMm(inputField) {
+    //     var isValid = /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/.test(inputField.value);
 
-        if (isValid) {
-            inputField.style.backgroundColor = '#bfa';
-        } else {
-            inputField.style.backgroundColor = '#fba';
-        }
+    //     if (isValid && (inputField.value > "09:00") && (inputField.value < "18:00")) {
+    //         inputField.style.backgroundColor = '#bfa';
+    //     } else {
+    //         inputField.style.backgroundColor = '#fba';
+    //     }
 
-        return isValid;
-    }
+    //     return isValid;
+    // }
 
-    function endvalidateHhMm(inputField) {
-        var isValid = /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/.test(inputField.value);
-        //if(inputField.value > "09:00")
-        var startTime = document.getElementById("startTime").value;//time attribute only works with this format
-        var endTime = document.getElementById("endTime").value;//time attribute only works with this format
+    // function endvalidateHhMm(inputField) {
+    //     var isValid = /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/.test(inputField.value);
+    //     //if(inputField.value > "09:00")
+    //     var startTime = document.getElementById("startTime").value;//time attribute only works with this format
+    //     var endTime = document.getElementById("endTime").value;//time attribute only works with this format
         
-        if ((isValid) && (inputField.value > "09:00") && (inputField.value < "18:00") && (startTime > endTime)) {
-            inputField.style.backgroundColor = '#bfa';
-        } else {
-            inputField.style.backgroundColor = '#fba';
-        }
+    //     if ((isValid) && (inputField.value > "09:00") && (inputField.value < "18:00") && (startTime > endTime)) {
+    //         inputField.style.backgroundColor = '#bfa';
+    //     } else {
+    //         inputField.style.backgroundColor = '#fba';
+    //     }
 
-        return isValid;
-    }
+    //     return isValid;
+    // }
    
    $("#eventDesc").on('keyup', function(e) {
         var words = $.trim(this.value).length ? this.value.match(/\S+/g).length : 0;
@@ -341,56 +347,55 @@
         if ((Date.parse(startDate) > Date.parse(endDate))) {
             alert("The event should end on same or later day.");
             document.getElementById("endDate").value = "";
+            e.preventDefault();
         } else if((startTime > endTime) && (Date.parse(startDate) === Date.parse(endDate))) {
             alert("The Event end time should be later than start time. Please fill the form again.");
             document.getElementById("startTime").value = "";
             document.getElementById("endTime").value = "";
-            $("html, body").animate({scrollTop: 0}, 600);
+            e.preventDefault();
+            //window.location.href = '<?php echo base_url() ?>';
         } else {
-        var eventId = $('select#eventsSelection').attr('value');
-        var selectedRoom = $('select#availableRooms').attr('value');
-        var eventName = $('input#eventName').val();
-        var eventDesc = $('textarea#eventDesc').val();
-        var startDate= $('input#startDate').val();
-        var endDate= $('input#endDate').val();
-        var startTime = document.getElementById("startTime").value;//time attribute only works with this format
-        var endTime = document.getElementById("endTime").value;//time attribute only works with this format
-        var noOfPeople= $('input#noOfPeople').val();
-        var describe= $('textarea#describe').val();
-        var specReq= $('textarea#specReq').val();
-        var reqName= $('input#reqName').val();
-        var emailId= $('input#emailId').val();
-        $('fieldset').css('opacity','0.1');
-
-	/* $.post('<//?php echo base_url().'lpoc/email_user'?>',{
-				'emailId':emailId
-			}).done(function(data){
-                           alert(data);
-			   window.open('<//?php echo base_url(); ?>',"_self");
-                        });      */
-            $.post('<?php echo base_url().'lpoc/insertNewRequest'?>',{
-                'eventName':eventName,
-                'eventDesc':eventDesc,
-                'startDate':startDate,
-                'endDate':endDate,
-                'startTime' : startTime,
-                'endTime':endTime,
-                'eventId' : eventId,
-                'selectedRoom': selectedRoom,
-                'noOfPeople':noOfPeople,
-                'describe':describe,
-                'specReq':specReq,
-                'reqName' :reqName,
-                'emailId' :emailId
-                }).done(function(requestID){
-                    if(requestID > 0){
-                        //alert("this is request ID: " + requestID);
-                        alert('Your Request id is # '+ requestID +' and awaiting approval. You will be notified once it has been approved')
-                        window.open('<?php echo base_url(); ?>',"_self");                                               
-                    } else {
-                        $('#requestStatus').show().css('background', 'red').append(" Some error occured. Kindly contact system administrator.");
-                    }
-                });       
+            var r = confirm("Do you want to submit the request?");
+            if(r){
+                var eventId = $('select#eventsSelection').attr('value');
+                var selectedRoom = $('select#availableRooms').attr('value');
+                var eventName = $('input#eventName').val();
+                var eventDesc = $('textarea#eventDesc').val();
+                var startDate= $('input#startDate').val();
+                var endDate= $('input#endDate').val();
+                var startTime = document.getElementById("startTime").value;//time attribute only works with this format
+                var endTime = document.getElementById("endTime").value;//time attribute only works with this format
+                var noOfPeople= $('input#noOfPeople').val();
+                var describe= $('textarea#describe').val();
+                var specReq= $('textarea#specReq').val();
+                var reqName= $('input#reqName').val();
+                var emailId= $('input#emailId').val();
+                $('fieldset').css('opacity','0.1');
+                $.post('<?php echo base_url().'lpoc/insertNewRequest'?>',{
+                    'eventName':eventName,
+                    'eventDesc':eventDesc,
+                    'startDate':startDate,
+                    'endDate':endDate,
+                    'startTime' : startTime,
+                    'endTime':endTime,
+                    'eventId' : eventId,
+                    'selectedRoom': selectedRoom,
+                    'noOfPeople':noOfPeople,
+                    'describe':describe,
+                    'specReq':specReq,
+                    'reqName' :reqName,
+                    'emailId' :emailId
+                    }).done(function(requestID){
+                        if(requestID > 0){
+                            //alert("this is request ID: " + requestID);
+                            alert('Your Request id is # '+ requestID +' and awaiting approval. You will be notified once it has been approved')
+                            window.open('<?php echo base_url(); ?>',"_self");                                               
+                        } else {
+                            $('#requestStatus').show().css('background', 'red').append(" Some error occured. Kindly contact system administrator.");
+                        }
+                    });       
+                }
+                e.preventDefault();
             }       
         });  
    

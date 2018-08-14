@@ -51,22 +51,23 @@
 		}
 
 	</style>
-
-	<title>Use Agreement Form</title>
+	<title>Library Room Reservation Request Form</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<link rel="shortcut icon" href="http://library.marist.edu/archives/icon/box.png" />
+	<link rel="apple-touch-icon" href="http://library.marist.edu/images/jac-m.png"/>
+	<link rel="shortcut icon" href="http://library.marist.edu/images/jac.png" />
 	<link rel="stylesheet" type="text/css" href="http://library.marist.edu/css/library.css" />
 	<link rel="stylesheet" type="text/css" href="http://library.marist.edu/css/library_child.css" />
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
 	<script type="text/javascript" src="js/cloneRequests.js"></script>
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-	
-	<link rel="stylesheet" type="text/css" href="http://library.marist.edu/archives/mainpage/mainStyles/style.css" />
-	<link rel="stylesheet" type="text/css" href="http://library.marist.edu/archives/mainpage/mainStyles/main.css" />
+	<script type="text/javascript" src="http://library.marist.edu/js/libraryMenu.js"></script>
+	<link href="http://library.marist.edu/css/menuStyle.css" rel="stylesheet">   
+	<!--link rel="stylesheet" type="text/css" href="http://library.marist.edu/archives/mainpage/mainStyles/style.css" />
+	<link rel="stylesheet" type="text/css" href="http://library.marist.edu/archives/mainpage/mainStyles/main.css" /-->
 	<link rel="stylesheet" type="text/css" href="styles/useagreement.css" />
 	<link rel="stylesheet" type="text/css" href="styles/progress-wizard.min.css" />
-	<script type="text/javascript" src="http://library.marist.edu/archives/mainpage/scripts/archivesChildMenu.js"></script>
+	<!--script type="text/javascript" src="http://library.marist.edu/archives/mainpage/scripts/archivesChildMenu.js"></script-->
 
 	<?php
 		$requestID= $_GET['requestID'];
@@ -141,7 +142,7 @@
 				> Forms > Reserve Forms
 			</p>
 
-			<div id="researcherInfo"><h1 class="page_head" style="float: none;">Use Agreement Form</h1></br>
+			<div id="researcherInfo"><h1 class="page_head" style="float: none;">Library Room Reservation Request Form</h1>
 
 				<div id="requestStatus" style="width: auto; height:40px; margin-bottom: 7px; margin-top: -15px; color:#000000; font-size: 12pt; text-align: center; padding-top: 10px; display: none;">
 				</div></br>
@@ -248,7 +249,7 @@
                     <label class="label">Capacity: </label>
 						<input type="text" id="roomCapacity" class="textinput" value = "<?php echo $roomCapacity; ?>" readonly/>
                     <label class="label">Number of people:</label><br/>
-						<input type="text" id="numOfPeople" class="textinput" value = "<?php echo $numOfPeople; ?>" />
+						<input type="text" id="numOfPeople" class="textinput" min="2" value = "<?php echo $numOfPeople; ?>" />
           			<label class="label">How the event relates to library:</label><br/>
 					  	<textarea id="eventDescLib" class="readonlytext" style="height: 150px; overflow: auto; width: 400px;" readonly><?php echo $eventDescLib; ?></textarea>
           			<label class="label">Special Event Requirements:</label><br/>
@@ -326,7 +327,7 @@
 				document.getElementById('step2').className='';
 				document.getElementById('step3').className='';
 				document.getElementById('step4').className='';
-				document.getElementById("submit").style.display = "none";
+				document.getElementById("changeRequest").style.display = "none";
 			}else if(<?php echo $status ?> ==2){//RETURNED STATE
 				document.getElementById('step1').className='danger';
 				document.getElementById('step2').className='danger';
@@ -337,7 +338,7 @@
 				document.getElementById('step2').className='completed';
 				document.getElementById('step3').className='completed';
 				document.getElementById('step4').className='';
-				document.getElementById("submit").style.display = "none";
+				document.getElementById("changeRequest").style.display = "none";
 			}
 			else if(<?php echo $status ?> ==4){//COMPLETED STATE
 				document.getElementById('step1').className='completed';
@@ -425,70 +426,69 @@
 	/* validation ends */
 	
 	//alert(requestsCnt);	
-	$('#changeRequest').submit(function() {
-		var startDate= $('input#startDate').val();
-        var endDate= $('input#endDate').val();
-        var startTime = document.getElementById("startTime").value;//time attribute only works with this format
-        var endTime = document.getElementById("endTime").value;//time attribute only works with this format
-        if ((Date.parse(startDate) > Date.parse(endDate))) {
-            alert("The event should end on same or later day.");
-            document.getElementById("endDate").value = "";
-        } else if((startTime > endTime) && (Date.parse(startDate) === Date.parse(endDate))) {
-            alert("The Event end time should be later than start time. Please fill the form again.");
-            document.getElementById("startTime").value = "";
-            document.getElementById("endTime").value = "";
-            $("html, body").animate({scrollTop: 0}, 600);
-        } else {
-			var text_max = 250;
-			//add validation here for the whole form
-			var eventName = $('input#eventName').val();
-			var eventDesc = $('textarea#eventDesc').val();
-			var startDate= $('input#startdatepicker').val();
-			var endDate= $('input#enddatepicker').val();
+	$('#changeRequest').submit(function(e) {
+		var r = confirm("Do you want to submit the request?");
+        if(r){
+			var startDate= $('input#startDate').val();
+			var endDate= $('input#endDate').val();
 			var startTime = document.getElementById("startTime").value;//time attribute only works with this format
 			var endTime = document.getElementById("endTime").value;//time attribute only works with this format
-			var numOfPeople= $('input#numOfPeople').val();
-			var describe= $('textarea#eventDescLib').val();
-			var specReq= $('textarea#eventReq').val();
-			var reqName= $('input#requesterName').val();
-			var emailId= $('input#requesterEmail').val();
-			var requestID=$('input#requestID').val();
-			$('fieldset').css('opacity','0.1');
-
-		/* $.post('<//?php echo base_url().'lpoc/email_user'?>',{
-					'emailId':emailId
-				}).done(function(data){
-							alert(data);
-				window.open('<//?php echo base_url(); ?>',"_self");
-							});      */
-
-		$.post('<?php echo base_url().'lpoc/submitRequest'?>',{
-			'eventName':eventName,
-			'eventDesc':eventDesc,
-			'eventStartDate':startDate,
-			'eventEndDate':endDate,
-			'startTime' : startTime,
-			'endTime':endTime,
-			'numOfPeople':numOfPeople,
-			'eventDescLib':describe,
-			'eventReq':specReq,
-			'requesterName' :reqName,
-			'requesterEmail' :emailId,
-			'requestID':requestID
-			}).done(function(requestID){
-				if(requestID > 0){
-					$('#requestStatus').show().css('background', '#66cc00').append("#" + requestID + ":Your request has been received and is awaiting approval by the Library Programming and Outreach Committee.");
-					document.getElementById('step1').className = 'warning';
-					document.getElementById('step2').className='';
-					document.getElementById('step3').className='';
-					document.getElementById('step4').className='';
-					$("html, body").animate({scrollTop: 0}, 600);
-				} else {
-					$('#requestStatus').show().css('background', 'red').append(" Some error occured. Kindly contact system administrator.");
-					$("html, body").animate({scrollTop: 0}, 600);
-				}
-			});  
-		}             
+			if ((Date.parse(startDate) > Date.parse(endDate))) {
+				alert("The event should end on same or later day.");
+				document.getElementById("endDate").value = "";
+				e.preventDefault();
+			} else if((startTime > endTime) && (Date.parse(startDate) === Date.parse(endDate))) {
+				alert("The Event end time should be later than start time. Please fill the form again.");
+				document.getElementById("startTime").value = "";
+				document.getElementById("endTime").value = "";
+				$("html, body").animate({scrollTop: 0}, 600);
+				e.preventDefault();
+			} else {
+				var text_max = 250;
+				//add validation here for the whole form
+				var eventName = $('input#eventName').val();
+				var eventDesc = $('textarea#eventDesc').val();
+				var startDate= $('input#startdatepicker').val();
+				var endDate= $('input#enddatepicker').val();
+				var startTime = document.getElementById("startTime").value;//time attribute only works with this format
+				var endTime = document.getElementById("endTime").value;//time attribute only works with this format
+				var numOfPeople= $('input#numOfPeople').val();
+				var describe= $('textarea#eventDescLib').val();
+				var specReq= $('textarea#eventReq').val();
+				var reqName= $('input#requesterName').val();
+				var emailId= $('input#requesterEmail').val();
+				var requestID=$('input#requestID').val();
+				$('fieldset').css('opacity','0.1');
+				$.post('<?php echo base_url().'lpoc/submitRequest'?>',{
+					'eventName':eventName,
+					'eventDesc':eventDesc,
+					'eventStartDate':startDate,
+					'eventEndDate':endDate,
+					'startTime' : startTime,
+					'endTime':endTime,
+					'numOfPeople':numOfPeople,
+					'eventDescLib':describe,
+					'eventReq':specReq,
+					'requesterName' :reqName,
+					'requesterEmail' :emailId,
+					'requestID':requestID
+				}).done(function(requestID){
+					if(requestID > 0){
+						$('#requestStatus').show().css('background', '#66cc00').append("#" + requestID + ":Your request has been received and is awaiting approval by the Library Programming and Outreach Committee.");
+						document.getElementById('step1').className = 'warning';
+						document.getElementById('step2').className='';
+						document.getElementById('step3').className='';
+						document.getElementById('step4').className='';
+						$('#submit').attr('disabled', 'disabled'); 
+                        document.getElementById("submit").style.display = "none";
+						$("html, body").animate({scrollTop: 0}, 600); 
+					} else {
+						$('#requestStatus').show().css('background', 'red').append(" Some error occured. Kindly contact system administrator.");
+						$("html, body").animate({scrollTop: 0}, 600);   
+					}
+				});  
+			}  
+		} e.preventDefault();           
 	}); //end of submit function
 			
 			

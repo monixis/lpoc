@@ -127,77 +127,88 @@
             $('#formcontents').hide();
             var inst = 0;
             
-            $('button#disapprove').click(function(){
+            $('button#disapprove').click(function(e){
                 if ($('input#requesterName').val() == ""){
                     $('input#requesterName').css('border','1px solid red');
+                    e.preventDefault();
                 }else if ($('input#requesterEmail').val() == ""){
                     $('input#requesterEmail').css('border','1px solid red');
+                    e.preventDefault();
                 }else{
                     if ($('textarea#instructions').val()== 0){
                         $('textarea#instructions').css('border','1px solid red');
+                        e.preventDefault();
                     }else {
-                        var requesterName = $('input#requesterName').val();
-                        var requesterEmail = $('input#requesterEmail').val();
-                        var eventName = $('input#eventName').val();
-                		var eventDesc = $('textarea#eventDesc').val();
-                        var startdate = $('input#startdatepicker').val();
-                        var enddate = $('input#enddatepicker').val();
-                        var startTime = document.getElementById("startTime").value;//time attribute only works with this format
-                        var endTime = document.getElementById("endTime").value;//time attribute only works with this format
-                		var eventType = $('input#eventType').val();
-                        var roomId = $('input#roomId').val();
-                        var numOfPeople = $('input#numOfPeople').val();
-                        var eventDescLib = $('textarea#eventDescLib').val();
-                        var eventReq = $('textarea#eventReq').val();
-                        var instructions = $('textarea#instructions').val();
-                        console.log(instructions);
-                        $.post("<?php echo base_url("?c=lpoc&m=disapproveRequest&requestID=" . $requestID);?>", {
-                          requesterName:requesterName,
-                          requesterEmail:requesterEmail,
-                          eventName:eventName,
-                          eventDesc: eventDesc,
-                          eventStartDate: startdate,
-                          eventEndDate: enddate,
-                          startTime:startTime,
-                          endTime:endTime,
-                		  eventDescLib: eventDescLib,
-                  		  eventType: eventType,
-                          roomId: roomId,
-                          numOfPeople: numOfPeople,
-                          eventReq : eventReq,
-                          instructions:instructions
-                      }).done(function (requestID) {
-                            if (requestID > 0) {
-                                $('#requestStatus').show().css('background', '#66cc00').append("#" + requestID + ":User Agreement Form has been disapproved and an email sent to " + requesterName);
-                              document.getElementById('step1').className = 'danger';
-                              document.getElementById('step2').className = 'danger';
-                              document.getElementById('step3').className = 'danger';
-                              document.getElementById('step4').className = 'danger';
-                              $('#instructions').empty();
-                              $('#instructions').attr('disabled', 'disabled'); 
-                              document.getElementById('disapprove').className = 'btn btn-default';
-                              document.getElementById('approve').className = 'btn btn-default';
-                              $('#disapprove').attr('disabled', 'disabled'); 
-                              $('#approve').attr('disabled', 'disabled'); 
-                          } else {
-                              $('#requestStatus').show().css('background', '#b31b1b').append("Something wrong with the form. Contact Administrator");
-                          }
-                          $("html, body").animate({scrollTop: 0}, 600);
-                      });
+                        var r = confirm("Do you want to return the request?");
+                        if(r){
+                            var requesterName = $('input#requesterName').val();
+                            var requesterEmail = $('input#requesterEmail').val();
+                            var eventName = $('input#eventName').val();
+                            var eventDesc = $('textarea#eventDesc').val();
+                            var startdate = $('input#startdatepicker').val();
+                            var enddate = $('input#enddatepicker').val();
+                            var startTime = document.getElementById("startTime").value;//time attribute only works with this format
+                            var endTime = document.getElementById("endTime").value;//time attribute only works with this format
+                            var eventType = $('input#eventType').val();
+                            var roomId = $('input#roomId').val();
+                            var numOfPeople = $('input#numOfPeople').val();
+                            var eventDescLib = $('textarea#eventDescLib').val();
+                            var eventReq = $('textarea#eventReq').val();
+                            var instructions = $('textarea#instructions').val();
+                            console.log(instructions);
+                            $.post("<?php echo base_url("?c=lpoc&m=disapproveRequest&requestID=" . $requestID);?>", {
+                            requesterName:requesterName,
+                            requesterEmail:requesterEmail,
+                            eventName:eventName,
+                            eventDesc: eventDesc,
+                            eventStartDate: startdate,
+                            eventEndDate: enddate,
+                            startTime:startTime,
+                            endTime:endTime,
+                            eventDescLib: eventDescLib,
+                            eventType: eventType,
+                            roomId: roomId,
+                            numOfPeople: numOfPeople,
+                            eventReq : eventReq,
+                            instructions:instructions
+                        }).done(function (requestID) {
+                                if (requestID > 0) {
+                                    $('#requestStatus').show().css('background', '#66cc00').append("#" + requestID + ":Library room reservation request Form has been returned and an email sent to " + requesterName);
+                                document.getElementById('step1').className = 'danger';
+                                document.getElementById('step2').className = 'danger';
+                                document.getElementById('step3').className = 'danger';
+                                document.getElementById('step4').className = 'danger';
+                                $('#instructions').empty();
+                                $('#instructions').attr('disabled', 'disabled'); 
+                                $('#disapprove').attr('disabled', 'disabled'); 
+                                $('#approve').attr('disabled', 'disabled'); 
+                                document.getElementById("disapprove").style.display = "none";
+                                document.getElementById("approve").style.display = "none";
+                                $('html, body').animate({scrollTop: 0}, 600);
+                            } else {
+                                $('#requestStatus').show().css('background', '#b31b1b').append("Something wrong with the form. Contact Administrator");
+                            }
+                                $("html, body").animate({scrollTop: 0}, 600);
+                            });
+                        } e.preventDefault();
                     }
                 }
             });
 
-            $('button#approve').click(function(){
+            $('button#approve').click(function(e){
             //$("form").submit(function(e) 
                 var email = $('input#requesterEmail').val();
-                var selectEmail = prompt("Please select recipient emailId",email);
+                var selectEmail = email;//prompt("Please select recipient emailId",email);
                 if(selectEmail != null) {
                   if ($('input#requesterName').val() == "") {
                       $('input#requesterName').css('border', '1px solid red');
+                      e.preventDefault();
                   } else if ($('input#requesterEmail').val() == "") {
                       $('input#requesterEmail').css('border', '1px solid red');
+                      e.preventDefault();
                   } else {
+                    var r = confirm("Do you want to approve the request?");
+                    if(r){
                         var requesterName = $('input#requesterName').val();
                         var requesterEmail = selectEmail;
                         var eventName = $('input#eventName').val();
@@ -213,7 +224,7 @@
                         var eventDescLib = $('textarea#eventDescLib').val();
                         var eventReq = $('textarea#eventReq').val();
                         var instructions = $('textarea#instructions').val();                    
-                      $.post("<?php echo base_url("?c=lpoc&m=approveRequest&requestID=" . $requestID);?>", {
+                        $.post("<?php echo base_url("?c=lpoc&m=approveRequest&requestID=" . $requestID);?>", {
                           requesterName:requesterName,
                           requesterEmail:requesterEmail,
                           eventName:eventName,
@@ -228,46 +239,63 @@
                           numOfPeople: numOfPeople,
                           eventReq : eventReq,
                           instructions: instructions
-                      }).done(function ($requestID) {
-                          if ($requestID > 0) {
-                              $('#requestStatus').show().css('background', '#66cc00').append("#" + $requestID + ": User Agreement Form has been approved and confirmation mail sent to " + requesterName);
-                              document.getElementById('step1').className = 'completed';
-                              document.getElementById('step2').className = 'completed';
-                              document.getElementById('step3').className = 'completed';
-                              document.getElementById('step4').className = '';
-
-                          } else {
-                              $('#requestStatus').show().css('background', '#b31b1b').append("Something wrong with the form. Contact Administrator");
-                          }
-                          $("html, body").animate({scrollTop: 0}, 600);
+                        }).done(function ($requestID) {
+                            if ($requestID > 0) {
+                                $('#requestStatus').show().css('background', '#66cc00').append("#" + $requestID + ": Library room reservation request Form has been approved and confirmation mail sent to " + requesterName);
+                                document.getElementById('step1').className = 'completed';
+                                document.getElementById('step2').className = 'completed';
+                                document.getElementById('step3').className = 'completed';
+                                document.getElementById('step4').className = '';
+                                $('#instructions').empty();
+                                $('#instructions').attr('disabled', 'disabled'); 
+                                $('#disapprove').attr('disabled', 'disabled'); 
+                                $('#approve').attr('disabled', 'disabled'); 
+                                document.getElementById("disapprove").style.display = "none";
+                                document.getElementById("approve").style.display = "none";
+                                $('html, body').animate({scrollTop: 0}, 600);
+                            } else {
+                                $('#requestStatus').show().css('background', '#b31b1b').append("Something wrong with the form. Contact Administrator");
+                            }
+                        $("html, body").animate({scrollTop: 0}, 600);
                       });
-                  }
+                    } e.preventDefault();
+                }
               }
             });//end of approve function
-           $('button#complete').click(function() {
-               var message = $('textarea#message').val();
-               var reqName= $('input#requesterName').val();
-                var emailId= $('input#requesterEmail').val();
-               $.post("<?php echo base_url("?c=lpoc&m=completetransaction&requestID=" . $requestID);?>", {
-                    'requesterName':reqName,
-                    'requesterEmail':emailId,
-                    'stauts': 4,
-                    'message' :message
-               }).done(function (requestID) {
-                   if(requestID > 0){
-                       $('#requestStatus').show().css('background', '#66cc00').append("#" + requestID + ":The request has been now marked Complete.");
-                       document.getElementById('step1').className = 'completed';
-                       document.getElementById('step2').className = 'completed';
-                       document.getElementById('step3').className = 'completed';
-                       document.getElementById('step4').className = 'completed';
-                       $('html, body').animate({scrollTop: 0}, 600);
-                   } else {
-                    $('#requestStatus').show().css('background', '#b31b1b').append("Something wrong with the form. Contact Administrator");
-                   }
-               });
-               $("html, body").animate({scrollTop: 0}, 600);
-           });
-            $('div#request_input').clone();
+
+           $('button#completed').click(function(e) {
+               var r = confirm("Do you want to complete the request?");
+               if(r){
+                   var message = $('textarea#message').val();
+                   var reqName= $('input#requesterName').val();
+                   var emailId= $('input#requesterEmail').val();
+                   $.post("<?php echo base_url("?c=lpoc&m=completetransaction&requestID=" . $requestID);?>", {
+                        'requesterName':reqName,
+                        'requesterEmail':emailId,
+                        'stauts': 4,
+                        'message' :message
+                    }).done(function (requestID) {
+                        if(requestID > 0){
+                            $('#requestStatus').show().css('background', '#66cc00').append("#" + requestID + ":The request has been now marked Complete.");
+                            document.getElementById('step1').className = 'completed';
+                            document.getElementById('step2').className = 'completed';
+                            document.getElementById('step3').className = 'completed';
+                            document.getElementById('step4').className = 'completed';
+                            $('#instructions').empty();
+                            $('#instructions').attr('disabled', 'disabled'); 
+                            $('#completed').attr('disabled', 'disabled'); 
+                            document.getElementById("completed").style.display = "none";
+                            document.getElementById("message").style.display = "none";
+                            $('html, body').animate({scrollTop: 0}, 600);
+                        } else {
+                        $('#requestStatus').show().css('background', '#b31b1b').append("Something wrong with the form. Contact Administrator");
+                        }
+                    });
+                    $("html, body").animate({scrollTop: 0}, 600);
+                } e.preventDefault();
+                });
+            
+            $('div#request_input').clone();       
         });
         //});// end of document function
     </script>
@@ -374,7 +402,7 @@
                 // $eventEndDate = strtotime($eventEndDate);
                 // $endDate = date('Y/m/d',$eventEndDate);
                 
-                if(($status == 3) && ($eventEndDate < date('Y-m-d'))){ ?>
+                if($status == 3){ ?>
                 <div id="completeTransaction" class="container" name="completeTransaction" style="display:block">
                 <?php echo form_open_multipart('lpoc/do_upload');?>
                 </form><br /><br />
@@ -383,7 +411,7 @@
                     <br /><br />
                     <label class="label">Message:</label><br/>
                     <textarea id="message" name='message' rows="8" cols="75" style="display: block; margin-bottom: 10px;" ></textarea>
-                    <button class="btn" type="button" id="complete">Complete Transaction</button>
+                    <button class="btn" type="button" id="completed">Complete Transaction</button>
                     
                 </div>
 
