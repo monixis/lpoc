@@ -100,7 +100,6 @@ class lpoc extends CI_Controller
             'emailId' => $this->input->post('emailId'),
             'status' => 1
         );
-        
         $requesterEmail = $data['emailId'];
         $requesterName = $data['reqName'];
         $this->load->model('lpoc_model');
@@ -623,6 +622,7 @@ class lpoc extends CI_Controller
         $this->load->model('lpoc_model');
         $response = $this->lpoc_model->updateStatus($status, $requestID);
         if($comment != null){
+            //$comment = "NA";
             $data = array(
                 'comment' => $comment,
                 'commentType' => "MESSAGE",
@@ -631,8 +631,10 @@ class lpoc extends CI_Controller
             $this->load->model('lpoc_model');
             $chat_result = $this->lpoc_model->saveChat($data, 'chat');
         }
-        $flag="complete";
-        return $this->email_user_apprRej($requesterName, $requesterEmail, $requestID,$comment,$flag);
+        //use the below two lines to send mail (in case if needed in future)
+        //$flag="complete";
+        //return $this->email_user_apprRej($requesterName, $requesterEmail, $requestID,$comment,$flag);
+        echo $requestID;
     }
 }
 ?>
