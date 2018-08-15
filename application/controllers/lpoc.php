@@ -78,7 +78,6 @@ class lpoc extends CI_Controller
     {
         date_default_timezone_set('US/Eastern');
         $date = date("Y-m-d");
-
         $data = array(
             'eventName' =>  $this->input->post('eventName'),
             'eventDesc' => $this->input->post('eventDesc'),
@@ -135,7 +134,7 @@ class lpoc extends CI_Controller
         $config['smtp_host'] = "tls://smtp.googlemail.com";
         $config['smtp_port'] = "465";
         $config['smtp_user'] = "cannavinolibrary@gmail.com";
-        $config['smtp_pass'] = "redfoxesLibrary";
+        $config['smtp_pass'] = "12601redfoxesLibrary";
         $config['charset'] = "utf-8";
         $config['mailtype'] = "html";
         $config['newline'] = "\r\n";
@@ -179,7 +178,7 @@ class lpoc extends CI_Controller
         $config['smtp_host'] = 'tls://smtp.gmail.com';
         $config['smtp_port'] = '465';
         $config['smtp_user'] = 'cannavinolibrary@gmail.com';
-        $config['smtp_pass'] = 'redfoxesLibrary';
+        $config['smtp_pass'] = '12601redfoxesLibrary';
         $config['charset'] = 'utf-8';
         $config['mailtype'] = 'html';
         $config['newline'] = '\r\n';
