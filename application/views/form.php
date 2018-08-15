@@ -425,7 +425,7 @@
                     success:function(data) {
                         $('#roomInfo').empty();
                         $.each(data, function(key, value) {
-                            $('#roomInfo').append('<p><label>Location:</label> ' + value.Location + ' Floor </br> <label>Location Description: </label>' + value.LocDesc + '</br> <label>Capacity: </label>' + value.Capacity + '</p></br>' );
+                            $('#roomInfo').append('<div><label>Location:</label> ' + value.Location + ' Floor </br> <label>Location Description: </label>' + value.LocDesc + '</br> <label>Capacity: </label>' + value.Capacity + '</div>' );
                         });
                         var roomId = $("select#availableRooms").attr('value');
                         var selectedRoom = roomId;

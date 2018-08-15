@@ -137,10 +137,10 @@
 			</table>
 		</div>
 		<div class="content">
-			<p class="breadcrumb">
+			<!--p class="breadcrumb">
 				<a href="http://library.marist.edu" class="map_link"><img src="http://library.marist.edu/images/home.png" class="fox2"/></a>
 				> Forms > Reserve Forms
-			</p>
+			</p-->
 
 			<div id="researcherInfo"><h1 class="page_head" align="center" style="float: none;">Library Room Reservation Request Form</h1>
 				<div id="requestStatus" style="width: auto; margin-bottom: 7px; margin-top: -15px; color:#000000; font-size: 12pt; text-align: center; padding-top: 10px; display: none;">
