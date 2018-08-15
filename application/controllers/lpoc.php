@@ -10,15 +10,23 @@ class lpoc extends CI_Controller
 
     private $limit = 10;
 
+    /**
+     * Load lpoc_model
+     * getEvents method gets -Room information from db for the dropdowns
+     * Load form view
+     */
     public function index()
     {
         $date = date_default_timezone_set('US/Eastern');
         $this->load->model('lpoc_model');
         $data['events'] = $this->lpoc_model->getEvents();
         $this->load->view('form', $data);
-        $this->load->library('upload');
     }
 
+    /**
+     * $q is ID for rooms
+     * Calls getRooms method from db and returns json $rooms
+     */
     public function getRooms($q)
     {
         $this->load->model('lpoc_model');
@@ -26,34 +34,18 @@ class lpoc extends CI_Controller
         echo json_encode($rooms);
     }
 
-    public function do_upload(){
-        $config['upload_path'] = base_url().'eventImages/';
-        $config['allowed_types'] = 'gif|jpg|png';
-        $config['max_size'] = 100;
-        $config['max_width'] = 1024;
-        $config['max_height'] = 768;
-
-        $this->load->library('upload', $config);
-
-        if ( ! $this->upload->do_upload('userfile'))
-        {
-                $error = array('error' => $this->upload->display_errors());
-                $this->load->view('reviewRequest', $error);
-        }
-        else
-        {
-                $data = array('upload_data' => $this->upload->data());
-                $this->load->view('reviewRequest', $data);
-        }
-    }
-
+    /**
+     * $q is room ID
+     * Call getRoomInfo($q) to get details of the room info - returns json
+     */
     public function getRoomInfo($q)
     {
         $this->load->model('lpoc_model');
         $roomInfo = $this->lpoc_model->getRoomInfo($q);
         echo json_encode($roomInfo);
     }
-
+   
+    /**Dummy function to view event info in success_view*/
     public function showdata(){
         $data = array(
             'eventName' =>  $this->input->post('eventName'),
@@ -75,11 +67,14 @@ class lpoc extends CI_Controller
     
 
 
-/*
+    /*
      *Function to create new request.
-     *
+     *Insert the new request data into database
+     *If special requirement is not empty, add that details to chat table for conversation purposes
+     *Send user and email about submitted request awaiting approval from library.
+
      */
- public function insertNewRequest()
+    public function insertNewRequest()
     {
         date_default_timezone_set('US/Eastern');
         $date = date("Y-m-d");
@@ -112,19 +107,26 @@ class lpoc extends CI_Controller
                 'requestID' => $result
             );
             $chat_result = $this->lpoc_model->saveChat($data, 'chat');
-            if($result >0)
-            {
-                $requestID = $result;
-                $reVal = $this->email_user($requesterName, $requesterEmail, $requestID);
-                if($reVal < 0){
-                    echo $requestID;      
-                }        
-            } else {
-                echo 0;
-            }
+        }
+        if($result >0)
+        {
+            $requestID = $result;
+            $reVal = $this->email_user($requesterName, $requesterEmail, $requestID);
+            if($reVal < 0){
+                echo $requestID;      
+            }        
+        } else {
+            echo 0;
         }
     }
 
+    /**
+     * Function used to mail the requests link and details to user
+     * $requesterName is the one initiating the request 
+     * $requesterEmail is email ID for the requester
+     * $requestID - request ID 
+     * This function is only called when request is created / submitted
+     */
     public function email_user($requesterName, $requesterEmail, $requestID)
     {
         $this->load->library('email');
@@ -163,9 +165,14 @@ class lpoc extends CI_Controller
             }
      }
 
-    /*
-    this function sends email for approve reject and complete status - 
-    */
+    /**
+     * This function is for sending mails to user to notify about the approve/return status of the request
+     * It uses 2 more fields than the previous versions of mail function - 
+     *          $inst - instructions for user regarding approve/reject status
+     *          $flag = to check if mail is to be sent for approval/return (both have different message bodies)
+     * Also generates random strings to encode request ID in url
+     * Uses GenerateRandomString method
+     */
 	public function email_user_apprRej($requesterName, $requesterEmail, $requestID, $inst,$flag){
         $this->load->library('email');
         $config['protocol'] = 'sendmail';
@@ -187,7 +194,7 @@ class lpoc extends CI_Controller
         $six_digit_random_string =  $this -> generateRandomString();
         $UUID = $UUID.$six_digit_random_string;
 
-	$url = base_url()."?c=lpoc&m=userRequest&requestID=".$UUID;
+	    $url = base_url()."?c=lpoc&m=userRequest&requestID=".$UUID;
 
         $message = '<html><body>';
 
@@ -219,10 +226,13 @@ class lpoc extends CI_Controller
         } else {
             echo 0;
         }
-     }
+    }
 
+    /**
+     * Helper function, called inside email_user() to generate random string of alphanumeric characters
+     */
     public function generateRandomString() {
-	$length = 6;
+	    $length = 6;
         $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHI0123456789JKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';
@@ -239,9 +249,8 @@ class lpoc extends CI_Controller
     }
 
     /*
- * Verifies admin passcode input with passcode saved in db
- *
- */
+    * Verifies admin passcode input with passcode saved in db
+    */
     public function admin_verify(){
         $apasscode = $this->input->get('pass');
         $this->load->model('lpoc_model');
@@ -254,6 +263,11 @@ class lpoc extends CI_Controller
         echo $authorized;
     }
 
+    /**
+     * Load all request from the database
+     * Count all the requests 
+     * Perform pagination and load admin_view with pagination links and total rows 
+     */
     public function admin(){
         $this->load->model('lpoc_model');
         $query = $this->lpoc_model->allRequests($this->limit);
@@ -264,24 +278,30 @@ class lpoc extends CI_Controller
         $this->load->view('admin_view', compact('query', 'pagination_links','total_rows'));
     }
 
+    /**
+     * Gets passcode from db and verify with user entry
+     * Load all request from the database
+     * Count all the requests 
+     * Perform pagination and load admin_view with pagination links and total rows 
+     */
     public function getRequests(){
         $apasscode= $this-> input-> get('pass');
         $this->load->model('lpoc_model');
         $passcode = $this->lpoc_model -> getPasscode(1);
         if($passcode == $apasscode){
-        $query = $this->lpoc_model->allRequests($this->limit);
-        $total_rows = $this->lpoc_model->countAllRequests();
-        $this->load->helper('app');
-        $pagination_links = pagination($total_rows, $this->limit);
-        $this->load->view('admin', compact('query', 'pagination_links','total_rows'));
-       } else{
+            $query = $this->lpoc_model->allRequests($this->limit);
+            $total_rows = $this->lpoc_model->countAllRequests();
+            $this->load->helper('app');
+            $pagination_links = pagination($total_rows, $this->limit);
+            $this->load->view('admin', compact('query', 'pagination_links','total_rows'));
+        } else{
             echo "<h1 align='center' style=\"color:#B31B1B;\" >401 - Unauthorized access</h1>";
         }
     }
 
     /*
-     * function to fetch the researcher with requestID
-     * loads reviewUseAgreement view form
+     * function to fetch the request with requestID
+     * loads reviewRequest view form
      */
     public function reviewRequest()
     {
@@ -300,7 +320,6 @@ class lpoc extends CI_Controller
             $info = json_decode(json_encode($result), true);
             $data['requestID'] = $requestID;
             foreach ($info as $row) {
-                
                 $request = array();
                 if (sizeof($requestinfo) == 0) {
                     array_push($requestinfo, $row['requesterName'], $row['requesterEmail'], $row['eventName'], $row['eventDesc'],
@@ -326,12 +345,17 @@ class lpoc extends CI_Controller
                     }
                 }
             $this->load->view('reviewRequest', $data);
-        }else{
+            }else{
             echo "please provide valid requestID";
+            }
         }
     }
-}
-//useagreement requests - eventrequests (renamed)
+
+
+    /**
+     * This function fetches event requests with statuses and are loaded in admin view in admin page 
+     * The requests are put in a table
+     */
     public function eventRequests(){
         $status = $this->input->get('status');
         if($status != null) {
@@ -348,6 +372,11 @@ class lpoc extends CI_Controller
         $this->load->view('page_view', compact('query', 'pagination_links','total_rows'));
     }
 
+    /**
+     * This function was created to Add event completion report
+     * For that feature, we needed list of events which are approved and load them in page_view
+     * This is kept for future reference
+     */
     public function approvedToBeCompleted(){
         $status = $this->input->get('status');
         if($status != null) {
@@ -364,6 +393,7 @@ class lpoc extends CI_Controller
         $this->load->view('page_view', compact('query', 'pagination_links','total_rows'));
     }
 
+    //This is helper method used to count number of pages that will be needed to display the requests on admin page
     public function pages(){
         $this->load->model('lpoc_model');
         $query = $this->lpoc_model->allRequests($this->limit);
@@ -376,6 +406,7 @@ class lpoc extends CI_Controller
     /*
      *Function to approve request.
      *Trigger email to user about the approval status.
+     Return flag
      */
     public function approveRequest()
     {
@@ -422,7 +453,7 @@ class lpoc extends CI_Controller
 
  /*
      * Function to disapprove request/returned request.
-     * Change the transactions status to 1. That enables the user to edit66 and resubmit the request.
+     * Change the transactions status to 1. That enables the user to edit and resubmit the request.
      * Adds Instructions to the user.
      */
     public function disapproveRequest()
@@ -466,9 +497,10 @@ class lpoc extends CI_Controller
         }
     }
 
-        /*changed name from useAgreement -> userRequest
-     * function to fetch the researcher with requestID.
-     * loads useAgreement view form
+    /* 
+     * function to fetch the request with requestID.
+     * loads useRequest view form
+     * This is the view that users see when they click the link in email
      */
     public function userRequest()
     {
@@ -515,10 +547,10 @@ class lpoc extends CI_Controller
                     }
                 }
             $this->load->view('userRequest', $data);
+            }else{
+                echo "please provide valid requestID";
+            }
         }else{
-            echo "please provide valid requestID";
-        }
-    }else{
             echo '<html>', "\n"; // I'm sure there's a better way!
             echo '<head>', "\n";
             echo '</head>', "\n";
@@ -530,8 +562,7 @@ class lpoc extends CI_Controller
     }
 
     /*
-     * Function to save/update researcher.
-     * to update the existing researcher and request.
+     * Function to save/update request.
      */
     public function saveRequest()
     {
@@ -612,6 +643,13 @@ class lpoc extends CI_Controller
             }*/
     }
 
+
+    /**
+     * Function to complete request.
+     * Function allows to add completion comments for internal purposes.
+     * Updates the status of the transaction to 4. That indicates that user request is completed.
+     */
+    
     public function completetransaction()
     {
         $comment = $_POST["message"];
