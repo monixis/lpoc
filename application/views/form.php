@@ -124,7 +124,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="start-time">Start Time:</label>
                                     <div class="col-md-4">
-                                        <input class="form-control" type="time" id="startTime" name="startTime" min="09:00" max="18:00"  required /> 
+                                        <input class="form-control" type="time" id="startTime" name="startTime"  required /> 
                                         <!--onchange="startvalidateHhMm(this);" -->
                                     </div><span class="validity"></span>
                                 </div>
@@ -140,11 +140,9 @@
                                     <label class="col-md-4 control-label" for="end-time">End Time:</label>
                                     <div class="col-md-4">
                                         <input class="form-control" type="time" id="endTime" name="endTime"
-                                        min="09:00" max="18:00" required />
+                                        required />
                                         <!--onchange="endvalidateHhMm(this);" -->
                                     </div>
-                                    <span class="validity"></span>
-                                    <span class="col-md-4 hours">Library hours: 9AM to 6PM</span>
                                 </div>
 
                                 <div class="form-group">
@@ -349,7 +347,7 @@
             document.getElementById("endDate").value = "";
             e.preventDefault();
         } else if((startTime > endTime) && (Date.parse(startDate) === Date.parse(endDate))) {
-            alert("The Event end time should be later than start time. Please fill the form again.");
+            alert("The Event end time should be later than start time. Please fill the time again.");
             document.getElementById("startTime").value = "";
             document.getElementById("endTime").value = "";
             e.preventDefault();
@@ -389,7 +387,7 @@
                         if(requestID > 0){
                             //alert("this is request ID: " + requestID);
                             alert('Your Request id is # '+ requestID +' and awaiting approval. You will be notified once it has been approved')
-                            window.open('<?php echo base_url(); ?>',"_self");                                               
+                            window.open('<?php echo base_url(); ?>',"_self");                                        
                         } else {
                             $('#requestStatus').show().css('background', 'red').append(" Some error occured. Kindly contact system administrator.");
                         }
