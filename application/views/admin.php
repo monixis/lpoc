@@ -59,8 +59,8 @@
                 <th>Requester Name</th>
                 <th>Event Name</th>
                 <th>Status</th>
-                <th>Date</th>
-
+                <th>Requested Date</th>
+                <th>Event Start Date</th>
             </tr>
             </thead>
             <tbody>
@@ -81,6 +81,7 @@
                         <?php }  ?>
 
                     </td>
+                    <td><?php echo $row->eventRequestDate; ?></td>
                     <td><?php echo $row->eventStartDate; ?></td>
 
 
