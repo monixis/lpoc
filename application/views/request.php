@@ -54,35 +54,6 @@
 </head>
 
 <body>
-<?php
-/**
- * array details
- * array(category-0,question-1,type of input-2,list of inputs-3,given user input for storing in db-4)
- * type of input 
- * 1 - print input box
- * 2 - checkboxes (multiple choices)
- * 3 - combo box (choose one out of many)
- * 4- radio
- */
-    global $data;
-    $data = array(
-        array("category","question","type","inputs","answer"),
-        array("ContactInfo","Provide the contact Information"),
-        array("EventType","Please check the activity expected to be performed","2","Speaking,Reading,Performing",""),
-        array("EventType","Will artificats be exhibited?","4","yes,no",""),
-        array("EventType","Is the event combincation of both?","4","yes,no",""),
-        array("Content","Describe the material being read/performed/spoken","1","",""),
-        array("Content","Describe the artifacts being exhibited","1","",""),
-        array("Content","Is thr event combining activity and exhibition?","4","yes,no",""),
-        array("attendance","Type Of Attendance","3","Private Event, Public Event",""),   
-        array("attendance","Number of attendees","1","",""),  
-        array("dates","What is the schedule preference","3","Date Range, Fleixble dates, Specific Date",""),
-        array("misc","During the event, are you planning to serve food?","4","yes,no",""),   
-        array("misc","During the event, will you be needing A/V equipments?","4","yes,no",""),   
-        array("other","Please mention any other details regarding the event","1","",""),   
-        array("community","Do you have an on-campus sponser?","4","yes,no","")     
-    )
-?>
 <div id="headerContainer">
     <a href="http://library.marist.edu/" target="_self"> <div id="header"></div> </a>
 </div>
@@ -106,60 +77,121 @@
                     </div> <!-- loader -->
                     <h2 style="text-align: center; margin: 30px; font-size: 40px;">Library Room Reservation Request</h2>
 
-                    <div id="staff" class="col-md-4" style="height: 300px; margin-top: 20px">
+                    <div class="col-md-4" style="height: 300px; margin-top: 20px">
                         <div style="width: 95%; border: 1px solid #ddd; text-align:center;  padding: 70px 0">
                             
-                        <span class="fas fa-user fa-5x"></span>
+                        <a href="" data-toggle="modal" data-target="#myModal"><span class="fas fa-user fa-5x"></span></a>
                         <p>Staff</p>
 
                         </div>
                     </div>    
                     
-                    <div id="student" class="col-md-4" style="height: 300px; margin-top: 20px">
+                    <div class="col-md-4" style="height: 300px; margin-top: 20px">
                         <div style="width: 95%; border: 1px solid #ddd; text-align:center;  padding: 70px 0">
                                                  
-                            <span class="fas fa-user-graduate fa-5x"></span>
+                            <a href=''><span class="fas fa-user-graduate fa-5x"></span></a>
                             <p>Student</p>
 
                         </div>   
                     </div>
                     
-                    <div id="community" class="col-md-4" style="height: 300px; margin-top: 20px">
+                    <div class="col-md-4" style="height: 300px; margin-top: 20px">
                         <div style="width: 95%; border: 1px solid #ddd; text-align:center;  padding: 70px 0">
                             
-                            <span class="glyphicon glyphicon-user" style="font-size: 85px"></span>
-                            <!-- <a href=''><span class="fas fa-users fa-5x"></span></a> -->
+                            <!--span class="glyphicon glyphicon-user" style="font-size: 85px"></span-->
+                            <a href=''><span class="fas fa-users fa-5x"></span></a>
                             <p>Community member</p>
 
                         </div>   
                     </div>
-                    
-                    <!-- Modal -->
-                    <div id="myModal" class="modal fade" role="dialog">
-                        <div class="modal-dialog">
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title"></h4>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="theform">
-                                        
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button  type='button' class='btn btn-default back' style='float:left;display:none' id="back">Back</button>
-                                    <button  type="button" class="btn btn-default next" id="next">Next</button>
-                                    <button type="button" class="btn btn-default" data-dismiss="modal" id="close">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                                    
+                                                
                 </div><!-- col-md-12 -->            
            </div><!-- container -->
-           
+
+            <form class="form-horizontal" >
+                <fieldset>
+                    <div class="form-horizontal" id="1View" style="border: 1px solid #e0e0e0; padding: 15px; margin-top: 20px; margin-bottom: 20px;"> 
+                        <h2>Contact Information:</h2>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Requester Name</label>
+                                    <div class="col-md-4">
+                                        <input class="form-control" name="reqName" id="reqName" required pattern=".*\S+.*"/>
+                                    </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Requester Email</label>
+                                    <div class="col-md-4">
+                                        <input class="form-control" aria-describedby="emailHelp" name="emailId" id="emailId" type="email" data-fv-emailaddress-message="The value is not a valid email address"  required pattern=".*\S+.*"/>
+                                    </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-8">
+                                     <button id="2" name="next" type="button" class="btn btn-dark" style="float:right" >Next</button>
+                                </div>
+                            </div>    
+                    </div>  <!-- div 1 ends -->      
+
+                    <div class="form-horizontal" id="2View" style="border: 1px solid #e0e0e0; padding: 15px; margin-top: 20px; margin-bottom: 20px; display: none"> 
+                        <h2>Event Information:</h2>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="textinput">Event Name</label>
+                                    <div class="col-md-4">
+                                        <input id="eventName" name="eventName" type="text" placeholder="" class="form-control input-md" required pattern=".*\S+.*">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="textarea">Event Description</label>
+                                    <div class="col-md-4">
+                                        <textarea class="form-control" name="eventDesc" id="eventDesc" style="height: 150px; overflow: auto; width: 400px;" required pattern=".*\S+.*"></textarea>
+                                            Total word Count : <span id="display_count">0</span> words(Maximum words allowed: 250).
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Event Start Date</label>
+                                    <div class="col-md-4">
+                                        <input class="form-control" name="startDate" id="startDate" type="date" required/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="start-time">Start Time:</label>
+                                    <div class="col-md-4">
+                                        <input class="form-control" type="time" id="startTime" name="startTime"  required /> 
+                                        <!--onchange="startvalidateHhMm(this);" -->
+                                    </div><span class="validity"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Event End Date</label>
+                                    <div class="col-md-4">
+                                        <input class="form-control" name="endDate" id="endDate" type="date" required/>
+                                    </div>
+                                </div>   
+                                
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="end-time">End Time:</label>
+                                    <div class="col-md-4">
+                                        <input class="form-control" type="time" id="endTime" name="endTime"
+                                        required />
+                                        <!--onchange="endvalidateHhMm(this);" -->
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-8">
+                                        <button id="3" name="next" type="button" class="btn btn-dark" style="float:right" >Next</button>
+                                        <button id="1" name="prev" type="button" class="btn btn-dark" style="float:right; margin-right:250px" >Previous</button>
+                                    </div>
+                                </div> 
+                    </div> <!-- div 2 ends -->
+         
+                </fieldset>
+            </form>
+
     </div> <!-- jumbotron -->
 
     <br>
@@ -175,153 +207,22 @@
     </p>
 
 </div>
-<script type="text/javascript">
-$( document ).ready(function() {
-     
-    var nextcount=0;
-    //declaring array of questions
-    var data = [
-        // ["category","question","type","inputs","answer"],
-        ["ContactInfo","Provide the contact Information"],
-        ["EventType","Please check the activity expected to be performed","2","Speaking,Reading,Performing",""],
-        ["EventType","Will artificats be exhibited?","4","yes,no",""],
-        ["EventType","Is the event combincation of both?","4","yes,no",""],
-        ["Content","Describe the material being read/performed/spoken","1","",""],
-        ["Content","Describe the artifacts being exhibited","1","",""],
-        ["Content","Is thr event combining activity and exhibition?","4","yes,no",""],
-        ["attendance","Type Of Attendance","3","Private Event, Public Event",""],   
-        ["attendance","Number of attendees","1","",""],  
-        ["dates","What is the schedule preference","3","Date Range, Fleixble dates, Specific Date",""],
-        ["misc","During the event, are you planning to serve food?","4","yes,no",""],   
-        ["misc","During the event, will you be needing A/V equipments?","4","yes,no",""],   
-        ["other","Please mention any other details regarding the event","1","",""],   
-        ["community","Do you have an on-campus sponser?","4","yes,no",""]     
-    ];
-    console.log(data);
-    var x = [];
-    function modalforms(start, end){
-        $('.theform').html("");
-        // var c = count(data);
-        // $('.theform').html("<form class='form-horizontal'><fieldset><div class='form-horizontal' style='border: 1px solid #e0e0e0; padding: 15px; margin-top: 20px;'>");
-        content = "<div class='form-horizontal' style='border: 1px solid #e0e0e0; padding: 15px; margin-top: 20px;'><form class='form-horizontal'><fieldset>";
-        for(var i=start; i < end; i++){
-            var d = data[i];
-            var dynamicInput;
-            for(var j=0; j <d.length; j++){
-                if(d[j]!== ""){
-                    if(j==0){
-                        var cat = d[j];
-                    } else if(j==1){//question
-                        var label = d[j];
-                    } else if(j==2) {//type of input
-                        var number = d[j];
-                        if(number==1){//input box
-                        dynamicInput = "input";
-                        } else if(number==2){//checkboxes
-                            dynamicInput = "check";
-                        } else if(number==3){//combobox
-                            dynamicInput = "combo";
-                        }else if(number==4){//radio
-                            dynamicInput = "radio";
-                        } 
-                    } else if(j==3) {//list of inputs
-                        var options = d[j];
-                        var ops = options.split(",");
-                        if(label != ""){
-                            content += "<div class='form-group'><label class='col-md-8 control-label'>"+label+"</label>";
-                        }
-                        if(dynamicInput == "input"){
-                            content += "<div class='col-md-4'>";
-                            content += "<input class='form-control' name="+d[j]+" id="+ d[j]+"required pattern='.*\S+.*'/></div></div>";
-                        }
-                        else if(dynamicInput == "check"){
-                            content += "<div class='col-md-4'>";
-                            for(var k=0; k<ops.length;k++){
-                                content += '<input type= "checkbox"  name="'+ cat + '"value="'+ ops[k]+'"/>';
-                                content += ops[k] + "<br />";
-                            }
-                            content += "</div></div>";
-                        } else if(dynamicInput == "combo"){
-                            content += "<div class='col-md-4'>";
-                            content += "<select>";
-                            for(var k=0; k<ops.length;k++){
-                            content += '<option name="'+ cat + '"value="'+ ops[k]+'">'+ops[k]+'</option>';
-                            }
-                            content+= "</select></div></div>";
-                        } else if(dynamicInput == "radio"){
-                            content += '<div class="col-md-4"><div id="'+cat+'" class="btn-group" data-toggle="buttons">';
-                            for(var k=0; k<ops.length;k++){ 
-                                content += '<input type= "radio"  name="'+ cat+i + '"value="'+ ops[k]+'"/>';
-                                content += ops[k] + "<br />";
-                            }
-                            content += "</div></div></div>";
-                        }
-                    }
-                }
-            }
-        }
-        content += "</fieldset></form></div>";
-        // console.log(content);
-        $('.theform').html(content);
-        $('.back').css("display","block");
-    }
 
-    $('#student').click(function (e) {
-        // alert("ok");
+<script>
+    $('button').click(function(){
+        var id = $(this).attr('id');
+        var name = $(this).attr('name');
         
-        e.preventDefault();
-        jQuery.noConflict();
-        $('#myModal').modal('toggle');
-        $('.modal-title').html('<h3>Requester Contact Information</h3>');
-        $('.theform').html("<form name='serialform' class='form-horizontal'><fieldset><div class='form-horizontal' style='border: 1px solid #e0e0e0; padding: 15px; margin-top: 20px;'><div class='form-group'><label class='col-md-4 control-label'>Requester Name</label><div class='col-md-4'><input class='form-control' name='reqName' id='reqName' required pattern='.*\S+.*'/></div></div><div class='form-group'><label class='col-md-4 control-label'>Requester Email</label><div class='col-md-4'><input class='form-control' aria-describedby='emailHelp' name='emailId' id='emailId' type='email' data-fv-emailaddress-message='The value is not a valid email address' required pattern='.*\S+.*'/></div></div></div></fieldset></form>");   
-        $('.back').css("display","none"); 
-    });
-    //next button event handling
-    $(".next").click(function (e){
-        if(x==""){
-            x = $('form').serializeArray();
-        } else {
-            x.push($('form').serializeArray());
-            // x.push($(':select').serializeArray());
-        }
-        
-        console.log(x);
-        // $.each(x, function(i, field){
-        //     alert(field.name + ":" + field.value + " ");
-        // });
-        if(nextcount < 2){
-            nextcount++;
-        }
-        // alert(nextcount);
-        $('.modal-header').html("<h3>Please Fill In Request Information</h3>");
-        if(nextcount == 1){
-            modalforms(1, 7);
-        } 
-        if(nextcount == 2){
-            modalforms(7, data.length);
-        }
-        
-    });
+        if (name == 'next'){
+            var curr = id - 1;
+            var curr = "#" + curr + "View";
+            var next = "#" + id + "View";
+            $(curr).css('display', 'none');
+            $(next).css('display', 'block');
 
-    //back button event handling
-    $('.back').click(function (e){
-        --nextcount;
-        if(nextcount == 1){
-            modalforms(1, 7);
-        } 
-        if(nextcount == 0){
-            $('.modal-title').html('<h3>Requester Contact Information</h3>');
-            $('.theform').html("<form class='form-horizontal'><fieldset>");
-            $('.theform').append("<div class='form-horizontal' style='border: 1px solid #e0e0e0; padding: 15px; margin-top: 20px;'><div class='form-group'><label class='col-md-4 control-label'>Requester Name</label><div class='col-md-4'><input class='form-control' name='reqName' id='reqName' required pattern='.*\S+.*'/></div></div><div class='form-group'><label class='col-md-4 control-label'>Requester Email</label><div class='col-md-4'><input class='form-control' aia-describedby='emailHelp' name='emailId' id='emailId' type='email' data-fv-emailaddress-message='The value is not a valid email address'  required pattern='.*\S+.*'/></div></div></div></fieldset></form>");   
-            $('.back').css("display","none");
         }
     });
-
-    $('.close').click(function(e){
-        nextcount=0;
-        $('.back').css("display","none");
-    });
-});
 </script>
+
 </body>
 </html>
