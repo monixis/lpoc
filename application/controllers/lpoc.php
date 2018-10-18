@@ -20,7 +20,7 @@ class lpoc extends CI_Controller
         $date = date_default_timezone_set('US/Eastern');
         $this->load->model('lpoc_model');
         $data['events'] = $this->lpoc_model->getEvents();
-        $this->load->view('form', $data);
+        $this->load->view('request', $data);
     }
 
     /**
