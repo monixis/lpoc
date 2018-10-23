@@ -21,7 +21,7 @@ class lpoc extends CI_Controller
         $this->load->model('lpoc_model');
         $data['events'] = $this->lpoc_model->getEvents();
         // $this->load->view('form', $data);
-        $this->load->view('request');
+        $this->load->view('request',$data);
     }
 
     /**
