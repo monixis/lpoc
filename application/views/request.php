@@ -86,15 +86,16 @@
 
 <div id="main-container" class="container">
     <div class="jumbotron" style="background: white">
-        <div id="userType" class="container" style="margin-top: -36px;">
+    <h2 style="text-align: center; font-size: 40px;">Library Room Reservation Request</h2>
+        <div id="userType" class="container" style=""><!--removed margin top - margin-top: -36px; for now-->
             <!-- Example row of columns -->
                 <div class="col-md-12" style="background: white">
                     <div id="loader">
                         <img id="loader-img" alt="" src="http://library.marist.edu/images/pacman.gif" width="130" height="130" />
                     </div> <!-- loader -->
-                    <h2 style="text-align: center; margin: 30px; font-size: 40px;">Library Room Reservation Request</h2>
+                    
 
-                    <div class="col-md-4" style="height: 300px; margin-top: 20px">
+                    <div id='staff' name='staff' class="col-md-4" style="height: 300px; margin-top: 20px">
                         <div style="width: 95%; border: 1px solid #ddd; text-align:center;  padding: 70px 0">
                             
                         <a href="" data-toggle="modal" data-target="#myModal"><span class="fas fa-user fa-5x"></span></a>
@@ -103,7 +104,7 @@
                         </div>
                     </div>    
                     
-                    <div  id='student' name='student' class="col-md-4" style="height: 300px; margin-top: 20px">
+                    <div id='student' name='student' class="col-md-4" style="height: 300px; margin-top: 20px">
                         <div style="width: 95%; border: 1px solid #ddd; text-align:center;  padding: 70px 0">
                                                  
                             <a><span class="fas fa-user-graduate fa-5x"></span></a>
@@ -112,11 +113,11 @@
                         </div>   
                     </div>
                     
-                    <div class="col-md-4" style="height: 300px; margin-top: 20px">
+                    <div id='community' name='community' class="col-md-4" style="height: 300px; margin-top: 20px">
                         <div style="width: 95%; border: 1px solid #ddd; text-align:center;  padding: 70px 0">
                             
                             <!--span class="glyphicon glyphicon-user" style="font-size: 85px"></span-->
-                            <a href=''><span class="fas fa-users fa-5x"></span></a>
+                            <a ><span class="fas fa-users fa-5x"></span></a>
                             <p>Community member</p>
 
                         </div>   
@@ -125,9 +126,30 @@
                 </div><!-- col-md-12 -->            
            </div><!-- container -->
 
-            <form class="form-horizontal" >
-                <fieldset>
-                    <div class="form-horizontal" id="1View" style="border: 1px solid #e0e0e0; padding: 15px; margin-top: 20px; margin-bottom: 20px;display: none"> 
+            <form class="form-horizontal" style="display:none">
+                <fieldset style="border: 1px solid #e0e0e0; padding: 15px; margin-top: 20px; margin-bottom: 20px;background:rgba(106,106,106,0.1);">
+                    <button type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true" style="color:red;font-size:45px;">&times;</span>
+                    </button>
+
+                    <div class="form-horizontal" id="0View" style="display: none"> 
+                        <h2>Sponser Information:</h2>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">
+                                Do you have any on campus sponser?</label>
+                                <div class="col-md-4">
+                                    <input class="form-control" name="sponser" id="sponser"  pattern=".*\S+.*"/>
+                                    <span aria-hidden="true" style="color:blue;">Write name of sponser. If you do not have a sponser, write NA.</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-8">
+                                    <button id="1" name="next" type="button" class="btn btn-dark" style="float:right" >Next</button>
+                                </div>
+                            </div>    
+                    </div>  <!-- div 0 ends -->    
+
+                    <div class="form-horizontal" id="1View" style="display: none"> 
                         <h2>Contact Information:</h2>
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Requester Name</label>
@@ -147,11 +169,12 @@
                             <div class="form-group">
                                 <div class="col-md-8">
                                      <button id="2" name="next" type="button" class="btn btn-dark" style="float:right" >Next</button>
+                                     <button id="0" name="prev" type="button" class="btn btn-dark" style="float:right; margin-right:250px;display:none;" >Previous</button>
                                 </div>
                             </div>    
                     </div>  <!-- div 1 ends -->      
 
-                    <div class="form-horizontal" id="2View" style="border: 1px solid #e0e0e0; padding: 15px; margin-top: 20px; margin-bottom: 20px; display: none"> 
+                    <div class="form-horizontal" id="2View" style="display: none"> 
                         <h2>Event Information:</h2>
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="textinput">Event Name</label>
@@ -175,7 +198,7 @@
                         </div> 
                     </div><!-- div 2 ends -->  
 
-                    <div class="form-horizontal" id="3View" style="border: 1px solid #e0e0e0; padding: 15px; margin-top: 20px; margin-bottom: 20px; display: none"> 
+                    <div class="form-horizontal" id="3View" style="display: none"> 
                         <h2>Event Schedule:</h2>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Event Start Date</label>
@@ -216,7 +239,7 @@
                         </div> 
                     </div> <!-- div 3 ends -->
 
-                    <div class="form-horizontal" id="4View" style="border: 1px solid #e0e0e0; padding: 15px; margin-top: 20px; margin-bottom: 20px; display: none"> 
+                    <div class="form-horizontal" id="4View" style="display: none"> 
                         <h2>Event Information:</h2>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Type of Event</label>
@@ -275,11 +298,8 @@
                             </div> 
                         </div>
                     </div><!--div 4 ends-->
-
-         
                 </fieldset>
             </form>
-
     </div> <!-- jumbotron -->
 
     <br>
@@ -303,6 +323,18 @@
         var name = $(this).attr('name');
         var flag=0;
         // document.getElementsByTagName("body").style.opacity = "0";
+        if((id==1 && name=='next')){
+            console.log("in id");
+            var sponser = $('input#sponser').val();
+            
+            if(sponser == ""){
+                flag = 0;
+                alert("Please enter sponser name or write NA.");
+            } else {
+                console.log("yes");
+                flag = 1;
+            }
+        }
         if((id==2 && name=='next')){
             console.log("in id");
             var reqName = $('input#reqName').val();
@@ -318,20 +350,22 @@
                 flag = 1;
             }
         }
-        if((id==3 && name=='next') || (id==1 && name=='prev')){
+        // if((id==3 && name=='next') || (id==1 && name=='prev'))
+        if(id==3 && name=='next'){
             var eventName = $('input#eventName').val();
             var eventDesc = $('textarea#eventDesc').val();
             if(eventName == ""){
                flag = 0;
                alert("Please provide event name.");
-            } else if(eventDesc == ""){
-                flag=0;
-                alert("Please provide event description.");
-            } else if((eventDesc != "") && (eventName != "")){
+            // } else if(eventDesc == ""){
+            //     flag=0;
+            //     alert("Please provide event description.");
+            } else if((eventName != "")){ //&& (eventDesc != "")){
                flag = 1;
             }          
         }
-        if((id==4  && name=='next') || (id==2 && name=='prev')){
+        // if((id==4  && name=='next') || (id==2 && name=='prev'))
+        if(id==4  && name=='next'){
         //4 th is last view to think other logic for validation    startdate, enddate, start  time, end time validation here
             var startDate= document.getElementById("startDate").value;
             var endDate= document.getElementById("endDate").value;
@@ -361,28 +395,40 @@
                 flag=1;
             }
         }
-        
-        
         if(flag==1){
             if (name == 'next'){
                 var curr = id - 1;
                 var curr = "#" + curr + "View";
                 var next = "#" + id + "View";
-                $(curr).css('display', 'none');
-                $(next).css('display', 'block');
+                $(curr).fadeTo(1000, 0.2);
+                setTimeout(function(){
+                    $(curr).css('display', 'none');
+                    $(next).css('display', 'block');
+                    $(next).css('opacity', '1');
+                }, 500);
+                // $(curr).css('display', 'none');
+                // $(next).css('display', 'block');
                 
             }
+            else {
+                console.log("There are empty fields on this page.");
+            }
+        }else {
             if (name == 'prev'){
                 var prev = "#" + id + "View";
                 var curr = ++id;
                 var curr = "#" + curr + "View";
-                $(curr).css('display', 'none');
-                $(prev).css('display', 'block');
+                // $(curr).css('display', 'none');
+                // $(prev).css('display', 'block');
 
+                $(curr).fadeTo(1000, 0.2);
+                setTimeout(function(){
+                    $(curr).css('display', 'none');
+                    $(prev).css('display', 'block');
+                    $(prev).css('opacity', '1');
+                }, 500);
             }
-        } else {
-            alert("There are empty fields on this page.");
-        }
+        } 
     });
 
     $(window).load(function() { /* code here */
@@ -405,18 +451,70 @@
         }
 
         $('#student').click(function(){
-        console.log("clicked student");
-        $("#1View").scrollTop();
-        // document.getElementById("overlay").style.display = "block";
-        $('#userType').fadeTo(1000, 0.2);
-        
-        setTimeout(function(){
-            $('#userType').css('display','none');
-            $('#1View').css('display','block');
-        }, 1000);
+            console.log("clicked student");
+            $("#1View").scrollTop();
+            
+            // document.getElementById("overlay").style.display = "block";
+            $('#userType').fadeTo(1000, 0.2);
+            
+            setTimeout(function(){
+                $('.form-horizontal').show();
+                $('.form-horizontal').css("display:block");
+                $('#userType').css('display','none');
+                $('#0View').css('display','none');
+                $('#1View').css('display','block');
+                $('#1View').css('opacity','1');
+                $("#0").hide();
+                $('#2View').css('display','none');
+                $('#3View').css('display','none');
+                $('#4View').css('display','none');
+            }, 500);
+        });
 
-        
-    });
+        $('#staff').click(function(){
+            console.log("clicked student");
+            $("#1View").scrollTop();
+            // document.getElementById("overlay").style.display = "block";
+            $('#userType').fadeTo(1000, 0.2);
+            
+            setTimeout(function(){
+                $('.form-horizontal').show();
+                $('#userType').css('display','none');
+                $('#0View').css('display','none');
+                $('#1View').css('display','block');
+                $('#1View').css('opacity','1');
+                $("#0").hide();
+                $('#2View').css('display','none');
+                $('#3View').css('display','none');
+                $('#4View').css('display','none');
+            }, 500);
+        });
+
+        $('#community').click(function(){
+            console.log("clicked community");
+            $("#0View").scrollTop();
+            // document.getElementById("overlay").style.display = "block";
+            $('#userType').fadeTo(1000, 0.2);
+            
+            setTimeout(function(){
+                $('.form-horizontal').show();
+                $('#userType').css('display','none');
+                $('#0View').css('display','block');
+                $('#0View').css('opacity','1');
+                $("#0").show();
+                $('#1View').css('display','none');
+                $('#2View').css('display','none');
+                $('#3View').css('display','none');
+                $('#4View').css('display','none');
+            }, 500);
+        });
+
+
+        $('.close').click(function(){
+            $('.form-horizontal').hide();
+            $('#userType').css('display','block');
+            $('#userType').css('opacity','1');
+        });
     });
 
     $("select#availableRooms").change(function () {
