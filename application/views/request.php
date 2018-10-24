@@ -405,11 +405,17 @@
         }
 
         $('#student').click(function(){
-        // $('#main-container').fadeTo(1000, 0.4);
         console.log("clicked student");
-        document.getElementById("overlay").style.display = "block";
-        $('#1View').css('display','block');
-        $('#1View').fadeTo(1000,1);
+        $("#1View").scrollTop();
+        // document.getElementById("overlay").style.display = "block";
+        $('#userType').fadeTo(1000, 0.2);
+        
+        setTimeout(function(){
+            $('#userType').css('display','none');
+            $('#1View').css('display','block');
+        }, 1000);
+
+        
     });
     });
 
