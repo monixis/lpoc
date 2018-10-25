@@ -17,8 +17,6 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 
     <script type="text/javascript" src="http://library.marist.edu/js/libraryMenu.js"></script>
-    <script src="https://cdn.rawgit.com/vast-engineering/jquery-popup-overlay/1.7.13/jquery.popupoverlay.js"></script>
-
     <link href="http://library.marist.edu/css/library.css" rel="stylesheet">
     <link href="http://library.marist.edu/css/menuStyle.css" rel="stylesheet">
     <link href="styles/main.css" rel="stylesheet">
@@ -51,21 +49,22 @@
             content: '✓';
             padding-left: 5px;
         }
+    
         #overlay {
-            position: relative; /* Sit on top of the page content */
-            display: none; /* Hidden by default */
-            width: 100%; /* Full width (cover the whole page) */
-            height: 100%; /* Full height (cover the whole page) */
-            top: 0; 
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0,0,0,0.5); /* Black background with opacity */
-            z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
-            cursor: pointer; /* Add a pointer on hover */
-        }   
-
-    </style>
+    position: fixed; /* Sit on top of the page content */
+    display: none; /* Hidden by default */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0; 
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+    z-index: 10; /* Specify a stack order in case you're using a different order for other elements */
+    cursor: pointer; /* Add a pointer on hover */
+}
+      
+   </style>
 </head>
 
 <body>
@@ -81,9 +80,10 @@
 <div id="miniMenu" style="width: 100%;border: 1px solid black; border-bottom: none">
 
 </div>
-<div id="overlay"></div>
+
 <!-- Main jumbotron for a primary marketing message or call to action -->
 
+           <div id='overlay'> </div>
 <div id="main-container" class="container">
     <div class="jumbotron" style="background: white">
     <h2 style="text-align: center; font-size: 40px;">Library Room Reservation Request</h2>
@@ -126,6 +126,7 @@
                 </div><!-- col-md-12 -->            
            </div><!-- container -->
 
+            <div id="formDiv" style="z-index: 10; position: relative; background: #ffffff;">
             <form class="form-horizontal" style="display:none">
                 <fieldset style="border: 1px solid #e0e0e0; padding: 15px; margin-top: 20px; margin-bottom: 20px;background:rgba(106,106,106,0.1);">
                     <button type="button" class="close" aria-label="Close">
@@ -150,7 +151,7 @@
                     </div>  <!-- div 0 ends -->    
 
                     <div class="form-horizontal" id="1View" style="display: none"> 
-                        <h2>Contact Information:</h2>
+                        <h2>Contact Information (Page 1 of 4):</h2>
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Requester Name</label>
                                     <div class="col-md-4">
@@ -300,11 +301,13 @@
                     </div><!--div 4 ends-->
                 </fieldset>
             </form>
+           </div>
     </div> <!-- jumbotron -->
 
     <br>
 
 </div> <!-- main-container -->
+
 <div  class="bottom_container">
     <p class = "foot">
         James A. Cannavino Library, 3399 North Road, Poughkeepsie, NY 12601; 845.575.3106
@@ -400,15 +403,14 @@
                 var curr = id - 1;
                 var curr = "#" + curr + "View";
                 var next = "#" + id + "View";
-                $(curr).fadeTo(1000, 0.2);
+               // $(curr).fadeTo(1000, 0.2);
+               //document.getElementById("overlay").style.display = "block";
                 setTimeout(function(){
                     $(curr).css('display', 'none');
                     $(next).css('display', 'block');
                     $(next).css('opacity', '1');
                 }, 500);
-                // $(curr).css('display', 'none');
-                // $(next).css('display', 'block');
-                
+                     
             }
             else {
                 console.log("There are empty fields on this page.");
@@ -421,7 +423,7 @@
                 // $(curr).css('display', 'none');
                 // $(prev).css('display', 'block');
 
-                $(curr).fadeTo(1000, 0.2);
+              //  $(curr).fadeTo(1000, 0.2);
                 setTimeout(function(){
                     $(curr).css('display', 'none');
                     $(prev).css('display', 'block');
@@ -452,12 +454,10 @@
 
         $('#student').click(function(){
             console.log("clicked student");
-            $("#1View").scrollTop();
-            
-            // document.getElementById("overlay").style.display = "block";
-            $('#userType').fadeTo(1000, 0.2);
-            
-            setTimeout(function(){
+            $("#1View").scrollTop();    
+            $('#overlay').css('display', 'block');        
+                    
+           // setTimeout(function(){
                 $('.form-horizontal').show();
                 $('.form-horizontal').css("display:block");
                 $('#userType').css('display','none');
@@ -468,15 +468,14 @@
                 $('#2View').css('display','none');
                 $('#3View').css('display','none');
                 $('#4View').css('display','none');
-            }, 500);
+           // }, 500);
         });
 
         $('#staff').click(function(){
             console.log("clicked student");
             $("#1View").scrollTop();
-            // document.getElementById("overlay").style.display = "block";
-            $('#userType').fadeTo(1000, 0.2);
-            
+            $('#overlay').css('display', 'block');        
+
             setTimeout(function(){
                 $('.form-horizontal').show();
                 $('#userType').css('display','none');
@@ -493,8 +492,7 @@
         $('#community').click(function(){
             console.log("clicked community");
             $("#0View").scrollTop();
-            // document.getElementById("overlay").style.display = "block";
-            $('#userType').fadeTo(1000, 0.2);
+            $('#overlay').css('display', 'block');        
             
             setTimeout(function(){
                 $('.form-horizontal').show();
@@ -509,11 +507,11 @@
             }, 500);
         });
 
-
         $('.close').click(function(){
             $('.form-horizontal').hide();
             $('#userType').css('display','block');
             $('#userType').css('opacity','1');
+            $('#overlay').css('display', 'none');        
         });
     });
 
