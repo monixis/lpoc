@@ -187,7 +187,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="textarea">Event Description</label>
                             <div class="col-md-4">
-                                <textarea class="form-control" name="eventDesc" id="eventDesc" style="height: 150px; overflow: auto; width: 400px;" required pattern=".*\S+.*"></textarea>
+                                <textarea class="form-control" name="eventDesc" id="eventDesc" style="height: 150px; overflow: auto; width: 400px;" pattern=".*\S+.*"></textarea>
                                     Total word Count : <span id="display_count">0</span> words(Maximum words allowed: 250).
                             </div>
                         </div>
@@ -356,7 +356,7 @@
         // if((id==3 && name=='next') || (id==1 && name=='prev'))
         if(id==3 && name=='next'){
             var eventName = $('input#eventName').val();
-            var eventDesc = $('textarea#eventDesc').val();
+            //var eventDesc = $('textarea#eventDesc').val();
             if(eventName == ""){
                flag = 0;
                alert("Please provide event name.");
