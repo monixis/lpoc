@@ -348,6 +348,9 @@
             } else if(email == ""){
                 flag = 0;
                 alert("Please enter Email ID.");
+            } else if(!( /(.+)@(.+){2,}\.(.+){2,}/.test(email) )){
+                flag = 0;
+                alert("Please enter valid email adddress");
             } else if(( /(.+)@(.+){2,}\.(.+){2,}/.test(email) ) && (reqName != "")){
                 console.log("yes");
                 flag = 1;
@@ -493,7 +496,6 @@
             console.log("clicked community");
             $("#0View").scrollTop();
             $('#overlay').css('display', 'block');        
-            
             setTimeout(function(){
                 $('.form-horizontal').show();
                 $('#userType').css('display','none');
