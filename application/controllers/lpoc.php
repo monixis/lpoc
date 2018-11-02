@@ -86,13 +86,15 @@ class lpoc extends CI_Controller
             'endDate' => $this->input->post('endDate'),
             'startTime' => date('H:i',strtotime($this->input->post('startTime'))),
             'endTime' => date('H:i',strtotime($this->input->post('endTime'))),
-            'eventId' => $this->input->post('eventId'),
-            'selectedRoom' => $this->input->post('selectedRoom'),
+            // 'eventId' => $this->input->post('eventId'),
+            // 'selectedRoom' => $this->input->post('selectedRoom'),
             'noOfPeople' => $this->input->post('noOfPeople'),
-            'describe' => $this->input->post('describe'),
+            // 'describe' => $this->input->post('describe'),
             'specReq' => $this->input->post('specReq'),
             'reqName' => $this->input->post('reqName'),
             'emailId' => $this->input->post('emailId'),
+            'scheType' => $this->input->post('scheType'),
+            'foodFlag' => $this->input->post('foodFlag'),
             'status' => 1
         );
         $requesterEmail = $data['emailId'];
@@ -143,27 +145,27 @@ class lpoc extends CI_Controller
         $this->email->from('cannavinolibrary@gmail.com', 'James A. Cannavino Library');
         $this->email->to($requesterEmail);
       
-            $this->email->subject("Library Room Reservation. Request Id: " . $requestID);
+        $this->email->subject("Library Room Reservation. Request Id: " . $requestID);
 
-            $emailBody = '<html><body>';
+        $emailBody = '<html><body>';
 
-            $emailBody .= '<table width="100%"; rules="all" style="border:1px solid #3A5896;" cellpadding="10">';
+        $emailBody .= '<table width="100%"; rules="all" style="border:1px solid #3A5896;" cellpadding="10">';
 
-            $emailBody .= "<h4>Dear $requesterName,<br/><br/> Your request has been received and is awaiting approval by the Library Programming and Outreach Committee. </h4></br></tr>";
+        $emailBody .= "<h4>Dear $requesterName,<br/><br/> Your request has been received and is awaiting approval by the Library Programming and Outreach Committee. </h4></br></tr>";
 
-            $emailBody .= "<tr><td colspan=2 font='colr:#3A5896;'><I>*Please contact a library staff if you have any further questions 845-575-3106.</I></td></tr>";
+        $emailBody .= "<tr><td colspan=2 font='colr:#3A5896;'><I>*Please contact a library staff if you have any further questions 845-575-3106.</I></td></tr>";
 
-            $emailBody .= "</table>";
+        $emailBody .= "</table>";
 
-            $emailBody .= "</body></html>";
-            $this->email->message($emailBody);
+        $emailBody .= "</body></html>";
+        $this->email->message($emailBody);
 
-            if ($this->email->send()) {
-                echo $requestID;
-            } else {
-                echo 0;
-            }
-     }
+        if ($this->email->send()) {
+            echo $requestID;
+        } else {
+            echo 0;
+        }
+    }
 
     /**
      * This function is for sending mails to user to notify about the approve/return status of the request
@@ -324,30 +326,38 @@ class lpoc extends CI_Controller
                 if (sizeof($requestinfo) == 0) {
                     array_push($requestinfo, $row['requesterName'], $row['requesterEmail'], $row['eventName'], $row['eventDesc'],
                         $row['eventStartDate'], $row['eventEndDate'], $row['startTime'], $row['endTime'], $row['eventType'],
-                        $row['roomId'], $row['numOfPeople'], $row['eventDescLib'], $row['eventReq'], $row['status']);
+                        $row['roomId'], $row['numOfPeople'], $row['scheType'], $row['eventReq'], $row['status'],$row['foodFlag'],$row['roomName'],$row['roomLoc']);
                     $data['requestinfo'] = $requestinfo;
                     $roomId = $row['roomId'];
                 }
             }
-            $roomInfo = $this->lpoc_model->getRoomWRoomId($roomId);
-            if ($roomInfo != null) {
-                $roominfo = array();
-                $info = json_decode(json_encode($roomInfo), true);
-                $data['requestID'] = $requestID;
-                foreach ($info as $row) {
-                    
-                    $request = array();
-                    if (sizeof($roominfo) == 0) {
-                        array_push($roominfo, $row['roomId'], $row['Name'], $row['Location'], $row['LocDesc'],
-                            $row['Capacity'], $row['Technology'],
-                            $row['Special Considerations']);
-                        $data['roominfo'] = $roominfo;
+            if($roomId != null){
+                $roomInfo = $this->lpoc_model->getRoomWRoomId($roomId);
+                if ($roomInfo != null) {
+                    $roominfo = array();
+                    $info = json_decode(json_encode($roomInfo), true);
+                    $data['requestID'] = $requestID;
+                    foreach ($info as $row) {
+                        
+                        $request = array();
+                        if (sizeof($roominfo) == 0) {
+                            array_push($roominfo, $row['roomId'], $row['Name'], $row['Location'], $row['LocDesc'],
+                                $row['Capacity'], $row['Technology'],
+                                $row['Special Considerations']);
+                            $data['roominfo'] = $roominfo;
+                        }
                     }
+                // $this->load->view('reviewRequest', $data);
+                }else{
+                echo "please provide valid requestID";
                 }
-            $this->load->view('reviewRequest', $data);
-            }else{
-            echo "please provide valid requestID";
+            } else {
+                $roominfo = array();
+                array_push($roominfo, "", "", "", "","", "","");
+                $data['roominfo'] = $roominfo;
+                
             }
+            $this->load->view('reviewRequest', $data);
         }
     }
 
@@ -475,10 +485,34 @@ class lpoc extends CI_Controller
             $requesterEmail = "deep.dand1992@gmail.com";
         }
         date_default_timezone_set('US/Eastern');
+        // $requestID = $_POST['requestID'];
         $date = date("Y-m-d");
+        $data = array(
+            'requesterName' => $this->input->post('requesterName'),
+            'requesterEmail' => $this->input->post('requesterEmail'),
+            'eventName' =>  $this->input->post('eventName'),
+            'eventDesc' => $this->input->post('eventDesc'),
+            'eventStartDate' => $this->input->post('startDate'),
+            'eventEndDate' => $this->input->post('endDate'),
+            'startTime' => date('H:i',strtotime($this->input->post('startTime'))),
+            'endTime' => date('H:i',strtotime($this->input->post('endTime'))),
+            'eventType' => $this->input->post('eventType'),
+            'roomName' => $this->input->post('roomName'),
+            'roomLoc' => $this->input->post('roomLoc'),
+            'numOfPeople' => $this->input->post('noOfPeople'),
+            // 'describe' => $this->input->post('describe'),
+            'eventDescLib'=>"event", 
+            'eventReq' => $this->input->post('specReq'),
+            'reqName' => $this->input->post('reqName'),
+            'emailId' => $this->input->post('emailId'),
+            'status' => 2,
+            'requestID' => $this->input->post('requestID')
+        );
+        
         $this->load->model('lpoc_model');
+        $result = $this->lpoc_model->admin_update_request($data);
         //updating researcher information
-        $result = $this->lpoc_model->approveOrDisapprove_request($date,2,$requestID);
+        // $result1 = $this->lpoc_model->approveOrDisapprove_request($date,2,$requestID);
         if($instruc != null){
             $data = array(
                 'comment' => $instruc,
@@ -521,35 +555,45 @@ class lpoc extends CI_Controller
             $info = json_decode(json_encode($result), true);
             $data['requestID'] = $requestID;
             foreach ($info as $row) {
-                
                 $request = array();
                 if (sizeof($requestinfo) == 0) {
                     array_push($requestinfo, $row['requesterName'], $row['requesterEmail'], $row['eventName'], $row['eventDesc'],
                         $row['eventStartDate'], $row['eventEndDate'], $row['startTime'], $row['endTime'], $row['eventType'],
-                        $row['roomId'], $row['numOfPeople'], $row['eventDescLib'], $row['eventReq'], $row['status']);
+                        $row['roomId'], $row['numOfPeople'], $row['scheType'], $row['eventReq'], $row['status'], $row['foodFlag']);
                     $data['requestinfo'] = $requestinfo;
-                    $roomId = $row['roomId'];
-                }
-            }
-            $roomInfo = $this->lpoc_model->getRoomWRoomId($roomId);
-            if ($roomInfo != null) {
-                $roominfo = array();
-                $info = json_decode(json_encode($roomInfo), true);
-                $data['requestID'] = $requestID;
-                foreach ($info as $row) {
-                    
-                    $request = array();
-                    if (sizeof($roominfo) == 0) {
-                        array_push($roominfo, $row['roomId'], $row['Name'], $row['Location'], $row['LocDesc'],
-                            $row['Capacity'], $row['Technology'],
-                            $row['Special Considerations']);
-                        $data['roominfo'] = $roominfo;
+                    if($row['roomId'] != null){
+                        $roomId = $row['roomId'];   
+                    } else {
+                        $roomId = "";
                     }
                 }
-            $this->load->view('userRequest', $data);
-            }else{
-                echo "please provide valid requestID";
             }
+            if($roomId!= null){
+                $roomInfo = $this->lpoc_model->getRoomWRoomId($roomId);
+                if ($roomInfo != null) {
+                    $roominfo = array();
+                    $info = json_decode(json_encode($roomInfo), true);
+                    $data['requestID'] = $requestID;
+                    foreach ($info as $row) {
+                        
+                        $request = array();
+                        if (sizeof($roominfo) == 0) {
+                            array_push($roominfo, $row['roomId'], $row['Name'], $row['Location'], $row['LocDesc'],
+                                $row['Capacity'], $row['Technology'],
+                                $row['Special Considerations']);
+                            $data['roominfo'] = $roominfo;
+                        }
+                    }
+                
+                }else{
+                    echo "please provide valid requestID";
+                }
+            } else {
+                $roominfo = array();
+                array_push($roominfo, "", "", "", "","", "","");
+                $data['roominfo'] = $roominfo;
+            }
+            $this->load->view('userRequest', $data);
         }else{
             echo '<html>', "\n"; // I'm sure there's a better way!
             echo '<head>', "\n";
@@ -609,12 +653,12 @@ class lpoc extends CI_Controller
             'endTime' => $_POST['endTime'],
             'eventName'=>$_POST['eventName'], 
             'eventDesc'=>$_POST['eventDesc'], 
-            'eventDescLib'=>$_POST['eventDescLib'], 
+            'eventDescLib'=>"event", 
             'numOfPeople'=>$_POST['numOfPeople'], 
             'eventReq'=>$_POST['eventReq'], 
             'requestID'=>$_POST['requestID']
         );
-         $result = $this->lpoc_model->update_request($data);
+        $result = $this->lpoc_model->update_request($data);
         //echo $result;
         if($this->input->post('eventReq')>0 ||$this->input->post('eventReq')!= null)
         {

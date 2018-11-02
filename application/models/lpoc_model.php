@@ -48,13 +48,15 @@ class lpoc_model extends CI_Model
             'eventEndDate'=> $data['endDate'],
             'startTime'=>$data['startTime'],
             'endTime'=>$data['endTime'],
-            'eventType' => $data['eventId'],
-            'roomId'=>$data['selectedRoom'],
+            // 'eventType' => $data['eventId'],
+            // 'roomId'=>$data['selectedRoom'],
             'numOfPeople'=>$data['noOfPeople'],
-            'eventDescLib'=> $data['describe'],
+            // 'eventDescLib'=> $data['describe'],
             'eventReq'=> $data['specReq'],
             'requesterName'=> $data['reqName'],
             'requesterEmail'=> $data['emailId'],
+            'scheType' => $data['scheType'],
+            'foodFlag' => $data['foodFlag'],
             'status'=>$data['status']);
         $this->db->insert('requests',$requestData);
         if ($this->db->affected_rows() > 0) {
@@ -336,6 +338,45 @@ class lpoc_model extends CI_Model
         //     'requesterEmail'=> $data['requesterEmail'],
         //     'requestID'=>$data['requestID']);
         $sql = "UPDATE requests SET requesterName='".$data['requesterName']."', requesterEmail= '".$data['requesterEmail']."', eventStartDate = '".$data['eventStartDate']."',eventEndDate ='".$data['eventEndDate']."', startTime = '".$data['startTime']."',endTime ='".$data['endTime']."',eventName='".$data['eventName']."', eventDesc='".$data['eventDesc']."', eventDescLib ='".$data['eventDescLib']."' , numOfPeople ='".$data['numOfPeople']."' ,eventReq ='".$data['eventReq']."', status = 1 WHERE requestID='".$data['requestID']."' ;";
+        $this->db->query($sql);
+
+        // $this->db->where('userId', "15");
+        //$this->db->update('researcher', $data);
+        if ($this->db->affected_rows() > 0) {
+            return $data['requestID'];
+        } else {
+            // return 0;
+            return $this->db->_error_message() . print_r("");
+        }
+    }
+
+    /*
+    * Function to update request table
+    */
+    public function admin_update_request($data)
+    {
+        $sql = "UPDATE requests SET eventType=$data[eventType], roomName ='".$data['roomName']."', roomLoc ='".$data['roomLoc']."', requesterEmail= '".$data['requesterEmail']."', eventStartDate = '".$data['eventStartDate']."',eventEndDate ='".$data['eventEndDate']."', startTime = '".$data['startTime']."',endTime ='".$data['endTime']."',eventName='".$data['eventName']."', eventDesc='".$data['eventDesc']."', eventDescLib ='".$data['eventDescLib']."' , numOfPeople ='".$data['numOfPeople']."' ,eventReq ='".$data['eventReq']."', status = '".$data['status']."' WHERE requestID='".$data['requestID']."' ;";
+        // $this->load->database(); 
+        // $this->db->where('requestID', $data['requestID']);
+        // $dbdata = array(
+        //     "eventType" =>  $data['eventType'],
+        //     "roomName" =>$data['roomName'], 
+        //     "roomLoc" => $data['roomLoc'],
+        //     "requesterEmail" => $data['requesterEmail'],
+        //     "eventStartDate" => $data['eventStartDate'
+        //     "eventEndDate" => $data['eventEndDate'],
+        //     "startTime" => $data['startTime'],
+        //     "endTime" => $data['endTime'],
+        //     "eventName"=> $data['eventName'], 
+        //     "eventDesc" => $data['eventDesc'], 
+        //     "eventDescLib" => $data['eventDescLib'],
+        //     "numOfPeople" => $data['numOfPeople'],
+        //     "eventReq" => $data['eventReq'],
+        //     "status" => $data['status']
+        // );
+
+        // $this->db->update('requests',$dbdata);
+
         $this->db->query($sql);
 
         // $this->db->where('userId', "15");

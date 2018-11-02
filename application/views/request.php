@@ -9,11 +9,11 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Library Room Reservation Request</title>
+    <title>Application for Event or Exhibit in the James A. Cannavino Library</title>
   
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 
     <script type="text/javascript" src="http://library.marist.edu/js/libraryMenu.js"></script>
@@ -86,7 +86,7 @@
            <div id='overlay'> </div>
 <div id="main-container" class="container">
     <div class="jumbotron" style="background: white">
-    <h2 style="text-align: center; font-size: 40px;">Library Room Reservation Request</h2>
+    <h2 style="text-align: center; font-size: 32px;">Application for Event or Exhibit in the James A. Cannavino Library</h2>
         <div id="userType" class="container" style=""><!--removed margin top - margin-top: -36px; for now-->
             <!-- Example row of columns -->
                 <div class="col-md-12" style="background: white">
@@ -99,7 +99,7 @@
                         <div style="width: 95%; border: 1px solid #ddd; text-align:center;  padding: 70px 0">
                             
                         <a href="" data-toggle="modal" data-target="#myModal"><span class="fas fa-user fa-5x"></span></a>
-                        <p>Staff</p>
+                        <p>Marist faculty/Staff</p>
 
                         </div>
                     </div>    
@@ -108,7 +108,7 @@
                         <div style="width: 95%; border: 1px solid #ddd; text-align:center;  padding: 70px 0">
                                                  
                             <a><span class="fas fa-user-graduate fa-5x"></span></a>
-                            <p>Student</p>
+                            <p>Marist Student</p>
 
                         </div>   
                     </div>
@@ -140,7 +140,7 @@
                                 Do you have any on campus sponser?</label>
                                 <div class="col-md-4">
                                     <input class="form-control" name="sponser" id="sponser"  pattern=".*\S+.*"/>
-                                    <span aria-hidden="true" style="color:blue;">Write name of sponser. If you do not have a sponser, write NA.</span>
+                                    <span aria-hidden="true" style="color:blue;">Type name of sponser. If you do not have a sponser, write NA.</span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -202,16 +202,24 @@
                     <div class="form-horizontal" id="3View" style="display: none"> 
                         <h2>Event Schedule:</h2>
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Is the Schedule?</label>
+                            <div class="col-md-4">
+                                <input type="radio" id="undecided" name="scheType" value="undecided"/>Undecided
+                                <input type="radio" id="negotiable" name="scheType" value="negotiable" />Negotiable
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Event Start Date</label>
                             <div class="col-md-4">
-                                <input class="form-control" name="startDate" id="startDate" type="date" required/>
+                                <input class="form-control" name="startDate" id="startDate" type="date"/>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="start-time">Start Time:</label>
                             <div class="col-md-4">
-                                <input class="form-control" type="time" id="startTime" name="startTime"  required /> 
+                                <input class="form-control" type="time" id="startTime" name="startTime"  /> 
                                 <!--onchange="startvalidateHhMm(this);" -->
                             </div><span class="validity"></span>
                         </div>
@@ -219,19 +227,28 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Event End Date</label>
                             <div class="col-md-4">
-                                <input class="form-control" name="endDate" id="endDate" type="date" required/>
+                                <input class="form-control" name="endDate" id="endDate" type="date"/>
                             </div>
                         </div>   
-                        
+
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="end-time">End Time:</label>
                             <div class="col-md-4">
-                                <input class="form-control" type="time" id="endTime" name="endTime"
-                                required />
+                                <input class="form-control" type="time" id="endTime" name="endTime"/>
                                 <!--onchange="endvalidateHhMm(this);" -->
                             </div>
                         </div>
 
+                        <!-- <div class="form-group">
+                            <label class="col-md-4 control-label">Flexible with schedule?</label>
+                            <div class="col-md-4">
+                                <input class="form-control" name="negotiable" id="negotiable" type="checkbox" style="width:auto;height:auto;" />
+                            </div>
+                        </div> -->
+
+                        <div class="form-group" style="text-align:center;">
+                        <span aria-hidden="true" style="color:blue;">Note: text to help users understand this page.</span>
+                        </div>
                         <div class="form-group">
                             <div class="col-md-8">
                                 <button id="4" name="next" type="button" class="btn btn-dark" style="float:right" >Next</button>
@@ -242,46 +259,55 @@
 
                     <div class="form-horizontal" id="4View" style="display: none"> 
                         <h2>Event Information:</h2>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label class="col-md-4 control-label">Type of Event</label>
                                 <div class="col-md-4">
                                     <select class="form-control" id="eventsSelection">
-                                        <?php foreach ($events as $events){ ?>
-                                            <option value='<?php echo $events -> eventid ; ?>'><?php  echo $events -> type ?></option>
-                                        <?php } ?>
+                                        <//?php foreach ($events as $events){ ?>
+                                            <option value='<//?php echo $events -> eventid ; ?>'><//?php  echo $events -> type ?></option>
+                                        <//?php } ?>
                                     </select>
                                 </div>
-                            </div>
+                        </div>
                             
-                            <div class="form-group">
-                                <label class="col-md-4 control-label">Available Rooms</label>
-                                <div class="col-md-4">
-                                    <select class="form-control" id="availableRooms">
-                                        
-                                    </select>
-                                </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Available Rooms</label>
+                            <div class="col-md-4">
+                                <select class="form-control" id="availableRooms">
+                                    
+                                </select>
                             </div>
+                        </div>
 
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" for="textarea"></label>
-                                <div class="col-md-4" id="roomInfo">
-                                </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="textarea"></label>
+                            <div class="col-md-4" id="roomInfo">
                             </div>
+                        </div> -->
 
-                                <div class="form-group">
-                                <label class="col-md-4 control-label"># of people</label>
-                                <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Number of people</label>
+                            <div class="col-md-4">
                                 <input class="form-control" type="number" name="noOfPeople" id="noOfPeople" required min="2"/>
-                                </div>
                             </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Will food be served?</label>
+                            <div class="col-md-4">
+                                <!-- <input class="form-control" type="number" name="noOfPeople" id="noOfPeople" required min="2"/> -->
+                                <input type="radio" name="yes_no" value="yes" checked />Yes
+                                <input type="radio" name="yes_no" value="no" />No
+                            </div>
+                        </div>
                             
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" for="textarea">Describe the event/how it relates to library</label>
-                                <div class="col-md-4">
-                                    <textarea class="form-control" name="describe" id="describe" style="height: 150px; overflow: auto; width: 400px;" required pattern=".*\S+.*"></textarea>
-                                    Total word Count : <span id="describe_display_count">0</span> words(Maximum words allowed: 250).
-                                </div>
-                            </div>
+                    <!-- <div class="form-group">
+                        <label class="col-md-4 control-label" for="textarea">Describe the event/how it relates to library</label>
+                        <div class="col-md-4">
+                            <textarea class="form-control" name="describe" id="describe" style="height: 150px; overflow: auto; width: 400px;" required pattern=".*\S+.*"></textarea>
+                            Total word Count : <span id="describe_display_count">0</span> words(Maximum words allowed: 250).
+                        </div>
+                    </div> -->
                                 
                             <div class="form-group">
                                 <label class="col-md-4 control-label" for="textarea">Special Meeting/Event Requirements</label>
@@ -375,30 +401,37 @@
         //4 th is last view to think other logic for validation    startdate, enddate, start  time, end time validation here
             var startDate= document.getElementById("startDate").value;
             var endDate= document.getElementById("endDate").value;
-            console.log(startDate);console.log(endDate);
+            var schetype = $('input:radio[name="scheType"]:checked').val();
+
+            // console.log(startDate);console.log(endDate);
             
             var startTime = document.getElementById("startTime").value;//time attribute only works with this format
             var endTime = document.getElementById("endTime").value;//time attribute only works with this format
             console.log(startTime);console.log(endTime);
-            if((startDate== "") || (endDate== "") || (startTime== "") || (endTime== "")){
-                flag=0;
-            } else if (startDate== "") {
-                flag=0;
-                alert("Please enter start date.");
-            } else if(endDate == "") {
-                flag=0;
-               alert("Please enter end date.");
-            } else if (startTime== "") {
-                flag=0;
-                alert("Please enter start time.");
-            } else if (endTime== "") {
-                flag=0;
-                alert("Please enter end time.");
-            } else if((startTime > endTime) && (Date.parse(startDate) === Date.parse(endDate))) {
-                flag=0;
-                alert("The Event end time should be later than start time. Please fill the time again.");
-            } else {
-                flag=1;
+            if(schetype == "negotiable"){
+                if((startDate== "") || (endDate== "") || (startTime== "") || (endTime== "")){
+                    flag=0;
+                    alert("Please enter the schedule");
+                } else if (startDate== "") {
+                    flag=0;
+                    alert("Please enter start date.");
+                } else if(endDate == "") {
+                    flag=0;
+                alert("Please enter end date.");
+                } else if (startTime== "") {
+                    flag=0;
+                    alert("Please enter start time.");
+                } else if (endTime== "") {
+                    flag=0;
+                    alert("Please enter end time.");
+                } else if((startTime > endTime) && (Date.parse(startDate) === Date.parse(endDate))) {
+                    flag=0;
+                    alert("The Event end time should be later than start time. Please fill the time again.");
+                } else {
+                    flag=1;
+                }
+            } else if(schetype == "undecided") {
+                flag = 1;
             }
         }
         if(flag==1){
@@ -437,8 +470,9 @@
     });
 
     $(window).load(function() { /* code here */
+        /**  
         var roomId = $("select#availableRooms").attr('value');
-        var resultUrll = "<?php echo base_url("lpoc/getRoomInfo")?>" + "/" + roomId;
+        var resultUrll = "<//?php echo base_url("lpoc/getRoomInfo")?>" + "/" + roomId;
         if(roomId){
             $.ajax({
                 url: resultUrll,
@@ -453,7 +487,7 @@
             });
         }else{
             $('select[name="availableRooms"]').empty();
-        }
+        } */
 
         $('#student').click(function(){
             console.log("clicked student");
@@ -472,6 +506,20 @@
                 $('#3View').css('display','none');
                 $('#4View').css('display','none');
            // }, 500);
+        });
+
+        $('input[type=radio][name=scheType]').click(function(){
+            if(this.value == "undecided"){
+                $('#startDate').attr('disabled',true);
+                $('#endDate').attr('disabled',true);
+                $('#endTime').attr('disabled',true);
+                $('#startTime').attr('disabled',true);
+            } else {
+                $('#startDate').attr('disabled',false);
+                $('#endDate').attr('disabled',false);
+                $('#endTime').attr('disabled',false);
+                $('#startTime').attr('disabled',false);
+            }
         });
 
         $('#staff').click(function(){
@@ -517,10 +565,10 @@
         });
     });
 
-    $("select#availableRooms").change(function () {
+    /*    $("select#availableRooms").change(function () {
         var roomId = $(this).attr('value');
         var selectedRoom = roomId;
-        var resultUrl = "<?php echo base_url("lpoc/getRoomInfo")?>" + "/" + roomId;
+        var resultUrl = "<//?php echo base_url("lpoc/getRoomInfo")?>" + "/" + roomId;
         if(roomId){
             $.ajax({
                 url: resultUrl,
@@ -540,7 +588,7 @@
 
     $("select#eventsSelection").change(function () {
         var eventId = $(this).attr('value');
-        var resultUrl = "<?php echo base_url("lpoc/getRooms")?>" + "/" + eventId;
+        var resultUrl = "<//?php echo base_url("lpoc/getRooms")?>" + "/" + eventId;
         if(eventId){
             $.ajax({
                 url: resultUrl,
@@ -557,7 +605,7 @@
             $('select[id="availableRooms"]').empty();
         }
         var roomId = $("select#availableRooms").attr('value');
-        var resultUrl = "<?php echo base_url("lpoc/getRoomInfo")?>" + "/" + roomId;
+        var resultUrl = "<//?php echo base_url("lpoc/getRoomInfo")?>" + "/" + roomId;
         if(roomId){
             $.ajax({
                 url: resultUrl,
@@ -570,7 +618,7 @@
                     });
                     var roomId = $("select#availableRooms").attr('value');
                     var selectedRoom = roomId;
-                    var resultUrll = "<?php echo base_url("lpoc/getRoomInfo")?>" + "/" + roomId;
+                    var resultUrll = "<//?php echo base_url("lpoc/getRoomInfo")?>" + "/" + roomId;
                     if(roomId){
                         $.ajax({
                             url: resultUrll,
@@ -591,7 +639,8 @@
             }else{
                 $('select[name="availableRooms"]').empty();
             }
-    }).change();
+    }).change(); */
+
 
     $("#eventDesc").on('keyup', function(e) {
         var words = $.trim(this.value).length ? this.value.match(/\S+/g).length : 0;
@@ -603,15 +652,15 @@
         }
     });
 
-    $("#describe").on('keyup', function(e) {
-        var words = $.trim(this.value).length ? this.value.match(/\S+/g).length : 0;
-        if (words <= 250) {
-            $('#describe_display_count').text(words);
-            //$('#word_left').text(200-words)
-        }else{
-            if (e.which !== 8) e.preventDefault();
-        }
-    });
+    // $("#describe").on('keyup', function(e) {
+    //     var words = $.trim(this.value).length ? this.value.match(/\S+/g).length : 0;
+    //     if (words <= 250) {
+    //         $('#describe_display_count').text(words);
+    //         //$('#word_left').text(200-words)
+    //     }else{
+    //         if (e.which !== 8) e.preventDefault();
+    //     }
+    // });
 
     $("#specReq").on('keyup', function(e) {
         var words = $.trim(this.value).length ? this.value.match(/\S+/g).length : 0;
@@ -657,6 +706,10 @@
         var endDate= $('input#endDate').val();
         var startTime = document.getElementById("startTime").value;//time attribute only works with this format
         var endTime = document.getElementById("endTime").value;//time attribute only works with this format
+        console.log(startTime);
+        console.log(endTime);
+        console.log($('input:radio[name="scheType"]:checked').val());
+        console.log($('input:radio[name="yes_no"]:checked').val());
         if ((Date.parse(startDate) > Date.parse(endDate))) {
             alert("The event should end on same or later day.");
             document.getElementById("endDate").value = "";
@@ -670,8 +723,8 @@
         } else {
             var r = confirm("Do you want to submit the request?");
             if(r){
-                var eventId = $('select#eventsSelection').attr('value');
-                var selectedRoom = $('select#availableRooms').attr('value');
+                // var eventId = $('select#eventsSelection').attr('value');
+                // var selectedRoom = $('select#availableRooms').attr('value');
                 var eventName = $('input#eventName').val();
                 var eventDesc = $('textarea#eventDesc').val();
                 var startDate= $('input#startDate').val();
@@ -679,10 +732,13 @@
                 var startTime = document.getElementById("startTime").value;//time attribute only works with this format
                 var endTime = document.getElementById("endTime").value;//time attribute only works with this format
                 var noOfPeople= $('input#noOfPeople').val();
-                var describe= $('textarea#describe').val();
+                // var describe= $('textarea#describe').val();
                 var specReq= $('textarea#specReq').val();
                 var reqName= $('input#reqName').val();
                 var emailId= $('input#emailId').val();
+                var scheType = $('input:radio[name="scheType"]:checked').val();
+                var foodFlag = $('input:radio[name="yes_no"]:checked').val();//document.querySelector('input[name="yes_no"]:checked').value;
+;//$('input#yes_no').val();
                 $('fieldset').css('opacity','0.1');
                 $.post('<?php echo base_url().'lpoc/insertNewRequest'?>',{
                     'eventName':eventName,
@@ -691,13 +747,15 @@
                     'endDate':endDate,
                     'startTime' : startTime,
                     'endTime':endTime,
-                    'eventId' : eventId,
-                    'selectedRoom': selectedRoom,
+                    //'eventId' : eventId,
+                    //'selectedRoom': selectedRoom,
                     'noOfPeople':noOfPeople,
-                    'describe':describe,
+                    // 'describe':describe,
                     'specReq':specReq,
                     'reqName' :reqName,
-                    'emailId' :emailId
+                    'emailId' :emailId,
+                    'scheType' : scheType,
+                    'foodFlag' : foodFlag
                     }).done(function(requestID){
                     if(requestID > 0){
                         //alert("this is request ID: " + requestID);
