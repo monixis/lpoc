@@ -49,36 +49,37 @@
     $requesterEmail = $requestinfo[1];
     $eventName = $requestinfo[2];
     $eventDesc = $requestinfo[3];
-    if($requestinfo[4] != null){
+   if($requestinfo[4] != null){
         $eventStartDate =$requestinfo[4];
         $eventEndDate = $requestinfo[5];
         $startTime =$requestinfo[6];
         $endTime = $requestinfo[7];
     } else {
-        $eventStartDate ="12/31/9999";
-        $eventEndDate = "12/31/9999";
-        $startTime = "00:00";
-        $endTime = "00:00";
+        $eventStartDate ="NA";
+        $eventEndDate = "NA";
+        $startTime = "NA";
+        $endTime = "NA";
     }
-    if($requestinfo[8] != null){
+    //if($requestinfo[8] != null){
         $eventType = $requestinfo[8];
         $roomId = $requestinfo[9];
-    } else {
+    /*} else {
         $eventType = "NA";
         $roomId = "Please Enter Room ID";
-    }
+    }*/
     $numOfPeople = $requestinfo[10];
     $scheType = $requestinfo[11]; //old- $eventDescLib = $requestinfo[11];
-    $eventReq = $requestinfo[12];
-    $status = $requestinfo[13];
-    $foodFlag = $requestinfo[14];
-    if($requestinfo[15] != ''){
+    $negotiable = $requestinfo[12];
+    $eventReq = $requestinfo[13];
+    $status = $requestinfo[14];
+    $foodFlag = $requestinfo[15];
+    /*if($requestinfo[15] != ''){
         $roomName = $requestinfo[15];
         $roomLoc = $requestinfo[16];
-    } else {
+    } else {*/
         $roomName = "NA";
         $roomLoc = "NA";
-    }
+    //}
 
     //room info
     // $roomName = $roominfo[1];
@@ -107,13 +108,8 @@
                 document.getElementById('step2').className='';
                 document.getElementById('step3').className='';
                 document.getElementById('step4').className='';
-                if(<?php echo $eventEndDate ?> != null){
-                    if(<?php echo $eventEndDate ?> < Date('Y-m-d')){
-                        document.getElementById("instructions").style.display="none";
-                        document.getElementById("approve").style.display = "none";
-                        document.getElementById("disapprove").style.display = "none";
-                    }
-                }
+             
+               
                 //document.getElementById("complete").style.display="none";
                 //document.getElementById("completeTransaction").style.display = "none";
                
@@ -164,41 +160,15 @@
                         if(r){
                             var requesterName = $('input#requesterName').val();
                             var requesterEmail = $('input#requesterEmail').val();
-                            var eventName = $('input#eventName').val();
-                            var eventDesc = $('textarea#eventDesc').val();
-                            var startdate = $('input#startdatepicker').val();
-                            var enddate = $('input#enddatepicker').val();
-                            var startTime = document.getElementById("startTime").value;//time attribute only works with this format
-                            var endTime = document.getElementById("endTime").value;//time attribute only works with this format
-                            var eventType = $('input#eventType').val();
-                            var roomId = $('input#roomId').val();
-                            var roomName = $('input#roomName').val();
-                            var roomLoc = $('input#roomLoc').val();
-                            var numOfPeople = $('input#numOfPeople').val();
-                            // var eventDescLib = $('textarea#eventDescLib').val();
-                            var eventReq = $('textarea#eventReq').val();
                             var instructions = $('textarea#instructions').val();
-                            console.log(instructions);
+                            var requestID = $('input#requestID').val();
                             $.post("<?php echo base_url("?c=lpoc&m=disapproveRequest&requestID=" . $requestID);?>", {
                             requesterName:requesterName,
                             requesterEmail:requesterEmail,
-                            eventName:eventName,
-                            eventDesc: eventDesc,
-                            eventStartDate: startdate,
-                            eventEndDate: enddate,
-                            startTime:startTime,
-                            endTime:endTime,
-                            // eventDescLib: eventDescLib,
-                            eventType: eventType,
-                            roomId: roomId,
-                            roomName: roomName,
-                            roomLoc: roomLoc,
-                            numOfPeople: numOfPeople,
-                            eventReq : eventReq,
                             instructions:instructions
                         }).done(function (requestID) {
-                                if (requestID > 0) {
-                                    $('#requestStatus').show().css('background', '#66cc00').append("#" + requestID + ":Library room reservation request Form has been returned and an email sent to " + requesterName);
+                            if (requestID > 0) {
+                                $('#requestStatus').show().css('background', '#66cc00').append("#" + requestID + ":Library room reservation request Form has been returned and an email sent to " + requesterName);
                                 document.getElementById('step1').className = 'danger';
                                 document.getElementById('step2').className = 'danger';
                                 document.getElementById('step3').className = 'danger';
@@ -221,7 +191,7 @@
             });
 
             $('button#approve').click(function(e){
-            //$("form").submit(function(e) 
+    
                 var email = $('input#requesterEmail').val();
                 var selectEmail = email;//prompt("Please select recipient emailId",email);
                 if(selectEmail != null) {
@@ -231,46 +201,38 @@
                   } else if ($('input#requesterEmail').val() == "") {
                       $('input#requesterEmail').css('border', '1px solid red');
                       e.preventDefault();
+                  } else if ($('input#roomId').val() == "") {
+                      $('input#roomId').css('border', '1px solid red');
+                      e.preventDefault();
                   } else {
                     var r = confirm("Do you want to approve the request?");
                     if(r){
                         var requesterName = $('input#requesterName').val();
                         var requesterEmail = selectEmail;
-                        var eventName = $('input#eventName').val();
-                		var eventDesc = $('textarea#eventDesc').val();
                         var startdate = $('input#startdatepicker').val();
                         var enddate = $('input#enddatepicker').val();
                         var startTime = document.getElementById("startTime").value;//time attribute only works with this format
                         var endTime = document.getElementById("endTime").value;//time attribute only works with this format
-                		var eventType = $('input#eventType').val();
                         var roomId = $('input#roomId').val();
-                        var roomName = $('input#roomName').val();
-                        var roomLoc = $('input#roomLoc').val();
-                        //var citystate = $('input#citystate').val();
-                        var numOfPeople = $('input#numOfPeople').val();
-                        // var eventDescLib = $('textarea#eventDescLib').val();
-                        var eventReq = $('textarea#eventReq').val();
                         var instructions = $('textarea#instructions').val();        
                         var requestID = $('input#requestID').val();
                         $.post("<?php echo base_url("?c=lpoc&m=approveRequest&requestID=" . $requestID);?>", {
                           requesterName:requesterName,
                           requesterEmail:requesterEmail,
-                          eventName:eventName,
-                          eventDesc: eventDesc,
+                         /* eventName:eventName,
+                          eventDesc: eventDesc,*/
                           eventStartDate: startdate,
                           eventEndDate: enddate,
-                          startTime:startTime,
+                          startTime: startTime,
                           endTime:endTime,
-                		//   eventDescLib: eventDescLib,
-                  		  eventType: eventType,
+                  		//  eventType: eventType,
                           roomId: roomId,
-                          roomName: roomName,
-                          roomLoc: roomLoc,
-                          numOfPeople: numOfPeople,
-                          eventReq : eventReq,
+                        /*  numOfPeople: numOfPeople,
+                          eventReq : eventReq,*/
                           instructions: instructions,
                           requestID: requestID
                         }).done(function ($requestID) {
+                            console.log($requestID);
                             if ($requestID > 0) {
                                 $('#requestStatus').show().css('background', '#66cc00').append("#" + $requestID + ": Library room reservation request Form has been approved and confirmation mail sent to " + requesterName);
                                 document.getElementById('step1').className = 'completed';
@@ -382,24 +344,32 @@
                     <label class="label">Requester&#39;s Email:</label><br/><input type="email" id="requesterEmail" name="requesterEmail" class="textinput"  value = "<?php echo $requesterEmail; ?>" readonly/>
                     <label class="label">Event Name:</label><br/><input type="text" id="eventName" class="textinput" value = "<?php echo $eventName; ?>" readonly />
           			<label class="label">Event Description:</label><br/><textarea id="eventDesc" class="readonlytext" style="height: 150px; overflow: auto; width: 400px;" readonly><?php echo $eventDesc; ?></textarea>
-                    <label class="label">Event Schedule is: <?php echo ucfirst($scheType); ?></label><br /><br />
-                                  
-                    
-                    <label class="label">Start Date:</label><br/><input type="text" id="startdatepicker" class="textinput"  value = "<?php echo $eventStartDate; ?>"/>
-                    <label class="label">Start Time:</label><br/><input type="time" id="startTime" class="textinput"  value = "<?php echo $startTime; ?>" style="width: 100px;"/>
-                    <label class="label">End Date:</label><br/><input type="text" id="enddatepicker" class="textinput"  value = "<?php echo $eventEndDate; ?>"/>                        
-                    <label class="label">End Time:</label><br/><input type="time" id="endTime" class="textinput"  value = "<?php echo $endTime; ?>" style="width: 100px;"/>
-                    <label class="label">Event Type:</label><br/><input type="text" id="eventType" class="textinput" value = "<?php echo $eventType ?>" />
-                    <label class="label">Room Name:</label><br/><input type="text" id="roomName" class="textinput" value = "<?php echo $roomName; ?>" />
-                    <label class="label">Location:</label><br/><input type="text" id="roomLoc" class="textinput" value = "<?php echo $roomLoc; ?>" />
-                    <!-- <label class="label">Room Name:</label><br/><input type="text" id="roomName" class="textinput" value = "<//?php echo $roomName; ?>"/>
-                    <label class="label">Location:</label><br /><input type="text" id="roomLocation" class="textinput" value = "<//?php echo $roomLocation; ?> "/>
-                    <label class="label">Location Description: </label></br><input type="text" id="locDesc" class="textinput" value = "<//?php echo $locDesc; ?>"/>
-                    <label class="label">Capacity: </label><input type="text" id="roomCapacity" class="textinput" value = "<//?php echo $roomCapacity; ?>"/> -->
-                    <label class="label">Number of people:</label><br/><input type="text" id="numOfPeople" class="textinput" value = "<?php echo $numOfPeople; ?>" />
-          			<!-- <label class="label">How the event relates to library:</label><br/><textarea id="eventDescLib" class="readonlytext" style="height: 150px; overflow: auto; width: 400px;" readonly><//?php echo $eventDescLib; ?></textarea> -->
-          			<label class="label">Will food be served?: <?php echo ucfirst($foodFlag); ?></label><br /><br />
+                               
+
+                      <label class="label">Number of people:</label><br/><input type="text" id="numOfPeople" class="textinput" value = "<?php echo $numOfPeople; ?>" readonly/>         			
+                      <label class="label">Will food be served?: <?php echo ucfirst($foodFlag); ?></label><br /><br />
                       <label class="label">Special Event Requirements:</label><br/><textarea id="eventReq" class="readonlytext" style="height: 150px; overflow: auto; width: 400px;" readonly><?php echo $eventReq; ?></textarea>
+                         
+                    <?php 
+                        if($scheType != 'NA'){
+                           ?>   <label class="label" style="color: #b31b1b; font-style: italic"><?php echo ucfirst($requesterName); ?> is <?php echo $scheType; ?> about the event schedule. Please assist with the scheduling. Date should be in yyyy-mm-dd format.</label><br /><br />
+                                <!--label class="label">Start Date:</label><br/><input class="form-control textinput" name="startDate" id="startdatepicker" type="date"/> </br> 
+                                <label class="label">Start Time:</label><br/><input class="form-control textinput" type="time" id="startTime" name="startTime"  /></br>
+                                <label class="label">End Date:</label><br/><input class="form-control textinput" name="endDate" id="enddatepicker" type="date"/> </br > 
+                                <label class="label">End Time:</label><br/><input class="form-control textinput" type="time" id="endTime" name="startTime"  /></br-->
+                        <?php }?>
+                                <label class="label">Start Date:</label><br/><input type="text" id="startdatepicker" class="textinput"  value = "<?php echo $eventStartDate; ?>"  />
+                                <label class="label">Start Time:</label><br/><input type="time" id="startTime" class="textinput"  value = "<?php echo $startTime; ?>" style="width: 150px;" />
+                                <label class="label">End Date:</label><br/><input type="text" id="enddatepicker" class="textinput"  value = "<?php echo $eventEndDate; ?>" />                        
+                                <label class="label">End Time:</label><br/><input type="time" id="endTime" class="textinput"  value = "<?php echo $endTime; ?>" style="width: 150px;" />
+                       
+                     <?php  
+                        if($negotiable != 'NA'){
+                           ?> <label class="label" style="color: #b31b1b; font-style: italic">The schedule for the event is <?php echo $negotiable ; ?>.</label><br /><br />
+                        <?php } 
+                    ?>    
+                      <label class="label">Assigned Room:</label><br/><input type="text" id="roomId" class="textinput" value = "<?php echo $roomId; ?>"  />         			
+                       
                     </br></br>
                 </div>  
                 <?php
@@ -429,7 +399,7 @@
                     <?php } ?>
                 </div>
                 <div id ="instructions" class="container">
-                    </br><label class="label">Optional Message (This will be part of the email sent to the researcher):</label><br/><textarea id="instructions" name="instructions" rows="8" cols="75" style="display: block; margin-bottom: 10px;" ></textarea>
+                    </br><label class="label">Optional Message (This will be part of the email sent to the researcher):</label><br/><textarea id="instructions" name="instructions" rows="8" cols="75" style="display: block; margin-bottom: 10px; width: 100%; font-size: 15px;" ></textarea>
                 </div>
                 <button class="btn" type="submit" id="approve">Approve</button>
                 <button class="btn" type="button" id="disapprove">Return for review</button></br>
@@ -446,7 +416,7 @@
                     <a href="https://goo.gl/forms/ockpp3uGjfzZC5O33" target="_blank" role="button"><button class="btn" type="button" id="complete">Event Completion report</button></a>
                     <br /><br />
                     <label class="label">Message:</label><br/>
-                    <textarea id="message" name='message' rows="8" cols="75" style="display: block; margin-bottom: 10px;" ></textarea>
+                    <textarea id="message" name='message' rows="8" cols="75" style="display: block; margin-bottom: 10px;width: 100%; font-size: 18px;" ></textarea>
                     <button class="btn" type="button" id="completed">Complete Transaction</button>
                     
                 </div>

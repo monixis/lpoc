@@ -98,7 +98,7 @@
                     <div id='staff' name='staff' class="col-md-4" style="height: 300px; margin-top: 20px">
                         <div style="width: 95%; border: 1px solid #ddd; text-align:center;  padding: 70px 0">
                             
-                        <a href="" data-toggle="modal" data-target="#myModal"><span class="fas fa-user fa-5x"></span></a>
+                        <a><span class="fas fa-user-graduate fa-5x"></span></a>
                         <p>Marist faculty/Staff</p>
 
                         </div>
@@ -134,7 +134,7 @@
                     </button>
 
                     <div class="form-horizontal" id="0View" style="display: none"> 
-                        <h2>Sponser Information:</h2>
+                        <h2>Sponser Information (Page 1 of 4):</h2>
                             <div class="form-group">
                                 <label class="col-md-4 control-label">
                                 Do you have any on campus sponser?</label>
@@ -145,7 +145,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-md-8">
-                                    <button id="1" name="next" type="button" class="btn btn-dark" style="float:right" >Next</button>
+                                    <button id="1" name="next" type="button" class="btn btn-default btn-dark" style="float:right" >Next</button>
                                 </div>
                             </div>    
                     </div>  <!-- div 0 ends -->    
@@ -169,14 +169,14 @@
 
                             <div class="form-group">
                                 <div class="col-md-8">
-                                     <button id="2" name="next" type="button" class="btn btn-dark" style="float:right" >Next</button>
-                                     <button id="0" name="prev" type="button" class="btn btn-dark" style="float:right; margin-right:250px;display:none;" >Previous</button>
+                                     <button id="2" name="next" type="button" class="btn btn-default btn-dark" style="float:right" >Next</button>
+                                     <button id="0" name="prev" type="button" class="btn btn-default btn-dark" style="float:right; margin-right:250px;display:none;" >Previous</button>
                                 </div>
                             </div>    
                     </div>  <!-- div 1 ends -->      
 
                     <div class="form-horizontal" id="2View" style="display: none"> 
-                        <h2>Event Information:</h2>
+                        <h2>Event Information (2 of 4):</h2>
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="textinput">Event Name</label>
                             <div class="col-md-4">
@@ -193,19 +193,19 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-8">
-                                <button id="3" name="next" type="button" class="btn btn-dark" style="float:right" >Next</button>
-                                <button id="1" name="prev" type="button" class="btn btn-dark" style="float:right; margin-right:250px" >Previous</button>
+                                <button id="3" name="next" type="button" class="btn btn-default btn-dark" style="float:right" >Next</button>
+                                <button id="1" name="prev" type="button" class="btn btn-default btn-dark" style="float:right; margin-right:250px" >Previous</button>
                             </div>
                         </div> 
                     </div><!-- div 2 ends -->  
 
                     <div class="form-horizontal" id="3View" style="display: none"> 
-                        <h2>Event Schedule:</h2>
+                        <h2>Schedule Information (3 of 4):</h2>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Is the Schedule?</label>
                             <div class="col-md-4">
-                                <input type="radio" id="undecided" name="scheType" value="undecided"/>Undecided
-                                <input type="radio" id="negotiable" name="scheType" value="negotiable" />Negotiable
+                                <input type="checkbox" id="undecided" name="undecided" value="undecided"/>Undecided <br/>
+                                <input type="checkbox" id="negotiable" name="negotiable" value="negotiable" />Negotiable
                             </div>
                         </div>
 
@@ -251,14 +251,14 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-8">
-                                <button id="4" name="next" type="button" class="btn btn-dark" style="float:right" >Next</button>
-                                <button id="2" name="prev" type="button" class="btn btn-dark" style="float:right; margin-right:250px" >Previous</button>
+                                <button id="4" name="next" type="button" class="btn btn-default btn-dark" style="float:right" >Next</button>
+                                <button id="2" name="prev" type="button" class="btn btn-default btn-dark" style="float:right; margin-right:250px" >Previous</button>
                             </div>
                         </div> 
                     </div> <!-- div 3 ends -->
 
                     <div class="form-horizontal" id="4View" style="display: none"> 
-                        <h2>Event Information:</h2>
+                        <h2>Event Information (4 of 4):</h2>
                         <!-- <div class="form-group">
                             <label class="col-md-4 control-label">Type of Event</label>
                                 <div class="col-md-4">
@@ -312,15 +312,15 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label" for="textarea">Special Meeting/Event Requirements</label>
                                 <div class="col-md-4">
-                                    <textarea class="form-control" name="specReq" id="specReq" style="height: 150px; overflow: auto; width: 400px;"></textarea>
+                                    <textarea class="form-control" name="specReq" id="specReq" style="height: 150px; overflow: auto; width: 400px; font-size: 18px; width: 100%;"></textarea>
                                     Total word Count : <span id="specReq_display_count">0</span> words(Maximum words allowed: 250).
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-8">
                                     <!--button id="5" name="next" type="button" class="btn btn-dark" style="float:right" >Next</button-->
-                                    <button type="submit" id="5" class='btn btn-dark' value='Submit' style="float:right" >Submit</button>
-                                    <button id="3" name="prev" type="button" class="btn btn-dark" style="float:right; margin-right:250px" >Previous</button>
+                                    <button type="submit" id="5" class='btn btn-default btn-dark' value='Submit' style="float:right" >Submit</button>
+                                    <button id="3" name="prev" type="button" class="btn btn-default btn-dark" style="float:right; margin-right:250px" >Previous</button>
                                 </div>
                             </div> 
                         </div>
@@ -358,7 +358,7 @@
             
             if(sponser == ""){
                 flag = 0;
-                alert("Please enter sponser name or write NA.");
+                alert("Please enter your sponser's name or type NA.");
             } else {
                 console.log("yes");
                 flag = 1;
@@ -401,14 +401,41 @@
         //4 th is last view to think other logic for validation    startdate, enddate, start  time, end time validation here
             var startDate= document.getElementById("startDate").value;
             var endDate= document.getElementById("endDate").value;
-            var schetype = $('input:radio[name="scheType"]:checked').val();
+           // var schetype = $('input:radio[name="scheType"]:checked').val();
 
             // console.log(startDate);console.log(endDate);
             
             var startTime = document.getElementById("startTime").value;//time attribute only works with this format
             var endTime = document.getElementById("endTime").value;//time attribute only works with this format
             console.log(startTime);console.log(endTime);
-            if(schetype == "negotiable"){
+
+            if($('#undecided').is(':checked')){
+                flag = 1;
+            }else{
+                if((startDate== "") || (endDate== "") || (startTime== "") || (endTime== "")){
+                    flag=0;
+                    alert("Please enter the schedule");
+                } else if (startDate== "") {
+                    flag=0;
+                    alert("Please enter start date.");
+                } else if(endDate == "") {
+                    flag=0;
+                alert("Please enter end date.");
+                } else if (startTime== "") {
+                    flag=0;
+                    alert("Please enter start time.");
+                } else if (endTime== "") {
+                    flag=0;
+                    alert("Please enter end time.");
+                } else if((startTime > endTime) && (Date.parse(startDate) === Date.parse(endDate))) {
+                    flag=0;
+                    alert("The Event end time should be later than start time. Please fill the time again.");
+                } else {
+                    flag=1;
+                }
+            }    
+
+          /*  if(schetype == "negotiable"){
                 if((startDate== "") || (endDate== "") || (startTime== "") || (endTime== "")){
                     flag=0;
                     alert("Please enter the schedule");
@@ -432,7 +459,7 @@
                 }
             } else if(schetype == "undecided") {
                 flag = 1;
-            }
+            }*/
         }
         if(flag==1){
             if (name == 'next'){
@@ -508,7 +535,7 @@
            // }, 500);
         });
 
-        $('input[type=radio][name=scheType]').click(function(){
+        /*$('input[type=checkbox][name=scheType]').click(function(){
             if(this.value == "undecided"){
                 $('#startDate').attr('disabled',true);
                 $('#endDate').attr('disabled',true);
@@ -519,6 +546,14 @@
                 $('#endDate').attr('disabled',false);
                 $('#endTime').attr('disabled',false);
                 $('#startTime').attr('disabled',false);
+            }
+        });*/
+
+        $('#undecided').click(function(){
+            if ($(this).is(':checked')){
+                $('#startDate, #endDate, #endTime, #startTime').attr('disabled',true);        
+            }else{
+                $('#startDate, #endDate, #endTime, #startTime').attr('disabled',false);    
             }
         });
 
@@ -706,10 +741,16 @@
         var endDate= $('input#endDate').val();
         var startTime = document.getElementById("startTime").value;//time attribute only works with this format
         var endTime = document.getElementById("endTime").value;//time attribute only works with this format
-        console.log(startTime);
-        console.log(endTime);
-        console.log($('input:radio[name="scheType"]:checked').val());
-        console.log($('input:radio[name="yes_no"]:checked').val());
+        var isDecided = "NA";
+        var isNegotiable = "NA";
+
+        if ($("#undecided").is(':checked')){
+            isDecided = 'undecided';
+        }
+        if ($("#negotiable").is(':checked')){
+            isNegotiable = 'negotiable';
+        }
+        
         if ((Date.parse(startDate) > Date.parse(endDate))) {
             alert("The event should end on same or later day.");
             document.getElementById("endDate").value = "";
@@ -736,7 +777,9 @@
                 var specReq= $('textarea#specReq').val();
                 var reqName= $('input#reqName').val();
                 var emailId= $('input#emailId').val();
-                var scheType = $('input:radio[name="scheType"]:checked').val();
+                var scheType = isDecided;
+                var negotiable = isNegotiable;
+                var sponsorName = $('input#sponser').val();
                 var foodFlag = $('input:radio[name="yes_no"]:checked').val();//document.querySelector('input[name="yes_no"]:checked').value;
 ;//$('input#yes_no').val();
                 $('fieldset').css('opacity','0.1');
@@ -755,14 +798,17 @@
                     'reqName' :reqName,
                     'emailId' :emailId,
                     'scheType' : scheType,
-                    'foodFlag' : foodFlag
+                    'negotiable' : negotiable,
+                    'foodFlag' : foodFlag,
+                    'sponsor' : sponsorName
                     }).done(function(requestID){
                     if(requestID > 0){
                         //alert("this is request ID: " + requestID);
                         alert('Your Request id is # '+ requestID +' and awaiting approval. You will be notified once it has been approved')
                         window.open('<?php echo base_url(); ?>',"_self");                                        
                     } else {
-                        $('#requestStatus').show().css('background', 'red').append(" Some error occured. Kindly contact system administrator.");
+                        alert(requestID);
+                        //$('#requestStatus').show().css('background', 'red').append(" Some error occured. Kindly contact system administrator.");
                     }
                 });       
             }

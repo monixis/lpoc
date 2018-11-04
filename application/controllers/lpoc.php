@@ -94,7 +94,9 @@ class lpoc extends CI_Controller
             'reqName' => $this->input->post('reqName'),
             'emailId' => $this->input->post('emailId'),
             'scheType' => $this->input->post('scheType'),
+            'negotiable' => $this->input->post('negotiable'),
             'foodFlag' => $this->input->post('foodFlag'),
+            'sponsor' => $this->input->post('sponsor'),
             'status' => 1
         );
         $requesterEmail = $data['emailId'];
@@ -326,12 +328,12 @@ class lpoc extends CI_Controller
                 if (sizeof($requestinfo) == 0) {
                     array_push($requestinfo, $row['requesterName'], $row['requesterEmail'], $row['eventName'], $row['eventDesc'],
                         $row['eventStartDate'], $row['eventEndDate'], $row['startTime'], $row['endTime'], $row['eventType'],
-                        $row['roomId'], $row['numOfPeople'], $row['scheType'], $row['eventReq'], $row['status'],$row['foodFlag'],$row['roomName'],$row['roomLoc']);
+                        $row['roomId'], $row['numOfPeople'], $row['scheType'], $row['negotiable'], $row['eventReq'], $row['status'],$row['foodFlag']);
                     $data['requestinfo'] = $requestinfo;
                     $roomId = $row['roomId'];
                 }
             }
-            if($roomId != null){
+          /*  if($roomId != null){
                 $roomInfo = $this->lpoc_model->getRoomWRoomId($roomId);
                 if ($roomInfo != null) {
                     $roominfo = array();
@@ -350,13 +352,13 @@ class lpoc extends CI_Controller
                 // $this->load->view('reviewRequest', $data);
                 }else{
                 echo "please provide valid requestID";
-                }
-            } else {
+                }*/
+        /*} else {
                 $roominfo = array();
                 array_push($roominfo, "", "", "", "","", "","");
                 $data['roominfo'] = $roominfo;
                 
-            }
+            }*/
             $this->load->view('reviewRequest', $data);
         }
     }
@@ -420,45 +422,57 @@ class lpoc extends CI_Controller
      */
     public function approveRequest()
     {
-        $requestID = $this->input->get('requestID');
-        if(isset($_POST['instructions'])){
-            $instruc = $_POST['instructions'];
-        } else {
-            $instruc = "This is an instruction";
-        }
-        if(isset($_POST['requesterName'])){
-            $requesterName = $_POST['requesterName'];
-        } else {
-            $requesterName = "Deep";
-        }
-        if(isset($_POST['requesterEmail'])){
-            $requesterEmail = $_POST['requesterEmail'];
-        } else {
-            $requesterEmail = "deep.dand1992@gmail.com";
-        }
-        
-        //  $id= $this->input->post($researcherId);
+
         date_default_timezone_set('US/Eastern');
         $date = date("Y-m-d");
+        $requestID = $this->input->get('requestID');
+        $eventStartDate = $_POST['eventStartDate'];
+        $startTime = $_POST['startTime'];
+        $eventEndDate = $_POST['eventEndDate'];
+        $endTime = $_POST['endTime'];
+        $roomId = $_POST['roomId'];
+        $requesterEmail = $_POST['requesterEmail'];
+        $requesterName = $_POST['requesterName'];
         $this->load->model('lpoc_model');
-        //updating request information
-        $result = $this->lpoc_model->approveOrDisapprove_request($date,3,$requestID);
-        if($instruc != null){
-            $data = array(
-                'comment' => $instruc,
-                'commentType' => "INSTRUCTIONS",
-                'requestID' => $requestID
-            );
-            $this->load->model('lpoc_model');
-            $chat_result = $this->lpoc_model->saveChat($data, 'chat');
-            if ($chat_result > 0) {
-                echo "success";
+        $result = $this->lpoc_model->update_request($eventStartDate, $startTime, $eventEndDate, $endTime, $roomId, $requestID);
+
+        if ($result > 0){
+            if(isset($_POST['instructions'])){
+                $instruc = $_POST['instructions'];
+            } else {
+                $instruc = "This is an instruction";
             }
-        }
-        if($result>0){
-            $flag="TRUE";
-            $this->email_user_apprRej($requesterName, $requesterEmail, $requestID, $instruc,$flag);
-        }
+            if(isset($_POST['requesterName'])){
+                $requesterName = $_POST['requesterName'];
+            } 
+    
+            if(isset($_POST['requesterEmail'])){
+                $requesterEmail = $_POST['requesterEmail'];
+            } 
+            date_default_timezone_set('US/Eastern');
+            $date = date("Y-m-d");
+            $this->load->model('lpoc_model');
+            //updating request information
+            $result = $this->lpoc_model->approveOrDisapprove_request($date,3,$requestID);
+            if($instruc != null){
+                $data = array(
+                    'comment' => $instruc,
+                    'commentType' => "INSTRUCTIONS",
+                    'requestID' => $requestID
+                );
+                $this->load->model('lpoc_model');
+                $chat_result = $this->lpoc_model->saveChat($data, 'chat');
+                if ($chat_result > 0) {
+                    echo "success";
+                }
+            }
+            if($result>0){
+                $flag="TRUE";
+                $this->email_user_apprRej($requesterName, $requesterEmail, $requestID, $instruc,$flag);
+            }
+        }else{
+            echo ($result);
+        }  
     }
 
  /*
@@ -468,67 +482,50 @@ class lpoc extends CI_Controller
      */
     public function disapproveRequest()
     {
-        $requestID = $this->input->get('requestID');
-        if(isset($_POST['instructions'])){
-            $instruc = $_POST['instructions'];
-        } else {
-            $instruc = "This is an instruction";
-        }
-        if(isset($_POST['requesterName'])){
-            $requesterName = $_POST['requesterName'];
-        } else {
-            $requesterName = "Deep";
-        }
-        if(isset($_POST['requesterEmail'])){
-            $requesterEmail = $_POST['requesterEmail'];
-        } else {
-            $requesterEmail = "deep.dand1992@gmail.com";
-        }
         date_default_timezone_set('US/Eastern');
-        // $requestID = $_POST['requestID'];
         $date = date("Y-m-d");
-        $data = array(
-            'requesterName' => $this->input->post('requesterName'),
-            'requesterEmail' => $this->input->post('requesterEmail'),
-            'eventName' =>  $this->input->post('eventName'),
-            'eventDesc' => $this->input->post('eventDesc'),
-            'eventStartDate' => $this->input->post('startDate'),
-            'eventEndDate' => $this->input->post('endDate'),
-            'startTime' => date('H:i',strtotime($this->input->post('startTime'))),
-            'endTime' => date('H:i',strtotime($this->input->post('endTime'))),
-            'eventType' => $this->input->post('eventType'),
-            'roomName' => $this->input->post('roomName'),
-            'roomLoc' => $this->input->post('roomLoc'),
-            'numOfPeople' => $this->input->post('noOfPeople'),
-            // 'describe' => $this->input->post('describe'),
-            'eventDescLib'=>"event", 
-            'eventReq' => $this->input->post('specReq'),
-            'reqName' => $this->input->post('reqName'),
-            'emailId' => $this->input->post('emailId'),
-            'status' => 2,
-            'requestID' => $this->input->post('requestID')
-        );
-        
+        $requestID = $this->input->get('requestID');
+        $requesterEmail = $_POST['requesterEmail'];
+        $requesterName = $_POST['requesterName'];
         $this->load->model('lpoc_model');
-        $result = $this->lpoc_model->admin_update_request($data);
-        //updating researcher information
-        // $result1 = $this->lpoc_model->approveOrDisapprove_request($date,2,$requestID);
-        if($instruc != null){
-            $data = array(
-                'comment' => $instruc,
-                'commentType' => "INSTRUCTIONS",
-                'requestID' => $requestID
-            );
-            $this->load->model('lpoc_model');
-            $chat_result = $this->lpoc_model->saveChat($data, 'chat');
-            if ($chat_result > 0) {
-                echo "success";
+    
+       // if ($result > 0){
+            if(isset($_POST['instructions'])){
+                $instruc = $_POST['instructions'];
+            } else {
+                $instruc = "This is an instruction";
             }
-        }
-        if($result>0){
-            $flag="FALSE";
-            $this->email_user_apprRej($requesterName, $requesterEmail, $requestID, $instruc,$flag);
-        }
+            if(isset($_POST['requesterName'])){
+                $requesterName = $_POST['requesterName'];
+            } 
+    
+            if(isset($_POST['requesterEmail'])){
+                $requesterEmail = $_POST['requesterEmail'];
+            } 
+            date_default_timezone_set('US/Eastern');
+            $date = date("Y-m-d");
+            $this->load->model('lpoc_model');
+            //updating request information
+            $result = $this->lpoc_model->approveOrDisapprove_request($date,2,$requestID);
+            if($instruc != null){
+                $data = array(
+                    'comment' => $instruc,
+                    'commentType' => "INSTRUCTIONS",
+                    'requestID' => $requestID
+                );
+                $this->load->model('lpoc_model');
+                $chat_result = $this->lpoc_model->saveChat($data, 'chat');
+                if ($chat_result > 0) {
+                    echo "success";
+                }
+            }
+            if($result>0){
+                $flag="FALSE";
+                $this->email_user_apprRej($requesterName, $requesterEmail, $requestID, $instruc,$flag);
+            }
+       // }else{
+       //     echo ($result);
+       // }  
     }
 
     /* 

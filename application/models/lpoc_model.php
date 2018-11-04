@@ -56,7 +56,9 @@ class lpoc_model extends CI_Model
             'requesterName'=> $data['reqName'],
             'requesterEmail'=> $data['emailId'],
             'scheType' => $data['scheType'],
+            'negotiable' => $data['negotiable'],
             'foodFlag' => $data['foodFlag'],
+            'sponsor' => $data['sponsor'],
             'status'=>$data['status']);
         $this->db->insert('requests',$requestData);
         if ($this->db->affected_rows() > 0) {
@@ -324,28 +326,13 @@ class lpoc_model extends CI_Model
     /*
     * Function to update request table
     */
-    public function update_request($data)
+    public function update_request($eventStartDate, $startTime, $eventEndDate, $endTime, $roomId, $requestID)
     {
-        // $requestData = array(
-        //     'eventName'=> $data['eventName'], 
-        //     'eventDesc'=> $data['eventDesc'],
-        //     'eventStartDate'=> $data['eventStartDate'],
-        //     'eventEndDate'=> $data['eventEndDate'],
-        //     'numOfPeople'=>$data['numOfPeople'],
-        //     'eventDescLib'=> $data['eventDescLib'],
-        //     'eventReq'=> $data['eventReq'],
-        //     'requesterName'=> $data['requesterName'],
-        //     'requesterEmail'=> $data['requesterEmail'],
-        //     'requestID'=>$data['requestID']);
-        $sql = "UPDATE requests SET requesterName='".$data['requesterName']."', requesterEmail= '".$data['requesterEmail']."', eventStartDate = '".$data['eventStartDate']."',eventEndDate ='".$data['eventEndDate']."', startTime = '".$data['startTime']."',endTime ='".$data['endTime']."',eventName='".$data['eventName']."', eventDesc='".$data['eventDesc']."', eventDescLib ='".$data['eventDescLib']."' , numOfPeople ='".$data['numOfPeople']."' ,eventReq ='".$data['eventReq']."', status = 1 WHERE requestID='".$data['requestID']."' ;";
+        $sql = "UPDATE requests SET eventStartDate= '$eventStartDate', eventEndDate='$eventEndDate', startTime='$startTime', endTime='$endTime', roomId='$roomId' WHERE requestID='$requestID' ;";
         $this->db->query($sql);
-
-        // $this->db->where('userId', "15");
-        //$this->db->update('researcher', $data);
         if ($this->db->affected_rows() > 0) {
-            return $data['requestID'];
+            return $requestID;
         } else {
-            // return 0;
             return $this->db->_error_message() . print_r("");
         }
     }
