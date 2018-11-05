@@ -49,7 +49,7 @@
     $requesterEmail = $requestinfo[1];
     $eventName = $requestinfo[2];
     $eventDesc = $requestinfo[3];
-   if($requestinfo[4] != null){
+    if($requestinfo[4] != null){
         $eventStartDate =$requestinfo[4];
         $eventEndDate = $requestinfo[5];
         $startTime =$requestinfo[6];

@@ -71,24 +71,34 @@
 
 	<?php
 		$requestID= $_GET['requestID'];
-		//$requestID = substr($requestID,6,-6);
+		$requestID = substr($requestID,6,-6);
 		$requesterName = $requestinfo[0];
 		$requesterEmail = $requestinfo[1];
 		$eventName = $requestinfo[2];
 		$eventDesc = $requestinfo[3];
-		$eventStartDate =$requestinfo[4];
-		$eventEndDate = $requestinfo[5];
-		$startTime =$requestinfo[6];
-		$endTime = $requestinfo[7];
+		if($requestinfo[4] != null){
+			$eventStartDate =$requestinfo[4];
+			$eventEndDate = $requestinfo[5];
+			$startTime =$requestinfo[6];
+			$endTime = $requestinfo[7];
+		} else {
+			$eventStartDate ="NA";
+			$eventEndDate = "NA";
+			$startTime = "NA";
+			$endTime = "NA";
+		}
 		$eventType = $requestinfo[8];
 		$roomId = $requestinfo[9];
 		$numOfPeople = $requestinfo[10];
 		$scheType = $requestinfo[11];// $eventDescLib = $requestinfo[11];
-		$eventReq = $requestinfo[12];
-		$status = $requestinfo[13];
-		$foodFlag = $requestinfo[14];
-		$negotiable = $requestinfo[15];
-		$sponsor = $requestinfo[16];
+		// $eventReq = $requestinfo[12];
+		// $status = $requestinfo[13];
+		// $foodFlag = $requestinfo[14];
+		$negotiable = $requestinfo[12];
+		$eventReq = $requestinfo[13];
+    	$status = $requestinfo[14];
+    	$foodFlag = $requestinfo[15];
+		// $sponsor = $requestinfo[16];
 		
 		if($status == 1){
 			$formStatus = "Submitted";
@@ -221,7 +231,7 @@
 					<label class="label">Event Description:</label><br/>
 					  	<textarea id="eventDesc" class="readonlytext" style="height: 150px; overflow: auto; width: 400px;" readonly><?php echo $eventDesc; ?></textarea>
 					<label class="label">Number of people:</label><br/>
-						<input type="text" id="numOfPeople" class="textinput" min="2" value = "<?php echo $numOfPeople; ?>" />
+						<input type="text" id="numOfPeople" class="textinput" min="2" value = "<?php echo $numOfPeople; ?>" readonly/>
 					<label class="label">Will food be served?: <?php echo ucfirst($foodFlag); ?></label><br /><br />
           			<label class="label">Special Event Requirements:</label><br/>
 					  	<textarea id="eventReq" class="readonlytext" style="height: 150px; overflow: auto; width: 400px;" readonly><?php echo $eventReq; ?></textarea>
@@ -240,7 +250,7 @@
                            ?> <label class="label" style="color: #b31b1b; font-style: italic">The schedule for the event is <?php echo $negotiable ; ?>.</label><br /><br />
                         <?php } 
                     ?>    
-					  <label class="label">Assigned Room:</label><br/><input type="text" id="roomId" class="textinput" value = "<?php echo $roomId; ?>"  />         	
+					  <label class="label">Assigned Room:</label><br/><input type="text" id="roomId" class="textinput" value = "<?php echo $roomId; ?>"  readonly/>         	
                 
                    	</br></br>
 
@@ -253,8 +263,9 @@
                     <label class="label">Event Name:</label><br/>
 						<input type="text" id="eventName" class="textinput form-control" value = "<?php echo $eventName; ?>" required pattern=".*\S+.*"/>
 					<label class="label">Event Description:</label><br/>
-						<textarea id="eventDesc" class="textinput" style="height: 150px; overflow: auto; width: 400px;" required pattern=".*\S+.*"><?php echo $eventDesc; ?></textarea>
-					<label class="label">Event Schedule is: <?php echo ucfirst($scheType); ?></label><br /><br />
+						<textarea id="eventDesc" class="textinput" style="height: 150px; overflow: auto; width: 400px;" required pattern=".*\S+.*"><?php echo $eventDesc; ?></textarea>		
+					<?php if($scheType != 'NA'){
+					?>   <label class="label" style="color: #b31b1b; font-style: italic"><?php echo ucfirst($requesterName); ?> is <?php echo $scheType; ?> about the event schedule. Please assist with the scheduling. Date should be in yyyy-mm-dd format.</label><br /><br />	<?php }?>
 					<label class="label">Start Date:</label><br/>
 						<input type="text" id="startdatepicker" class="textinput"  value = "<?php echo $eventStartDate; ?>" style="width: 100px;"required/>
 					<label class="label">Start Time:</label><br/>
@@ -263,14 +274,20 @@
 						<input type="text" id="enddatepicker" class="textinput"  value = "<?php echo $eventEndDate; ?>" style="width: 100px;"required/>
                     <label class="label">End Time:</label><br/>
 						<input type="time" id="endTime" class="textinput"  value = "<?php echo $endTime; ?>" style="width: 100px;"required/>
-					<label class="label">Event Type:</label><br/>
-						<input type="text" id="eventType" class="textinput" value = "<?php echo $eventType; ?>" readonly/>
+						<?php  
+                        if($negotiable != 'NA'){
+                           ?> <label class="label" style="color: #b31b1b; font-style: italic">The schedule for the event is <?php echo $negotiable ; ?>.</label><br /><br />
+                        <?php } 
+                    ?>  
+					<label class="label">Assigned Room:</label><br/><input type="text" id="roomId" class="textinput" value = "<?php echo $roomId; ?>"  readonly/>   
+					<!-- <label class="label">Event Type:</label><br/>
+						<input type="text" id="eventType" class="textinput" value = "<//?php echo $eventType; ?>" readonly/>
                     <label class="label">Room Name:</label><br/>
-						<input type="text" id="roomName" class="textinput" value = "<?php echo $roomName; ?>"readonly/>
+						<input type="text" id="roomName" class="textinput" value = "<//?php echo $roomName; ?>"readonly/> -->
                     <!-- <label class="label">Room Name:</label><br/>
 						<input type="text" id="roomName" class="textinput" value = "<//?php echo $roomName; ?>" readonly/> -->
-                    <label class="label">Location:</label><br />
-						<input type="text" id="roomLocation" class="textinput" value = "<?php echo $roomLocation; ?> " readonly/>
+                    <!-- <label class="label">Location:</label><br />
+						<input type="text" id="roomLocation" class="textinput" value = "<//?php echo $roomLocation; ?> " readonly/> -->
                     <!-- <label class="label">Location Description: </label></br>
 						<input type="text" id="locDesc" class="textinput" value = "<//?php echo $locDesc; ?>" readonly/> -->
                     <!-- <label class="label">Capacity: </label>
@@ -308,8 +325,8 @@
 	</div>
 	<script>
 		//$(document).ready(function(){
-			$('#startdatepicker').datepicker();
-            $('#enddatepicker').datepicker();
+			// $('#startdatepicker').datepicker();
+            // $('#enddatepicker').datepicker();
 			$('#num_error').hide();
 			if(<?php echo $status ?> ==1){
 				//SUBMITTED STATE
@@ -419,8 +436,8 @@
 	$('#changeRequest').submit(function(e) {
 		var r = confirm("Do you want to submit the request?");
         if(r){
-			var startDate= $('input#startDate').val();
-			var endDate= $('input#endDate').val();
+			var startDate= $('input#startdatepicker').val();
+			var endDate= $('input#enddatepicker').val();
 			var startTime = document.getElementById("startTime").value;//time attribute only works with this format
 			var endTime = document.getElementById("endTime").value;//time attribute only works with this format
 			if ((Date.parse(startDate) > Date.parse(endDate))) {
@@ -444,24 +461,24 @@
 				var endTime = document.getElementById("endTime").value;//time attribute only works with this format
 				var numOfPeople= $('input#numOfPeople').val();
 				// var describe= $('textarea#eventDescLib').val();
-				var specReq= $('textarea#eventReq').val();
-				var reqName= $('input#requesterName').val();
-				var emailId= $('input#requesterEmail').val();
+				var eventReq= $('textarea#eventReq').val();
+				var requesterName= $('input#requesterName').val();
+				var requesterEmail= $('input#requesterEmail').val();
 				var requestID=$('input#requestID').val();
-				$('fieldset').css('opacity','0.1');
-				$.post('<?php echo base_url().'lpoc/submitRequest'?>',{
-					'eventName':eventName,
-					'eventDesc':eventDesc,
-					'eventStartDate':startDate,
-					'eventEndDate':endDate,
-					'startTime' : startTime,
-					'endTime':endTime,
-					'numOfPeople':numOfPeople,
-					// 'eventDescLib':describe,
-					'eventReq':specReq,
-					'requesterName' :reqName,
-					'requesterEmail' :emailId,
-					'requestID':requestID
+				$('fieldset').css('opacity','0.1');	
+				$.post("<?php echo base_url("?c=lpoc&m=submitRequest&requestID=" . $requestID);?>", {
+                          requesterName:requesterName,
+                          requesterEmail:requesterEmail,
+                          eventName:eventName,
+                          eventDesc: eventDesc,
+                          eventStartDate: startDate,
+                          eventEndDate: endDate,
+                          startTime: startTime,
+                          endTime:endTime,
+                  		//  eventType: eventType,
+                          numOfPeople: numOfPeople,
+                          eventReq : eventReq,
+                          requestID: requestID
 				}).done(function(requestID){
 					if(requestID > 0){
 						$('#requestStatus').show().css('background', '#66cc00').append("#" + requestID + ":Your request has been received and is awaiting approval by the Library Programming and Outreach Committee.");

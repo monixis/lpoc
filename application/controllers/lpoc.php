@@ -538,7 +538,7 @@ class lpoc extends CI_Controller
         /*WORKING*/
         $this->load->model('lpoc_model');
         $requestID = $this->input->get('requestID');
-        //$requestID=substr($requestID,6,-6);
+        $requestID=substr($requestID,6,-6);
 
         $result = $this->lpoc_model->getRequestWithId($requestID);
         $chat_array =  $this->lpoc_model -> getChat($requestID);
@@ -556,7 +556,7 @@ class lpoc extends CI_Controller
                 if (sizeof($requestinfo) == 0) {
                     array_push($requestinfo, $row['requesterName'], $row['requesterEmail'], $row['eventName'], $row['eventDesc'],
                         $row['eventStartDate'], $row['eventEndDate'], $row['startTime'], $row['endTime'], $row['eventType'],
-                        $row['roomId'], $row['numOfPeople'], $row['scheType'], $row['eventReq'], $row['status'], $row['foodFlag'], $row['negotiable'], $row['sponsor']);
+                        $row['roomId'], $row['numOfPeople'], $row['scheType'], $row['negotiable'], $row['eventReq'], $row['status'],$row['foodFlag']);
                     $data['requestinfo'] = $requestinfo;
                     if($row['roomId'] != null){
                         $roomId = $row['roomId'];   
@@ -612,45 +612,51 @@ class lpoc extends CI_Controller
         $requestID = $_POST['requestID'];
         //$requestID=substr($requestID,6,-6);
         //  $id= $this->input->post($researcherId);
+
+        //updating requester information
         date_default_timezone_set('US/Eastern');
         $date = date("Y-m-d");
-
+        $requestID = $this->input->get('requestID');
+        $eventName = $_POST['eventName'];
+        $eventDesc = $_POST['eventDesc'];
+        $eventStartDate = $_POST['eventStartDate'];
+        $startTime = $_POST['startTime'];
+        $eventEndDate = $_POST['eventEndDate'];
+        $endTime = $_POST['endTime'];
+        // $roomId = $_POST['roomId'];
+        $eventReq = $_POST['eventReq'];
+        $numOfPeople = $_POST['numOfPeople'];
         $this->load->model('lpoc_model');
-        //updating researcher information
-        $data = array(
-            'requesterName' =>$_POST['requesterName'], 
-            'requesterEmail'=>$_POST['requesterEmail'], 
-            'eventStartDate'=>$_POST['eventStartDate'], 
-            'eventEndDate'=>$_POST['eventEndDate'],
-            'startTime' => $_POST['startTime'],
-            'endTime' => $_POST['endTime'],
-            'eventName'=>$_POST['eventName'], 
-            'eventDesc'=>$_POST['eventDesc'], 
-            'eventDescLib'=>"event", 
-            'numOfPeople'=>$_POST['numOfPeople'], 
-            'eventReq'=>$_POST['eventReq'], 
-            'requestID'=>$_POST['requestID']
-        );
-        $result = $this->lpoc_model->update_request($data);
-        //echo $result;
-        if($this->input->post('eventReq')>0 ||$this->input->post('eventReq')!= null)
-        {
-            $data1 = array(
-                'comment' => $this->input->post('eventReq'),
-                'commentType' => "SPL REQ",
-                'requestID' => $_POST['requestID']
-            );
-            $chat_result = $this->lpoc_model->saveChat($data1, 'chat');
-            if($result>0)
-            {
-                $reVal = $this->email_user($data['requesterName'], $data['requesterEmail'], $data['requestID']);
-                if($reVal > 0){
-                    echo $requestID;      
-                }        
+        $result = $this->lpoc_model->update_return_request($eventStartDate, $startTime, $eventEndDate, $endTime,  $requestID, $eventName, $eventDesc, $numOfPeople);
+
+        //updating request information
+        if($result > 0){
+            $result = $this->lpoc_model->approveOrDisapprove_request($date,1,$requestID);
+            if(isset($_POST['eventReq'])){
+                $instruc = $_POST['eventReq'];
             } else {
-                echo 0;
+                $instruc = "This is a special request";
+            }
+            if($instruc != null){
+                $data = array(
+                    'comment' => $instruc,
+                    'commentType' => "SPL REQ",
+                    'requestID' => $requestID
+                );
+                $this->load->model('lpoc_model');
+                $chat_result = $this->lpoc_model->saveChat($data, 'chat');
+                if ($chat_result > 0) {
+                    echo "success";
+                }
+            }
+            if($result > 0){
+                echo $requestID;
             }
         }
+
+
+        //echo $result;
+        
         /*if ($result > 0) { 
                 $six_digit_random_string =  $this -> generateRandomString();
                 $UUID=$six_digit_random_string.$requestID;

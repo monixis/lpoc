@@ -338,6 +338,20 @@ class lpoc_model extends CI_Model
     }
 
     /*
+    * Function to update request table by the form submitted by userreview page
+    */
+    public function update_return_request($eventStartDate, $startTime, $eventEndDate, $endTime,  $requestID, $eventName, $eventDesc, $numOfPeople)
+    {
+        $sql = "UPDATE requests SET eventStartDate= '$eventStartDate', eventEndDate='$eventEndDate', startTime='$startTime', endTime='$endTime',  eventName='$eventName', eventDesc='$eventDesc', numOfPeople='$numOfPeople' WHERE requestID='$requestID' ;";
+        $this->db->query($sql);
+        if ($this->db->affected_rows() > 0) {
+            return $requestID;
+        } else {
+            return $this->db->_error_message() . print_r("");
+        }
+    }
+
+    /*
     * Function to update request table
     */
     public function admin_update_request($data)
