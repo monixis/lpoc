@@ -538,7 +538,7 @@ class lpoc extends CI_Controller
         /*WORKING*/
         $this->load->model('lpoc_model');
         $requestID = $this->input->get('requestID');
-        $requestID=substr($requestID,6,-6);
+        //$requestID=substr($requestID,6,-6);
 
         $result = $this->lpoc_model->getRequestWithId($requestID);
         $chat_array =  $this->lpoc_model -> getChat($requestID);
@@ -556,7 +556,7 @@ class lpoc extends CI_Controller
                 if (sizeof($requestinfo) == 0) {
                     array_push($requestinfo, $row['requesterName'], $row['requesterEmail'], $row['eventName'], $row['eventDesc'],
                         $row['eventStartDate'], $row['eventEndDate'], $row['startTime'], $row['endTime'], $row['eventType'],
-                        $row['roomId'], $row['numOfPeople'], $row['scheType'], $row['eventReq'], $row['status'], $row['foodFlag']);
+                        $row['roomId'], $row['numOfPeople'], $row['scheType'], $row['eventReq'], $row['status'], $row['foodFlag'], $row['negotiable'], $row['sponsor']);
                     $data['requestinfo'] = $requestinfo;
                     if($row['roomId'] != null){
                         $roomId = $row['roomId'];   
@@ -565,31 +565,7 @@ class lpoc extends CI_Controller
                     }
                 }
             }
-            if($roomId!= null){
-                $roomInfo = $this->lpoc_model->getRoomWRoomId($roomId);
-                if ($roomInfo != null) {
-                    $roominfo = array();
-                    $info = json_decode(json_encode($roomInfo), true);
-                    $data['requestID'] = $requestID;
-                    foreach ($info as $row) {
-                        
-                        $request = array();
-                        if (sizeof($roominfo) == 0) {
-                            array_push($roominfo, $row['roomId'], $row['Name'], $row['Location'], $row['LocDesc'],
-                                $row['Capacity'], $row['Technology'],
-                                $row['Special Considerations']);
-                            $data['roominfo'] = $roominfo;
-                        }
-                    }
-                
-                }else{
-                    echo "please provide valid requestID";
-                }
-            } else {
-                $roominfo = array();
-                array_push($roominfo, "", "", "", "","", "","");
-                $data['roominfo'] = $roominfo;
-            }
+           
             $this->load->view('userRequest', $data);
         }else{
             echo '<html>', "\n"; // I'm sure there's a better way!
